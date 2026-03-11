@@ -1,17 +1,39 @@
+<nav class="navbar navbar-expand-lg custom-navbar px-4 px-md-5 py-3">
+  <div class="container-fluid">
+    <%= link_to "EasyLearn", root_path, class: "navbar-brand fw-bold fs-3 text-dark" %>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-4">
+        <li class="nav-item">
+          <%= link_to "Home", root_path, class: "nav-link fw-semibold text-dark" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Dashboard", "#", class: "nav-link fw-semibold text-dark" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "New", "#", class: "nav-link fw-semibold text-dark" %>
+        </li>
+
+      </ul>
+
+      <div class="d-flex">
+        <%= link_to "Login", "#", class: "btn login-btn px-4 py-2 rounded-pill fw-semibold" %>
+      </div>
+    </div>
+  </div>
+</nav>
+
 <div class="home-page py-5">
   <div class="container">
     <div class="main-frame rounded-5 shadow-sm p-4 p-md-5">
 
-      <!-- Header -->
       <div class="row align-items-center mb-5">
-        <div class="col-3"></div>
-
-        <div class="col-6 text-center">
+        <div class="col-12 text-center">
           <h1 class="app-title fw-bold mb-0">EasyLearn</h1>
-        </div>
-
-        <div class="col-3 text-end">
-          <%= link_to "Login", "#", class: "btn login-btn px-4 py-2 rounded-pill fw-semibold" %>
         </div>
       </div>
 
@@ -27,7 +49,7 @@
 
                 <div class="subject-card rounded-5 p-4 d-flex flex-column justify-content-between">
                   <div>
-                    <% if subject.contexts.any? %>
+                    <% if subject.respond_to?(:contexts) && subject.contexts.any? %>
                       <% subject.contexts.each do |context| %>
                         <p class="context-item"><%= context.name %></p>
                       <% end %>
@@ -37,7 +59,7 @@
                   </div>
 
                   <div class="mt-4 d-flex justify-content-center">
-                    <%= link_to "Add context", new_subject_context_path(subject), class: "btn qrc-btn rounded-pill px-4" %>
+                    <%= link_to "Add context", "#", class: "btn qrc-btn rounded-pill px-4" %>
                   </div>
                 </div>
               </div>
@@ -45,7 +67,7 @@
           <% end %>
 
           <div class="col-md-4 d-flex justify-content-center align-items-center">
-            <%= link_to new_subject_path,
+            <%= link_to "#",
               class: "create-context-btn text-decoration-none d-flex align-items-center justify-content-center text-center fw-semibold" do %>
               Create<br>
               a new<br>
@@ -58,11 +80,11 @@
         <div class="empty-state d-flex flex-column justify-content-center align-items-center text-center">
           <p class="empty-text mb-4">No subjects yet</p>
 
-          <%= link_to new_subject_path,
+          <%= link_to "#",
             class: "create-context-btn text-decoration-none d-flex align-items-center justify-content-center text-center fw-semibold" do %>
             Create<br>
             a new<br>
-            subject
+            Context
           <% end %>
         </div>
       <% end %>
