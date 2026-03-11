@@ -1,1 +1,192 @@
-// Specific CSS for your home-page
+body {
+  background: linear-gradient(180deg, #f5f5f7 0%, #e9eaee 100%);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  color: #1d1d1f;
+}
+
+.home-page {
+  min-height: 100vh;
+  padding-top: 2rem;
+}
+
+.custom-navbar {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+}
+
+.custom-navbar .navbar-brand {
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #111 !important;
+}
+
+.custom-navbar .nav-link {
+  color: #4b5563 !important;
+  transition: all 0.2s ease;
+}
+
+.custom-navbar .nav-link:hover {
+  color: #111 !important;
+  transform: translateY(-1px);
+}
+
+.main-frame {
+  min-height: 85vh;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow:
+    0 20px 60px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.app-title {
+  font-size: clamp(3rem, 6vw, 5rem);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  color: #111827;
+}
+
+.login-btn {
+  background: linear-gradient(180deg, #3b3b3d 0%, #1f1f21 100%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  transition: all 0.2s ease;
+}
+
+.login-btn:hover {
+  color: white;
+  transform: translateY(-1px);
+  box-shadow:
+    0 12px 24px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.subject-wrapper {
+  width: 100%;
+  max-width: 300px;
+}
+
+.subject-title-box {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 8px 24px rgba(15, 23, 42, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.subject-title-box h2 {
+  color: #111827;
+  letter-spacing: -0.03em;
+}
+
+.subject-card {
+  min-height: 430px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.88) 0%, rgba(243,244,246,0.95) 100%);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 18px 40px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.subject-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 24px 50px rgba(15, 23, 42, 0.11),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+}
+
+.context-item {
+  font-size: 1.3rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #374151;
+  margin-bottom: 1.25rem;
+  padding: 0.75rem 1rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.qrc-btn {
+  background: linear-gradient(180deg, #8e8e93 0%, #6b7280 100%);
+  color: #fff;
+  border: none;
+  box-shadow:
+    0 8px 18px rgba(107, 114, 128, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition: all 0.2s ease;
+}
+
+.qrc-btn:hover {
+  color: white;
+  transform: translateY(-1px);
+  background: linear-gradient(180deg, #6b7280 0%, #4b5563 100%);
+}
+
+.create-context-btn {
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff 0%, #dfe3e8 55%, #c8ced6 100%);
+  color: #1f2937;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow:
+    0 24px 50px rgba(15, 23, 42, 0.12),
+    inset 0 2px 8px rgba(255, 255, 255, 0.85),
+    inset 0 -8px 18px rgba(156, 163, 175, 0.22);
+  font-size: 1.75rem;
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+  transition: all 0.25s ease;
+}
+
+.create-context-btn:hover {
+  color: #111827;
+  transform: translateY(-4px) scale(1.015);
+  box-shadow:
+    0 30px 60px rgba(15, 23, 42, 0.16),
+    inset 0 2px 8px rgba(255, 255, 255, 0.9),
+    inset 0 -8px 18px rgba(156, 163, 175, 0.28);
+}
+
+.empty-state {
+  min-height: 60vh;
+}
+
+.empty-text {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #6b7280;
+  letter-spacing: -0.02em;
+}
+
+.text-muted {
+  color: #6b7280 !important;
+}
+
+@media (max-width: 768px) {
+  .main-frame {
+    min-height: auto;
+    padding: 2rem 1.25rem !important;
+  }
+
+  .create-context-btn {
+    width: 200px;
+    height: 200px;
+    font-size: 1.45rem;
+    margin-top: 1rem;
+  }
+
+  .subject-card {
+    min-height: 360px;
+  }
+}
