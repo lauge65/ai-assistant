@@ -3,7 +3,6 @@ class ContextsController < ApplicationController
   belongs_to :user
   has_one :chat, dependent: :destroy
 
-
   def index
     @contexts = current_user.contexts
   end
