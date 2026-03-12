@@ -15,11 +15,11 @@
     <header>
       <%= render "shared/navbar" %> <!-- 👈 Add this for navbar -->
   </header>
-  <div class="container my-4"></div>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+  <div class="container my-4">
+    <%= render "shared/flashes" %>
     <main id="main-content">
       <%= yield %>
     </main>
+    </div>
   </body>
 </html>
