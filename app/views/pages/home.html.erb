@@ -1,3 +1,30 @@
+<nav class="navbar navbar-expand-lg custom-navbar px-4 px-md-5 py-3">
+  <div class="container-fluid">
+    <%= link_to "EasyLearn", root_path, class: "navbar-brand fw-bold fs-3 text-dark" %>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-4">
+        <li class="nav-item">
+          <%= link_to "Home", root_path, class: "nav-link fw-semibold text-dark" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Contexts", contexts_path, class: "nav-link fw-semibold text-dark" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "New context", new_context_path, class: "nav-link fw-semibold text-dark" %>
+        </li>
+      </ul>
+
+      <div class="d-flex">
+        <%= link_to "Login", "#", class: "btn login-btn px-4 py-2 rounded-pill fw-semibold" %>
+      </div>
+    </div>
+  </div>
+</nav>
 
 <div class="home-page py-5">
   <div class="container">
@@ -5,33 +32,29 @@
 
       <div class="row align-items-center mb-5">
         <div class="col-12 text-center">
-          <h1 class="app-title fw-bold mb-0">EasyLearn</h1>
+          <h1 class="app-title mb-0">EasyLearn</h1>
         </div>
       </div>
 
-      <% if @subjects.present? %>
+      <% if user_signed_in? && @contexts.present? %>
         <div class="row justify-content-center align-items-stretch g-4 mt-3">
 
-          <% @subjects.each do |subject| %>
+          <% @contexts.each do |context| %>
             <div class="col-md-4 d-flex justify-content-center">
               <div class="subject-wrapper text-center">
                 <div class="subject-title-box rounded-pill py-3 px-4 mb-4">
-                  <h2 class="h4 mb-0 fw-semibold"><%= subject.name %></h2>
+                  <h2 class="h4 mb-0 fw-semibold"><%= context.title %></h2>
                 </div>
 
                 <div class="subject-card rounded-5 p-4 d-flex flex-column justify-content-between">
                   <div>
-                    <% if subject.respond_to?(:contexts) && subject.contexts.any? %>
-                      <% subject.contexts.each do |context| %>
-                        <p class="context-item"><%= context.name %></p>
-                      <% end %>
-                    <% else %>
-                      <p class="text-muted mt-4">No contexts yet</p>
-                    <% end %>
+                    <p class="context-item"><strong>Subject:</strong> <%= context.subject %></p>
+                    <p class="context-item"><strong>Level:</strong> <%= context.level %></p>
+                    <p class="context-item"><strong>Date:</strong> <%= context.date %></p>
                   </div>
 
                   <div class="mt-4 d-flex justify-content-center">
-                    <%= link_to "Add context", "#", class: "btn qrc-btn rounded-pill px-4" %>
+                    <%= link_to "See all contexts", contexts_path, class: "btn qrc-btn rounded-pill px-4" %>
                   </div>
                 </div>
               </div>
@@ -39,24 +62,24 @@
           <% end %>
 
           <div class="col-md-4 d-flex justify-content-center align-items-center">
-            <%= link_to "/contexts/new",
+            <%= link_to new_context_path,
               class: "create-context-btn text-decoration-none d-flex align-items-center justify-content-center text-center fw-semibold" do %>
               Create<br>
               a new<br>
-              subject
+              context
             <% end %>
           </div>
 
         </div>
       <% else %>
         <div class="empty-state d-flex flex-column justify-content-center align-items-center text-center">
-          <p class="empty-text mb-4">No subjects yet</p>
+          <p class="empty-text mb-4">No contexts yet</p>
 
-          <%= link_to "/contexts/new",
+          <%= link_to new_context_path,
             class: "create-context-btn text-decoration-none d-flex align-items-center justify-content-center text-center fw-semibold" do %>
-            Créer<br>
-            un chatbot<br>
-
+            Create<br>
+            a new<br>
+            context
           <% end %>
         </div>
       <% end %>

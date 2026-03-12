@@ -1,0 +1,69 @@
+<div class="contexts-page py-5">
+  <div class="container">
+    <div class="contexts-header d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-5">
+      <div>
+        <p class="contexts-subtitle mb-2">Dashboard</p>
+        <h1 class="contexts-title mb-0">My contexts</h1>
+      </div>
+
+      <div class="mt-4 mt-md-0">
+        <%= link_to new_context_path, class: "new-context-btn text-decoration-none d-inline-flex align-items-center justify-content-center" do %>
+          + Create a new context
+        <% end %>
+      </div>
+    </div>
+
+    <% if @contexts.any? %>
+      <div class="row g-4">
+        <% @contexts.each do |context| %>
+          <div class="col-md-6 col-xl-4">
+            <div class="context-card h-100">
+              <div class="context-card-body">
+                <div class="d-flex justify-content-between align-items-start mb-4">
+                  <div>
+                    <p class="context-badge mb-2"><%= context.subject %></p>
+                    <h2 class="context-card-title mb-0"><%= context.title %></h2>
+                  </div>
+                </div>
+
+                <div class="context-info-list">
+                  <div class="context-info-item">
+                    <span class="context-info-label">Level</span>
+                    <span class="context-info-value"><%= context.level %></span>
+                  </div>
+
+                  <div class="context-info-item">
+                    <span class="context-info-label">Date</span>
+                    <span class="context-info-value"><%= context.date %></span>
+                  </div>
+                </div>
+
+                <% if context.document.attached? %>
+                  <div class="mt-4">
+                    <%= link_to "View document",
+                      rails_blob_path(context.document, disposition: "attachment"),
+                      class: "document-btn text-decoration-none" %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="empty-context-state text-center">
+        <div class="empty-context-box mx-auto">
+          <p class="empty-context-emoji mb-3">📚</p>
+          <h2 class="empty-context-title mb-2">No contexts yet</h2>
+          <p class="empty-context-text mb-4">
+            Start by creating your first learning context.
+          </p>
+
+          <%= link_to new_context_path, class: "new-context-btn text-decoration-none d-inline-flex align-items-center justify-content-center" do %>
+            + Create a new context
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,22 +1,26 @@
 class ContextsController < ApplicationController
   before_action :authenticate_user!
- def new
-   @context = Context.new
- end
 
- def create
-  @context =current_user.contexts.new(context_params)
-  if @context.save
-    redirect_to context_path(@context)
-  else
-    render :new, status: :unprocessable_entity
+  def index
+    @contexts = current_user.contexts
   end
 
- end
+  def new
+    @context = Context.new
+  end
 
- private
+  def create
+    @context = current_user.contexts.new(context_params)
+    if @context.save
+      redirect_to contexts_path
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
 
- def context_params
-  params.require(:context).permit(:title, :level, :subject, :date, :document )
- end
+  private
+
+  def context_params
+    params.require(:context).permit(:title, :level, :subject, :date, :document)
+  end
 end
