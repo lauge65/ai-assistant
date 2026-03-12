@@ -1,8 +1,21 @@
 class ContextsController < ApplicationController
   before_action :authenticate_user!
- def new
+  belongs_to :user
+  has_one :chat, dependent: :destroy
+
+
+  def index
+    @contexts = current_user.contexts
+  end
+
+  def show
+    @context = current_user.contexts.find(params[:id])
+  end
+
+
+  def new
    @context = Context.new
- end
+  end
 
  def create
   @context =current_user.contexts.new(context_params)
