@@ -12,6 +12,18 @@ class ContextsController < ApplicationController
     render :new, status: :unprocessable_entity
   end
 
+  def edit
+    @context = current_user.contexts.find(params[:id])
+  end
+
+  def update
+    @context = current_user.contexts.find(params[:id])
+    if @context.update(context_params)
+      redirect_to context_path(@context)
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
  end
 
  private
