@@ -1,5 +1,6 @@
 class ContextsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_context, only: [:edit, :update]
 
   def index
     @contexts = current_user.contexts
@@ -18,7 +19,22 @@ class ContextsController < ApplicationController
     end
   end
 
+  def edit
+  end
+
+  def update
+    if @context.update(context_params)
+      redirect_to contexts_path
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
+
+  def set_context
+    @context = current_user.contexts.find(params[:id])
+  end
 
   def context_params
     params.require(:context).permit(:title, :level, :subject, :date, :document)
