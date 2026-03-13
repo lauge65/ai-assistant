@@ -1,2 +1,164 @@
 // Import page-specific CSS files here.
 @import "home";
+.contexts-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f5f5f7 0%, #eceef2 100%);
+}
+
+.contexts-subtitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #8a8a8e;
+}
+
+.contexts-title {
+  font-size: clamp(2.4rem, 4vw, 4rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: #111827;
+}
+
+.new-context-btn {
+  min-height: 52px;
+  padding: 0.85rem 1.4rem;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #1f2937 0%, #111827 100%);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow:
+    0 10px 24px rgba(17, 24, 39, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transition: all 0.2s ease;
+}
+
+.new-context-btn:hover {
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow:
+    0 16px 30px rgba(17, 24, 39, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.context-card {
+  height: 100%;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  box-shadow:
+    0 16px 40px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.context-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 24px 50px rgba(15, 23, 42, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.context-card-body {
+  padding: 1.6rem;
+}
+
+.context-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.38rem 0.8rem;
+  border-radius: 999px;
+  background: #eef2f7;
+  color: #5b6472;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.context-card-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #111827;
+}
+
+.context-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.context-info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.95rem 1rem;
+  border-radius: 18px;
+  background: rgba(248, 250, 252, 0.92);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.context-info-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.context-info-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.document-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.75rem 1.05rem;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #111827;
+  font-weight: 600;
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
+  transition: all 0.2s ease;
+}
+
+.document-btn:hover {
+  color: #111827;
+  transform: translateY(-1px);
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.1);
+}
+
+.empty-context-state {
+  padding: 5rem 0;
+}
+
+.empty-context-box {
+  max-width: 520px;
+  padding: 3rem 2rem;
+  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow:
+    0 18px 44px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.86);
+}
+
+.empty-context-emoji {
+  font-size: 2.6rem;
+}
+
+.empty-context-title {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #111827;
+}
+
+.empty-context-text {
+  color: #6b7280;
+  font-size: 1.05rem;
+}
