@@ -6,6 +6,10 @@ class ContextsController < ApplicationController
     @contexts = current_user.contexts
   end
 
+  def show
+    @context = current_user.contexts.find(params[:id])
+  end
+
   def new
     @context = Context.new
   end

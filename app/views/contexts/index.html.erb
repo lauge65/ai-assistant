@@ -41,13 +41,12 @@
                   </div>
                 </div>
 
-                <% if context.document.attached? %>
-                  <div class="mt-4">
-                    <%= link_to "View document",
-                      rails_blob_path(context.document, disposition: "attachment"),
-                      class: "document-btn text-decoration-none" %>
-                  </div>
-                <% end %>
+                <div class="mt-3">
+                  <%= link_to "👁 Voir le contexte",
+                    context_path(context),
+                    class: "document-btn text-decoration-none" %>
+                </div>
+
               </div>
             </div>
           </div>
