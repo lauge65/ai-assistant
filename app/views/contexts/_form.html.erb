@@ -1,0 +1,19 @@
+<% if @context.errors.any? %>
+  <div class="alert alert-danger">
+    <ul class="mb-0">
+      <% @context.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= simple_form_for @context do |f| %>
+  <%= f.input :title %>
+  <%= f.input :level %>
+  <%= f.input :subject %>
+  <%= f.input :date, as: :date %>
+  <%= f.input :document, as: :file %>
+
+  <%= f.button :submit, button_text, class: "btn btn-primary" %>
+<% end %>
