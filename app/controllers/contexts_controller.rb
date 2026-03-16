@@ -34,6 +34,12 @@ class ContextsController < ApplicationController
     end
   end
 
+  def destroy
+    @context = current_user.contexts.find(params[:id])
+    @context.destroy
+    redirect_to contexts_path, notice: "Contexte supprimé."
+  end
+
   private
 
   def set_context
