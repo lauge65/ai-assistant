@@ -15,24 +15,30 @@ class MessagesController < ApplicationController
     @chat = Chat.joins(:context).where(contexts: { user_id: current_user.id }).find(params[:chat_id])
     @context = @chat.context
 
-    @message = Message.new(message_params)
-    @message.chat = @chat
-    @message.role = "user"
+    user_content = message_params[:content]
 
-    if @message.save
-      response = RubyLLM.chat.with_instructions(instructions).ask(@message.content)
+    @ruby_llm_chat = RubyLLM.chat.with_instructions(instructions)
+    build_conversation_history
 
-      Message.create!(
-        chat: @chat,
-        role: "assistant",
-        content: response.content
-      )
+    response = @ruby_llm_chat.ask(user_content)
 
-      redirect_to chat_path(@chat)
-    else
-      render "chats/show", status: :unprocessable_entity
-    end
+    Message.create!(
+    chat: @chat,
+    role: "user",
+    content: user_content
+  )
+
+    Message.create!(
+      chat: @chat,
+      role: "assistant",
+      content: response.content
+    )
+
+    redirect_to chat_path(@chat)
+
   end
+
+
 
   private
 
@@ -62,4 +68,36 @@ class MessagesController < ApplicationController
 
     "Un document est associé à ce contexte. Son contenu détaillé pourra être exploité ensuite."
   end
+
+  def build_conversation_history
+    @chat.messages.order(:created_at).each do |message|
+      @ruby_llm_chat.add_message(
+        role: message.role,
+        content: message.content
+      )
+    end
+  end
 end
+
+
+# Ancien code que j'ai modifié pour mettre en place l'historique du chat
+    # @message = Message.new(message_params)
+    # @message.chat = @chat
+    # @message.role = "user"
+
+  #   if @message.save
+  #     @ruby_llm_chat = RubyLLM.chat
+  #     build_conversation_history
+  #     response = @ruby_llm_chat.with_instructions(instructions).ask(@message.content)
+
+  #     Message.create!(
+  #       chat: @chat,
+  #       role: "assistant",
+  #       content: response.content
+  #     )
+
+  #     redirect_to chat_path(@chat)
+  #   else
+  #     render "chats/show", status: :unprocessable_entity
+  #   end
+  # end
