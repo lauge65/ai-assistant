@@ -1,13 +1,4 @@
 <div class="container mt-4">
-  <h1 class="mb-4 text-center">Modifier le chatbot</h1>
-
-  <%= simple_form_for @context do |f| %>
-    <%= f.input :title, label: "Titre" %>
-    <%= f.input :level, label: "Niveau" %>
-    <%= f.input :subject, label: "Sujet" %>
-    <%= f.input :date, as: :date, label: "Date" %>
-    <%= f.input :document, as: :file, label: "Remplacer le document" %>
-    
-    <%= f.button :submit, "Modifier", class: "btn btn-primary" %>
-  <% end %>
+  <h1 class="mb-4 text-center">Modifier un contexte</h1>
+  <%= render "form", button_text: "Mettre à jour" %>
 </div>
