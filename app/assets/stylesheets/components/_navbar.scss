@@ -10,3 +10,18 @@
 .navbar-lewagon .navbar-brand img {
   width: 40px;
 }
+
+.navbar-lewagon .navbar-brand {
+  display: inline-flex;
+  align-items: center;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-right: 1.5rem;
+}
+
+.navbar-lewagon .navbar-logo {
+  width: auto;
+  height: 64px;
+  display: block;
+  object-fit: contain;
+}

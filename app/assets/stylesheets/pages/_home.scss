@@ -4,6 +4,40 @@ body {
   color: #1d1d1f;
 }
 
+.home-banner {
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.38), rgba(0, 0, 0, 0.38)),
+    image-url("home-banner.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.home-banner .container {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  color: #ffffff;
+}
+
+.home-banner h1 {
+  max-width: 760px;
+  font-size: clamp(2.4rem, 5vw, 4.8rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.home-banner p {
+  max-width: 640px;
+  font-size: 1.15rem;
+  line-height: 1.7;
+}
+
 .home-page {
   min-height: 100vh;
   padding-top: 2rem;
@@ -174,6 +208,16 @@ body {
 }
 
 @media (max-width: 768px) {
+  .home-banner {
+    min-height: 60vh;
+    background-position: center;
+  }
+
+  .home-banner .container {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
   .main-frame {
     min-height: auto;
     padding: 2rem 1.25rem !important;
