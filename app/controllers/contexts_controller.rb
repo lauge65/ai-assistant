@@ -5,7 +5,7 @@ class ContextsController < ApplicationController
   def index
     @contexts = current_user.contexts
   end
-  
+
   def show
     @context = current_user.contexts.find(params[:id])
   end
@@ -22,6 +22,7 @@ class ContextsController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
+  
   def edit
      @context
   end
