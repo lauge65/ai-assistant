@@ -26,8 +26,10 @@
                   </div>
                 </div>
 
-                <div class="mb-4">
+                <div class="d-flex gap-2 mt-2 mb-3">
                   <%= link_to "Modifier", edit_context_path(context), class: "btn btn-outline-primary btn-sm" %>
+
+                  <%= link_to "Supprimer", context_path(context), data: { turbo_method: :delete, turbo_confirm: "Etes-vous sûr?" }, class: "btn btn-outline-primary btn-sm" %>
                 </div>
 
                 <div class="context-info-list">
