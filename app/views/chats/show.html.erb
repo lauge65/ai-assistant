@@ -26,44 +26,23 @@
     <div class="context-card mb-4">
       <div class="context-card-body">
         <h2 class="context-card-title mb-4">Chat avec l’assistant</h2>
-
-        <% if @chat.messages.any? %>
-          <% @chat.messages.each do |message| %>
-            <% if message.role == "user" %>
-              <div class="d-flex justify-content-end mb-3">
-                <div class="px-3 py-2 rounded-4 bg-light" style="max-width: 70%;">
-                  <strong>Vous</strong>
-                  <div><%= simple_format(message.content) %></div>
-                </div>
-              </div>
+          <div id="messages">
+            <% if @chat.messages.any? %>
+              <%= render @chat.messages %>
             <% else %>
-              <div class="d-flex justify-content-start mb-3">
-                <div class="px-3 py-2 rounded-4 border bg-white" style="max-width: 70%;">
-                  <strong>EasyLearn AI</strong>
-                  <div><%= simple_format(message.content) %></div>
-                </div>
-              </div>
+              <p class="text-muted mb-0">Commencez la conversation avec l’assistant.</p>
             <% end %>
-          <% end %>
-        <% else %>
-          <p class="text-muted mb-0">Commencez la conversation avec l’assistant.</p>
-        <% end %>
-      </div>
-    </div>
-
-    <div class="context-card">
-      <div class="context-card-body">
-        <%= simple_form_for [@chat, @message] do |f| %>
-          <%= f.input :content,
-            label: "Votre question",
-            placeholder: "Exemple : peux-tu m’expliquer ce document simplement ?",
-            input_html: { rows: 4, class: "form-control rounded-4" } %>
-
-          <div class="d-flex justify-content-end">
-            <%= f.button :submit, "Envoyer", class: "new-context-btn border-0" %>
           </div>
-        <% end %>
       </div>
     </div>
+
+      <div id="new_message">
+      <div class="context-card">
+        <div class="context-card-body">
+          <%= render "messages/form", chat: @chat, message: @message %>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
