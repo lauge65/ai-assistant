@@ -1,0 +1,15 @@
+   <% if message.role == "user" %>
+    <div class="d-flex justify-content-end mb-3">
+      <div class="px-3 py-2 rounded-4 bg-light" style="max-width: 70%;">
+        <strong>Vous</strong>
+        <div><%= simple_format(message.content) %></div>
+      </div>
+    </div>
+  <% else %>
+    <div class="d-flex justify-content-start mb-3">
+      <div class="px-3 py-2 rounded-4 border bg-white" style="max-width: 70%;">
+        <strong>EasyLearn AI</strong>
+        <div><%= simple_format(message.content) %></div>
+      </div>
+    </div>
+  <% end %>

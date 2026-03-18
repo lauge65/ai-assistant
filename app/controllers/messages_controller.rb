@@ -22,19 +22,24 @@ class MessagesController < ApplicationController
 
     response = @ruby_llm_chat.ask(user_content)
 
-    Message.create!(
+    @user_message = Message.create!(
     chat: @chat,
     role: "user",
     content: user_content
   )
 
-    Message.create!(
+    @assistant_message = Message.create!(
       chat: @chat,
       role: "assistant",
       content: response.content
     )
 
-    redirect_to chat_path(@chat)
+    @message = Message.new
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to chat_path(@chat) }
+    end
 
   end
 
