@@ -15,12 +15,22 @@
     <header>
       <%= render "shared/navbar" %> <!-- 👈 Add this for navbar -->
     </header>
-    <div class="container my-4">
+
+    <% if controller_name == "pages" && action_name == "home" %>
       <%= render "shared/flashes" %>
       <main id="main-content">
-      <%= yield %>
+        <%= yield %>
       </main>
-    </div>
-    <%= render "shared/footer" %>
+    <% else %>
+      <div class="container my-4">
+        <%= render "shared/flashes" %>
+        <main id="main-content">
+          <%= yield %>
+        </main>
+      </div>
+    <% end %>
+  
+  <%= render "shared/footer" %>
+
   </body>
 </html>
