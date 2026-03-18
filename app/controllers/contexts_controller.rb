@@ -1,6 +1,6 @@
 class ContextsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_context, only: [:edit, :update]
+  before_action :set_context, only: [:show, :edit, :update, :destroy]
 
   def index
     @contexts = current_user.contexts
@@ -15,20 +15,21 @@ class ContextsController < ApplicationController
   end
 
   def create
-    @context = current_user.contexts.new(context_params)
+    @context =current_user.contexts.new(context_params)
     if @context.save
-      redirect_to contexts_path
+      redirect_to context_path(@context)
     else
       render :new, status: :unprocessable_entity
     end
   end
-
+  
   def edit
+     @context
   end
 
   def update
     if @context.update(context_params)
-      redirect_to contexts_path
+      redirect_to context_path(@context)
     else
       render :edit, status: :unprocessable_entity
     end
@@ -37,7 +38,7 @@ class ContextsController < ApplicationController
   def destroy
     @context = current_user.contexts.find(params[:id])
     @context.destroy
-    redirect_to contexts_path, notice: "Contexte supprimé."
+    redirect_to contexts_path
   end
 
   private

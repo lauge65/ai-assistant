@@ -10,7 +10,10 @@
 
 <%= simple_form_for @context do |f| %>
   <%= f.input :title %>
-  <%= f.input :level %>
+  <%= f.input :level,
+          include_blank: "Choisir un niveau", 
+          collection: ["CP", "CE1", "CE2", "CM1", "CM2", "6ème", "5ème", "4ème", "3ème", "Seconde", "Première", "Terminale"],
+          input_html: { class: "form-select" } %>
   <%= f.input :subject %>
   <%= f.input :date, as: :date %>
   <%= f.input :document, as: :file %>
