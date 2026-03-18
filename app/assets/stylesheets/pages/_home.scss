@@ -38,6 +38,90 @@ body {
   line-height: 1.7;
 }
 
+.home-cta {
+  --cta-red: #e60f05;
+  --cta-red-dark: #9f140f;
+  --cta-amber: #ff8a1f;
+  --cta-cream: #fff2dd;
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1rem 1.5rem 1rem 1.35rem;
+  width: 100%;
+  max-width: 360px;
+  border-radius: 24px;
+  overflow: hidden;
+  color: #fffdf8;
+  background:
+    radial-gradient(circle at top left, rgba(255, 234, 204, 0.3), transparent 38%),
+    linear-gradient(135deg, var(--cta-red) 0%, #f04d17 42%, var(--cta-amber) 100%);
+  border: 1px solid rgba(255, 244, 229, 0.34);
+  box-shadow:
+    0 18px 34px rgba(159, 20, 15, 0.34),
+    inset 0 1px 0 rgba(255, 248, 240, 0.38),
+    inset 0 -8px 18px rgba(122, 10, 7, 0.18);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
+}
+
+.home-cta::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: 23px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 42%);
+  pointer-events: none;
+}
+
+.home-cta::after {
+  content: ">";
+  position: absolute;
+  top: 50%;
+  right: 1.3rem;
+  transform: translateY(-50%);
+  width: 2.3rem;
+  height: 2.3rem;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--cta-red-dark);
+  background: linear-gradient(180deg, #fff7ea 0%, var(--cta-cream) 100%);
+  box-shadow:
+    0 8px 18px rgba(122, 10, 7, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.home-cta:hover {
+  color: #fffdf8;
+  transform: translateY(-3px) scale(1.01);
+  filter: saturate(1.04);
+  box-shadow:
+    0 24px 42px rgba(159, 20, 15, 0.42),
+    inset 0 1px 0 rgba(255, 248, 240, 0.44),
+    inset 0 -8px 18px rgba(122, 10, 7, 0.24);
+}
+
+.home-cta-label,
+.home-cta-note {
+  position: relative;
+  z-index: 1;
+  padding-right: 3.5rem;
+}
+
+.home-cta-label {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.home-cta-note {
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: rgba(255, 248, 240, 0.9);
+}
+
 .home-page {
   min-height: 100vh;
   padding-top: 2rem;
@@ -216,6 +300,15 @@ body {
   .home-banner .container {
     padding-top: 4rem;
     padding-bottom: 4rem;
+  }
+
+  .home-cta {
+    width: 100%;
+    padding-right: 1.2rem;
+  }
+
+  .home-cta::after {
+    right: 1rem;
   }
 
   .main-frame {

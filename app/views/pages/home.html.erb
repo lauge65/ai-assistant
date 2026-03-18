@@ -3,11 +3,17 @@
     <h1 class="mb-3">Révisez vos cours plus efficacement avec un assistant IA !</h1>
     <p class="mb-4">Importez votre cours et échangez avec un assistant personnalisé pour mieux comprendre et réviser à votre rythme.</p>
 
-      <% if user_signed_in? %>
-      <%= link_to "Créer un nouveau chatbot", new_context_path, class: "btn btn-flat" %>
-      <% else %>
-      <%= link_to "Créer un nouveau chatbot", new_user_session_path, class: "btn btn-flat" %>
+    <% if user_signed_in? %>
+      <%= link_to new_context_path, class: "home-cta text-decoration-none" do %>
+        <span class="home-cta-label">Créer mon assistant de révision</span>
+        <span class="home-cta-note">Importez un cours et commencez vos révisions</span>
       <% end %>
+    <% else %>
+      <%= link_to new_user_session_path, class: "home-cta text-decoration-none" do %>
+        <span class="home-cta-label">Créer mon assistant de révision</span>
+        <span class="home-cta-note">Cliquez ici pour commencez votre revision</span>
+      <% end %>
+    <% end %>
 
   </div>
 </div>
