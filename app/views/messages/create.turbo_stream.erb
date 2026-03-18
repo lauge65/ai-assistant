@@ -1,0 +1,6 @@
+<%= turbo_stream.append "messages", partial: "messages/message", locals: { message: @user_message } %>
+<%= turbo_stream.append "messages", partial: "messages/message", locals: { message: @assistant_message } %>
+
+<%= turbo_stream.replace "new_message" do %>
+  <%= render "messages/form", chat: @chat, message: Message.new %>
+<% end %>

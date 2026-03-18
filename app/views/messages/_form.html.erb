@@ -1,0 +1,10 @@
+ <%= simple_form_for [chat, message] do |f| %>
+  <%= f.input :content,
+    label: "Votre question",
+    placeholder: "Exemple : peux-tu m’expliquer ce document simplement ?",
+    input_html: { rows: 4, class: "form-control rounded-4" } %>
+
+  <div class="d-flex justify-content-end">
+    <%= f.button :submit, "Envoyer", class: "new-context-btn border-0" %>
+  </div>
+  <% end %>
