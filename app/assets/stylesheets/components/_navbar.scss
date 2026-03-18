@@ -8,5 +8,28 @@
 }
 
 .navbar-lewagon .navbar-brand img {
-  width: 40px;
+  width: auto;
+  height: 70px;
+}
+
+.navbar-lewagon .navbar-brand {
+  display: inline-flex;
+  align-items: center;
+  height: 64px;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-right: 1.5rem;
+  overflow: hidden;
+}
+
+.navbar-lewagon .navbar-logo {
+  display: block;
+  object-fit: contain;
+  transform: scale(1.5);
+  transform-origin: center;
+  transition: transform 0.2s ease;
+}
+
+.navbar-lewagon .navbar-brand:hover .navbar-logo {
+  transform: scale(1.5) translateY(-1px);
 }
