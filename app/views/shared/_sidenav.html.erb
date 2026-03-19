@@ -1,0 +1,12 @@
+<ul class="position-sticky sticky-top nav flex-column">
+  <li class="nav-item">
+    <%= link_to "#", class: "nav-link text-white", data: { action: "click->toggle#call"} do %>
+      <i class="fa-regular fa-square-caret-left"></i> Fermer
+    <% end %>
+  </li>
+  <% contexts.each do |context| %>
+    <li class="nav-item">
+      <%= link_to context.title, context_path(context), class: "nav-link text-white" %>
+    </li>
+  <% end %>
+</ul>

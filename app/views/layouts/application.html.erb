@@ -5,28 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.2/css/all.css">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
     <%= link_to "Skip to main content", "#main-content", class: "visually-hidden-focusable" %>
-    <header>
-      <%= render "shared/navbar" %> <!-- 👈 Add this for navbar -->
-    </header>
-    <% if controller_name == "pages" && action_name == "home" %>
-      <%= render "shared/flashes" %>
-      <main id="main-content">
-        <%= yield %>
-      </main>
-    <% else %>
-      <div class="container my-4">
+
+    <div data-controller="toggle">
+      <header>
+        <%= render "shared/navbar" %> <!-- 👈 Add this for navbar -->
+      </header>
+
+      <% if controller_name == "pages" && action_name == "home" %>
         <%= render "shared/flashes" %>
         <main id="main-content">
           <%= yield %>
         </main>
-      </div>
-    <% end %>
+      <% else %>
+        <div class="container my-4">
+          <%= render "shared/flashes" %>
+          <main id="main-content">
+            <%= yield %>
+          </main>
+        </div>
+      <% end %>
+    </div>
+
+  <%= render "shared/footer" %>
+
   </body>
 </html>

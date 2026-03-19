@@ -2,6 +2,6 @@ class PagesController < ApplicationController
   skip_before_action :authenticate_user!, only: :home
 
   def home
-    @contexts = current_user.contexts if user_signed_in?
+    @contexts = user_signed_in? ? current_user.contexts : []
   end
 end
