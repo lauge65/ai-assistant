@@ -1,27 +1,36 @@
-<div class="home-banner">
-  <div class="container">
-    <div class="home-banner-copy">
-      <h1 class="mb-3">Révisez vos cours plus efficacement avec un assistant IA !</h1>
-      <p class="mb-4">Importez votre cours et échangez avec un assistant personnalisé pour mieux comprendre et réviser à votre rythme.</p>
+<div class="home-layout">
+  <div class="home-content">
+    <div class="home-banner">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-start">
+          <div class="home-banner-copy">
+            <h1 class="mb-3">Révisez vos cours plus efficacement avec un assistant IA !</h1>
+            <p class="mb-4">Importez votre cours et échangez avec un assistant personnalisé pour mieux comprendre et réviser à votre rythme.</p>
 
-      <% if user_signed_in? %>
-        <%= link_to new_context_path, class: "home-cta text-decoration-none" do %>
-          <span class="home-cta-label">Créer mon assistant de révision</span>
-          <span class="home-cta-note">Commencez ici</span>
-        <% end %>
-      <% else %>
-        <%= link_to new_user_session_path, class: "home-cta text-decoration-none" do %>
-          <span class="home-cta-label">Créer mon assistant de révision</span>
-          <span class="home-cta-note">Cliquez ici pour commencez votre revision</span>
-        <% end %>
-      <% end %>
+            <% if user_signed_in? %>
+              <%= link_to new_context_path, class: "home-cta text-decoration-none" do %>
+                <span class="home-cta-label">Créer mon assistant de révision</span>
+                <span class="home-cta-note">Commencez ici</span>
+              <% end %>
+            <% else %>
+              <%= link_to new_user_session_path, class: "home-cta text-decoration-none" do %>
+                <span class="home-cta-label">Créer mon assistant de révision</span>
+                <span class="home-cta-note">Cliquez ici pour commencez votre revision</span>
+              <% end %>
+            <% end %>
+          </div>
+
+          <aside class="home-sidebar d-none ms-auto" data-toggle-target="hideable">
+            <%= render "shared/sidenav", contexts: @contexts %>
+          </aside>
+        </div>
+      </div>
+    </div>
+
+    <div class="container text-center home-highlights">
+      <p>📄 Importez votre cours</p>
+      <p>🤖 Posez vos questions</p>
+      <p>🎓 Progressez à votre rythme</p>
     </div>
   </div>
-</div>
-<div class="container text-center home-highlights">
-
-  <p>📄 Importez votre cours</p>
-  <p>🤖 Posez vos questions</p>
-  <p>🎓 Progressez à votre rythme</p>
-
 </div>
