@@ -17,12 +17,14 @@ class ContextsController < ApplicationController
   def create
     @context =current_user.contexts.new(context_params)
     if @context.save
-      redirect_to context_path(@context)
+      chat = @context.chats.create!
+      redirect_to chat_path(chat),
+        notice: "Bravo 🎉 Tu peux discuter avec ton assistant pour réviser ton cours de #{@context.subject}"
     else
       render :new, status: :unprocessable_entity
     end
   end
-  
+
   def edit
      @context
   end

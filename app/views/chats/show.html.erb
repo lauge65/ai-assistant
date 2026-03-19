@@ -1,7 +1,7 @@
 <div class="contexts-page py-5">
   <div class="container">
     <div class="mb-4">
-      <%= link_to "← Retour au contexte", context_path(@context), class: "text-decoration-none" %>
+      <%= link_to "← Retour à mon cours", context_path(@context), class: "text-decoration-none" %>
     </div>
 
     <div class="context-card mb-4">
@@ -11,12 +11,12 @@
 
         <div class="context-info-list">
           <div class="context-info-item">
-            <span class="context-info-label">🎓 Niveau</span>
+            <span class="context-info-label">Niveau</span>
             <span class="context-info-value"><%= @context.level %></span>
           </div>
 
           <div class="context-info-item">
-            <span class="context-info-label">📅 Créé le</span>
+            <span class="context-info-label">Date</span>
             <span class="context-info-value"><%= @context.date %></span>
           </div>
         </div>
@@ -25,12 +25,12 @@
 
     <div class="context-card mb-4">
       <div class="context-card-body">
-        <h2 class="context-card-title mb-4">Chat avec l’assistant</h2>
+        <h2 class="context-card-title mb-4">Discussion avec mon assistant IA</h2>
           <div id="messages">
             <% if @chat.messages.any? %>
               <%= render @chat.messages %>
             <% else %>
-              <p class="text-muted mb-0">Commencez la conversation avec l’assistant.</p>
+              <p class="text-muted mb-0">Commencez la conversation avec votre assistant en lui posant une question.</p>
             <% end %>
           </div>
       </div>
