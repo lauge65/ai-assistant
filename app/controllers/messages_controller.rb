@@ -15,27 +15,38 @@ class MessagesController < ApplicationController
     @chat = Chat.joins(:context).where(contexts: { user_id: current_user.id }).find(params[:chat_id])
     @context = @chat.context
 
+    #récupérer les données du form
     user_content = message_params[:content]
 
-    @ruby_llm_chat = RubyLLM.chat.with_instructions(instructions)
+    # pour lancer ruby_llm sur gemini avec un modèle capable de lire les pdf
+    @ruby_llm_chat = RubyLLM.chat(model: "gemini-2.5-flash").with_instructions(instructions)
     build_conversation_history
 
-    response = @ruby_llm_chat.ask(user_content)
-
+    # enregistrer le message user
     @user_message = Message.create!(
-    chat: @chat,
-    role: "user",
-    content: user_content
-  )
+      chat: @chat,
+      role: "user",
+      content: user_content
+      )
 
+    # lier le document à l'envoi vers le LLM
+    response = if @context.document.attached? && @context.document.content_type == "application/pdf"
+    @ruby_llm_chat.ask(user_content, with: { pdf: @context.document.url })
+    else
+      @ruby_llm_chat.ask(user_content)
+    end
+
+    #enregitrer le message assistant ia
     @assistant_message = Message.create!(
       chat: @chat,
       role: "assistant",
       content: response.content
     )
 
+    #créer une instance vide pour le prochain message
     @message = Message.new
 
+    # pour ne pas que cela remonte à chaque réponse
     respond_to do |format|
       format.turbo_stream
       format.html { redirect_to chat_path(@chat) }
@@ -46,11 +57,12 @@ class MessagesController < ApplicationController
 
 
   private
-
+  #strong params
   def message_params
     params.require(:message).permit(:content)
   end
 
+  # instruction du prompts
   def instructions
     [
       SYSTEM_PROMPT,
@@ -74,6 +86,7 @@ class MessagesController < ApplicationController
     "Un document est associé à ce contexte. Son contenu détaillé pourra être exploité ensuite."
   end
 
+  #méthode pour construire l'historique
   def build_conversation_history
     @chat.messages.order(:created_at).each do |message|
       @ruby_llm_chat.add_message(
