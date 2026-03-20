@@ -27,7 +27,6 @@
                 </div>
 
                 <div class="d-flex justify-content-end gap-3 mb-3">
-
                   <%= link_to edit_context_path(context), class: "icon-btn" do %>
                     ✏️
                   <% end %>
@@ -37,7 +36,6 @@
                       class: "icon-btn danger" do %>
                     ✖
                   <% end %>
-
                 </div>
 
                 <div class="context-info-list">
@@ -52,14 +50,20 @@
                   </div>
                 </div>
 
+                <% assistant_chat = context.chats.first %>
+
                 <div class="mt-4 d-flex justify-content-between gap-2">
                   <%= link_to "📄 Mon cours",
                     context_path(context),
                     class: "document-btn text-decoration-none" %>
 
-                 <%= link_to "🤖 Mon assistant ",
-                    chat_path(context.chats.first),
-                    class: "document-btn text-decoration-none" %>
+                  <% if assistant_chat.present? %>
+                    <%= link_to "🤖 Mon assistant",
+                      chat_path(assistant_chat),
+                      class: "document-btn text-decoration-none" %>
+                  <% else %>
+                    <span class="document-btn text-decoration-none opacity-50">🤖 Assistant indisponible</span>
+                  <% end %>
                 </div>
               </div>
             </div>
