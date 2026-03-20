@@ -52,6 +52,9 @@ gem "sassc-rails"
 gem "devise"
 gem "ruby_llm"
 
+gem "cloudinary"
+gem "image_processing", "~> 1.2" # needed by ActiveStorage
+
 group :development, :test do
   gem "dotenv-rails"
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
