@@ -10,3 +10,15 @@
   background: #4D04C4;
   color: white;
 }
+
+.icon-btn {
+  text-decoration: none;
+  font-size: 18px;
+  color: rgba(0, 0, 0, 0.6);
+  transition: all 0.2s ease
+}
+
+.icon-btn:hover {
+  color: rgba(0, 0, 0, 0.9);
+  transform: translateY(-1px);
+}

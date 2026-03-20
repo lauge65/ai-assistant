@@ -1,5 +1,5 @@
 <div class="container my-5">
-  <%= link_to "← Retour aux contextes", contexts_path, class: "text-decoration-none" %>
+  <%= link_to "← Retour à mes cours", contexts_path, class: "text-decoration-none" %>
 
   <div class="context-card mt-4">
     <div class="context-card-body">
@@ -13,34 +13,34 @@
 
           <div class="context-info-list">
             <div class="context-info-item">
-              <span class="context-info-label">🎓 Niveau</span>
+              <span class="context-info-label">Niveau</span>
               <span class="context-info-value"><%= @context.level %></span>
             </div>
 
             <div class="context-info-item">
-              <span class="context-info-label">📅 Créé le</span>
+              <span class="context-info-label">Date</span>
               <span class="context-info-value"><%= @context.date %></span>
             </div>
           </div>
 
           <div class="mt-4">
             <% if @context.document.attached? %>
-              <%= link_to "⬇️ Télécharger le fichier",
+              <%= link_to "⬇️ Télécharger mon cours",
                   rails_blob_path(@context.document, disposition: "attachment"),
                   class: "document-btn text-decoration-none" %>
 
-              <%= link_to "📄 Ouvrir le fichier",
+              <%= link_to "📄 Ouvrir mon cours",
                   url_for(@context.document),
                   target: "_blank",
                   class: "document-btn text-decoration-none" %>
             <% else %>
-              <p>Pas de fichier téléchargé pour ce contexte.</p>
+              <p>Pas de cours téléchargé.</p>
             <% end %>
           </div>
           </div>
         <div class="d-flex align-items-center">
   <div class="mt-4">
-    <%= button_to "Ouvrir le chat",
+    <%= button_to "Discuter avec mon assistant IA",
       context_chats_path(@context),
       method: :post,
       class: "new-context-btn border-0 text-decoration-none d-inline-flex align-items-center justify-content-center" %>
