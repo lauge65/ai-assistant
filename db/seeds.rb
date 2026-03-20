@@ -50,7 +50,7 @@ Message.create!(
 melanges = Context.new(
   title: "Mélanges et corps purs",
   subject: "Physique-Chimie",
-  level: "2nde",
+  level: "Seconde",
   date: Date.new(2026, 3, 5),
   user: user
 )
