@@ -21,25 +21,30 @@
   color: #111827;
 }
 
-.new-context-btn {
-  min-height: 52px;
-  padding: 0.85rem 1.4rem;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #1f2937 0%, #111827 100%);
-  color: #ffffff;
-  font-weight: 600;
-  box-shadow:
-    0 10px 24px rgba(17, 24, 39, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  transition: all 0.2s ease;
+.dashboard-cta-wrap {
+  display: flex;
+  justify-content: flex-start;
 }
 
-.new-context-btn:hover {
-  color: #ffffff;
-  transform: translateY(-1px);
-  box-shadow:
-    0 16px 30px rgba(17, 24, 39, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+.dashboard-cta-wrap .home-cta {
+  width: 100%;
+  max-width: 360px;
+}
+
+.empty-dashboard-cta {
+  display: flex;
+  justify-content: center;
+}
+
+.empty-dashboard-cta .home-cta {
+  width: 100%;
+  max-width: 360px;
+}
+
+@media (min-width: 768px) {
+  .dashboard-cta-wrap {
+    justify-content: flex-end;
+  }
 }
 
 /* =========================
