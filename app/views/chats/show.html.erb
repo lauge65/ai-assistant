@@ -26,7 +26,7 @@
     <div class="context-card mb-4">
       <div class="context-card-body">
         <h2 class="context-card-title mb-4">Discussion avec mon assistant IA</h2>
-          <div id="messages">
+          <div id="messages" class="chat-thread">
             <% if @chat.messages.any? %>
               <%= render @chat.messages %>
             <% else %>
