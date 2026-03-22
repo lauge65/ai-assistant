@@ -10,7 +10,7 @@
   inset: 0;
   background:
     radial-gradient(circle at top right, rgba(63, 140, 255, 0.12), transparent 30%),
-    radial-gradient(circle at bottom left, rgba(71, 215, 100, 0.12), transparent 28%);
+    radial-gradient(circle at bottom left, rgba(240, 77, 23, 0.12), transparent 28%);
   pointer-events: none;
 }
 
@@ -69,14 +69,19 @@
 }
 
 .chat-message--user .chat-bubble {
-  background: linear-gradient(180deg, #47d764 0%, #29bf46 100%);
+  background:
+    radial-gradient(circle at top left, rgba(255, 233, 205, 0.28), transparent 36%),
+    linear-gradient(135deg, #e60f05 0%, #f04d17 42%, #ff8a1f 100%);
   color: #ffffff;
   border-bottom-right-radius: 8px;
+  box-shadow:
+    0 14px 28px rgba(159, 20, 15, 0.24),
+    inset 0 1px 0 rgba(255, 248, 240, 0.24);
 }
 
 .chat-message--user .chat-bubble::after {
   right: -5px;
-  background: #29bf46;
+  background: #f04d17;
   transform: rotate(35deg);
 }
 
@@ -160,10 +165,10 @@
 }
 
 .chat-form__input:focus {
-  border-color: rgba(25, 115, 255, 0.55);
+  border-color: rgba(240, 77, 23, 0.5);
   box-shadow:
-    0 0 0 4px rgba(25, 115, 255, 0.12),
-    0 14px 30px rgba(37, 99, 235, 0.08);
+    0 0 0 4px rgba(240, 77, 23, 0.12),
+    0 14px 30px rgba(159, 20, 15, 0.08);
   transform: translateY(-1px);
 }
 
@@ -184,10 +189,11 @@
   letter-spacing: -0.02em;
   background:
     radial-gradient(circle at top left, rgba(255, 255, 255, 0.28), transparent 34%),
-    linear-gradient(135deg, #1f7aff 0%, #165dff 52%, #26c76f 100%);
+    linear-gradient(135deg, #e60f05 0%, #f04d17 42%, #ff8a1f 100%);
   box-shadow:
-    0 18px 30px rgba(37, 99, 235, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.34);
+    0 18px 30px rgba(159, 20, 15, 0.3),
+    inset 0 1px 0 rgba(255, 248, 240, 0.34),
+    inset 0 -8px 18px rgba(122, 10, 7, 0.16);
   transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
 
@@ -196,8 +202,9 @@
   transform: translateY(-2px) scale(1.01);
   filter: saturate(1.06);
   box-shadow:
-    0 22px 36px rgba(37, 99, 235, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    0 22px 36px rgba(159, 20, 15, 0.36),
+    inset 0 1px 0 rgba(255, 248, 240, 0.4),
+    inset 0 -8px 18px rgba(122, 10, 7, 0.22);
 }
 
 .chat-send-btn:active {
@@ -207,8 +214,8 @@
 .chat-send-btn:focus-visible {
   outline: 0;
   box-shadow:
-    0 0 0 4px rgba(37, 99, 235, 0.18),
-    0 22px 36px rgba(37, 99, 235, 0.28);
+    0 0 0 4px rgba(240, 77, 23, 0.18),
+    0 22px 36px rgba(159, 20, 15, 0.36);
 }
 
 @media (min-width: 872px) {
