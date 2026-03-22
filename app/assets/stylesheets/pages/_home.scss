@@ -162,6 +162,20 @@ body {
   font-size: 1rem;
 }
 
+.home-feature-icon {
+  width: 56px;
+  height: 56px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 18px;
+  color: #b93412;
+  font-size: 1.35rem;
+  background: linear-gradient(180deg, rgba(255, 247, 235, 0.96) 0%, rgba(255, 238, 214, 0.94) 100%);
+  box-shadow:
+    0 12px 24px rgba(159, 20, 15, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
 .home-page {
   min-height: 100vh;
   padding-top: 2rem;

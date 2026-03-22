@@ -1,5 +1,5 @@
 <% if @context.errors.any? %>
-  <div class="alert alert-danger">
+  <div class="alert alert-danger context-form-alert">
     <ul class="mb-0">
       <% @context.errors.full_messages.each do |message| %>
         <li><%= message %></li>
@@ -8,20 +8,30 @@
   </div>
 <% end %>
 
-<%= simple_form_for @context do |f| %>
-  <%= f.input :title %>
+<%= simple_form_for @context, html: { class: "context-form" } do |f| %>
+  <%= f.input :title,
+      label: "Titre du cours",
+      placeholder: "Exemple : Les melanges et corps purs",
+      input_html: { class: "context-form__input" } %>
   <%= f.input :level,
+          label: "Niveau",
           include_blank: "Choisir un niveau",
           collection: ["CP", "CE1", "CE2", "CM1", "CM2", "6ème", "5ème", "4ème", "3ème", "Seconde", "Première", "Terminale"],
-          input_html: { class: "form-select" } %>
+          input_html: { class: "form-select context-form__input" } %>
   <%= f.input :subject,
+          label: "Matiere",
           include_blank: "Choisir une matière",
           collection: ["Physique-Chimie", "Géographie"],
-          input_html: { class: "form-select" } %>
-  <%= f.input :date, as: :date %>
-  <%= f.input :document, as: :file %>
+          input_html: { class: "form-select context-form__input" } %>
+  <%= f.input :date, as: :date, label: "Date du cours", input_html: { class: "context-form__input" } %>
+  <%= f.input :document, as: :file, label: "Document du cours", input_html: { class: "context-form__input" } %>
 
-  <%= f.button :submit, button_text, class: "btn btn-primary" %>
+  <div class="context-form__actions">
+    <%= link_to contexts_path, class: "document-btn text-decoration-none" do %>
+      <i class="fa-solid fa-arrow-left"></i>
+      <span>Retour a mes cours</span>
+    <% end %>
+
+    <%= f.button :submit, button_text, class: "context-form__submit border-0" %>
+  </div>
 <% end %>
-<br>
-<%= link_to "back", :back  %>

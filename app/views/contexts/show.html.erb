@@ -64,14 +64,18 @@
                   </div>
 
                   <div class="context-show__doc-actions mt-4">
-                    <%= link_to "Ouvrir mon cours",
-                        url_for(@context.document),
+                    <%= link_to url_for(@context.document),
                         target: "_blank",
-                        class: "document-btn text-decoration-none" %>
+                        class: "document-btn text-decoration-none" do %>
+                      <i class="fa-regular fa-file-lines"></i>
+                      <span>Ouvrir mon cours</span>
+                    <% end %>
 
-                    <%= link_to "Telecharger mon cours",
-                        rails_blob_path(@context.document, disposition: "attachment"),
-                        class: "document-btn text-decoration-none" %>
+                    <%= link_to rails_blob_path(@context.document, disposition: "attachment"),
+                        class: "document-btn text-decoration-none" do %>
+                      <i class="fa-solid fa-download"></i>
+                      <span>Telecharger mon cours</span>
+                    <% end %>
                   </div>
                 </div>
               <% else %>

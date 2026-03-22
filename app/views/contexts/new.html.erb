@@ -1,4 +1,17 @@
-<div class="container mt-4">
-  <h1 class="mb-4 text-center">Créer un chatbot</h1>
-  <%= render "form", button_text: "Créer" %>
+<div class="contexts-page context-form-page py-5">
+  <div class="container">
+    <div class="context-form-shell mx-auto">
+      <div class="context-form-header mb-4">
+        <p class="context-form-eyebrow mb-2">Nouveau cours</p>
+        <h1 class="context-form-title mb-2">Créer un assistant de revision</h1>
+        <p class="context-form-subtitle mb-0">Ajoute les informations de ton cours pour generer un espace de revision clair et personalise.</p>
+      </div>
+
+      <div class="context-card context-form-card">
+        <div class="context-card-body">
+          <%= render "form", button_text: "Créer mon assistant" %>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
