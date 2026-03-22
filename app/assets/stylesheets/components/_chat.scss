@@ -17,12 +17,20 @@
 .chat-card__header {
   position: relative;
   z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
 }
 
 .chat-card__subtitle {
   max-width: 680px;
   color: #6b7280;
   line-height: 1.6;
+}
+
+.chat-card__delete {
+  flex-shrink: 0;
 }
 
 .chat-thread {
@@ -178,33 +186,37 @@
 }
 
 .chat-send-btn {
+  --cta-red: #e60f05;
+  --cta-red-dark: #9f140f;
+  --cta-amber: #ff8a1f;
   position: relative;
   min-width: 148px;
   min-height: 52px;
   padding: 0.85rem 1.3rem;
-  border-radius: 999px;
-  color: #ffffff;
+  border-radius: 24px;
+  color: #fffdf8;
   font-size: 0.98rem;
   font-weight: 700;
   letter-spacing: -0.02em;
   background:
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.28), transparent 34%),
-    linear-gradient(135deg, #e60f05 0%, #f04d17 42%, #ff8a1f 100%);
+    radial-gradient(circle at top left, rgba(255, 234, 204, 0.3), transparent 38%),
+    linear-gradient(135deg, var(--cta-red) 0%, #f04d17 42%, var(--cta-amber) 100%);
+  border: 1px solid rgba(255, 244, 229, 0.34);
   box-shadow:
-    0 18px 30px rgba(159, 20, 15, 0.3),
-    inset 0 1px 0 rgba(255, 248, 240, 0.34),
-    inset 0 -8px 18px rgba(122, 10, 7, 0.16);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    0 18px 34px rgba(159, 20, 15, 0.34),
+    inset 0 1px 0 rgba(255, 248, 240, 0.38),
+    inset 0 -8px 18px rgba(122, 10, 7, 0.18);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
 }
 
 .chat-send-btn:hover {
-  color: #ffffff;
-  transform: translateY(-2px) scale(1.01);
-  filter: saturate(1.06);
+  color: #fffdf8;
+  transform: translateY(-3px) scale(1.01);
+  filter: saturate(1.04);
   box-shadow:
-    0 22px 36px rgba(159, 20, 15, 0.36),
-    inset 0 1px 0 rgba(255, 248, 240, 0.4),
-    inset 0 -8px 18px rgba(122, 10, 7, 0.22);
+    0 24px 42px rgba(159, 20, 15, 0.42),
+    inset 0 1px 0 rgba(255, 248, 240, 0.44),
+    inset 0 -8px 18px rgba(122, 10, 7, 0.24);
 }
 
 .chat-send-btn:active {
@@ -214,8 +226,8 @@
 .chat-send-btn:focus-visible {
   outline: 0;
   box-shadow:
-    0 0 0 4px rgba(240, 77, 23, 0.18),
-    0 22px 36px rgba(159, 20, 15, 0.36);
+    0 0 0 4px rgba(230, 15, 5, 0.18),
+    0 24px 42px rgba(159, 20, 15, 0.42);
 }
 
 @media (min-width: 872px) {
@@ -225,6 +237,10 @@
 }
 
 @media (max-width: 767px) {
+  .chat-card__header {
+    flex-direction: column;
+  }
+
   .chat-thread {
     padding: 0.85rem;
   }

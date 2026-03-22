@@ -1,5 +1,6 @@
 class ChatsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_chat, only: [:show, :destroy]
 
   def create
     @context = current_user.contexts.find(params[:context_id])
@@ -16,8 +17,20 @@ class ChatsController < ApplicationController
   end
 
   def show
-    @chat = Chat.joins(:context).where(contexts: { user_id: current_user.id }).find(params[:id])
     @context = @chat.context
     @message = Message.new
+  end
+
+  def destroy
+    context = @chat.context
+    @chat.destroy
+
+    redirect_to context_path(context), notice: "L'assistant a bien ete supprime."
+  end
+
+  private
+
+  def set_chat
+    @chat = Chat.joins(:context).where(contexts: { user_id: current_user.id }).find(params[:id])
   end
 end

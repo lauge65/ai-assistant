@@ -176,6 +176,26 @@
   color: #9f140f;
 }
 
+.assistant-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.assistant-link-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.assistant-link-row__main {
+  flex: 1 1 auto;
+}
+
+.assistant-links .document-btn {
+  justify-content: flex-start;
+}
+
 .icon-btn {
   display: inline-flex;
   align-items: center;
@@ -340,6 +360,18 @@
 .context-show__doc-text {
   color: #667085;
   line-height: 1.65;
+}
+
+.context-show__assistant-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.context-show__assistant-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
 }
 
 .context-show__assistant-btn {
@@ -522,6 +554,14 @@
 
   .context-show__assistant-btn {
     width: 100%;
+  }
+
+  .assistant-links .document-btn {
+    width: 100%;
+  }
+
+  .assistant-link-row {
+    align-items: stretch;
   }
 
   .context-form-card .context-card-body {

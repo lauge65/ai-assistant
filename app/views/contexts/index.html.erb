@@ -9,7 +9,7 @@
       <div class="mt-4 mt-md-0 dashboard-cta-wrap">
         <%= link_to new_context_path, class: "home-cta text-decoration-none" do %>
           <span class="home-cta-label">Importer un nouveau cours</span>
-          <span class="home-cta-note">Ajoute un cours et crée son assistant IA</span>
+          <span class="home-cta-note">Ajoute un nouveau cours et crée son assistant IA</span>
         <% end %>
       </div>
     </div>
@@ -52,19 +52,32 @@
                   </div>
                 </div>
 
-                <% assistant_chat = context.chats.first %>
+                <% assistant_chats = context.chats.order(:created_at) %>
 
-                <div class="mt-4 d-flex justify-content-between gap-2">
+                <div class="mt-4 d-flex justify-content-between align-items-start gap-3">
                   <%= link_to context_path(context), class: "document-btn text-decoration-none" do %>
                     <i class="fa-regular fa-file-lines"></i>
                     <span>Mon cours</span>
                   <% end %>
 
-                  <% if assistant_chat.present? %>
-                    <%= link_to chat_path(assistant_chat), class: "document-btn text-decoration-none document-btn--accent" do %>
-                      <i class="fa-solid fa-sparkles"></i>
-                      <span>Mon assistant</span>
-                    <% end %>
+                  <% if assistant_chats.any? %>
+                    <div class="assistant-links">
+                      <% assistant_chats.each_with_index do |chat, index| %>
+                        <div class="assistant-link-row">
+                          <%= link_to chat_path(chat), class: "document-btn text-decoration-none document-btn--accent assistant-link-row__main" do %>
+                            <i class="fa-solid fa-sparkles"></i>
+                            <span>Assistant #<%= index + 1 %></span>
+                          <% end %>
+
+                          <%= link_to chat_path(chat),
+                              data: { turbo_method: :delete, turbo_confirm: "Supprimer cet assistant et toute sa discussion ?" },
+                              class: "icon-btn danger",
+                              aria: { label: "Supprimer l'assistant ##{index + 1}" } do %>
+                            <i class="fa-solid fa-trash"></i>
+                          <% end %>
+                        </div>
+                      <% end %>
+                    </div>
                   <% else %>
                     <span class="document-btn text-decoration-none opacity-50">
                       <i class="fa-solid fa-sparkles"></i>
@@ -89,7 +102,7 @@
           <div class="empty-dashboard-cta">
             <%= link_to new_context_path, class: "home-cta text-decoration-none" do %>
               <span class="home-cta-label">Importer un nouveau cours</span>
-              <span class="home-cta-note">Ajoute ton premier cours dans Easy Learn</span>
+              <span class="home-cta-note">Ajoute ton premier cours dans EasyLearn</span>
             <% end %>
           </div>
         </div>

@@ -24,10 +24,32 @@
                 Pose une question, demande un resume ou fais-toi expliquer une notion importante du cours.
               </p>
 
-              <%= button_to "Discuter avec mon assistant IA",
-                context_chats_path(@context),
-                method: :post,
-                class: "context-show__assistant-btn border-0 w-100" %>
+              <div class="context-show__assistant-actions">
+                <%= button_to(@context.chats.any? ? "Creer un nouvel assistant IA" : "Creer mon assistant IA",
+                  context_chats_path(@context),
+                  method: :post,
+                  class: "context-show__assistant-btn border-0 w-100") %>
+
+                <% if @context.chats.any? %>
+                  <div class="context-show__assistant-list">
+                    <% @context.chats.order(:created_at).each_with_index do |chat, index| %>
+                      <div class="assistant-link-row">
+                        <%= link_to chat_path(chat), class: "document-btn text-decoration-none document-btn--accent assistant-link-row__main" do %>
+                          <i class="fa-solid fa-sparkles"></i>
+                          <span>Assistant #<%= index + 1 %></span>
+                        <% end %>
+
+                        <%= link_to chat_path(chat),
+                            data: { turbo_method: :delete, turbo_confirm: "Supprimer cet assistant et toute sa discussion ?" },
+                            class: "icon-btn danger",
+                            aria: { label: "Supprimer l'assistant ##{index + 1}" } do %>
+                          <i class="fa-solid fa-trash"></i>
+                        <% end %>
+                      </div>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
             </div>
           </div>
         </div>
