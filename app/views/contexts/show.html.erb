@@ -1,53 +1,91 @@
-<div class="container my-5">
-  <%= link_to "← Retour à mes cours", contexts_path, class: "text-decoration-none" %>
-
-  <div class="context-card mt-4">
-    <div class="context-card-body">
-
-      <div class="d-flex justify-content-between align-items-start flex-wrap gap-4">
-
-        <div style="max-width: 700px">
-          <h1 class="context-card-title"><%= @context.title %></h1>
-
-          <p class="context-badge mb-4"><%= @context.subject %></p>
-
-          <div class="context-info-list">
-            <div class="context-info-item">
-              <span class="context-info-label">Niveau</span>
-              <span class="context-info-value"><%= @context.level %></span>
-            </div>
-
-            <div class="context-info-item">
-              <span class="context-info-label">Date</span>
-              <span class="context-info-value"><%= @context.date %></span>
-            </div>
-          </div>
-
-          <div class="mt-4">
-            <% if @context.document.attached? %>
-              <%= link_to "⬇️ Télécharger mon cours",
-                  rails_blob_path(@context.document, disposition: "attachment"),
-                  class: "document-btn text-decoration-none" %>
-
-              <%= link_to "📄 Ouvrir mon cours",
-                  url_for(@context.document),
-                  target: "_blank",
-                  class: "document-btn text-decoration-none" %>
-            <% else %>
-              <p>Pas de cours téléchargé.</p>
-            <% end %>
-          </div>
-          </div>
-        <div class="d-flex align-items-center">
-  <div class="mt-4">
-    <%= button_to "Discuter avec mon assistant IA",
-      context_chats_path(@context),
-      method: :post,
-      class: "new-context-btn border-0 text-decoration-none d-inline-flex align-items-center justify-content-center" %>
-  </div>
-</div>
-        </div>
+<div class="contexts-page context-show-page py-5">
+  <div class="container">
+    <div class="mb-4">
+      <%= link_to "← Retour à mes cours", contexts_path, class: "text-decoration-none context-show__backlink" %>
     </div>
+
+    <div class="context-card context-show-card <%= subject_theme(@context.subject) %>">
+      <div class="context-card-body">
+        <div class="row g-4 align-items-start">
+          <div class="col-lg-7">
+            <div class="context-show__eyebrow mb-3">Mon cours</div>
+            <p class="context-badge mb-3"><%= @context.subject %></p>
+            <h1 class="context-show__title mb-3"><%= @context.title %></h1>
+            <p class="context-show__intro mb-0">
+              Retrouve les informations principales de ton cours, ouvre le document et lance une discussion avec ton assistant IA en un clic.
+            </p>
+          </div>
+
+          <div class="col-lg-5">
+            <div class="context-show__assistant-panel">
+              <div class="context-show__assistant-kicker mb-2">Assistant IA</div>
+              <h2 class="context-show__assistant-title mb-2">Pret pour reviser avec toi</h2>
+              <p class="context-show__assistant-text mb-4">
+                Pose une question, demande un resume ou fais-toi expliquer une notion importante du cours.
+              </p>
+
+              <%= button_to "Discuter avec mon assistant IA",
+                context_chats_path(@context),
+                method: :post,
+                class: "context-show__assistant-btn border-0 w-100" %>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4 mt-2">
+          <div class="col-lg-5">
+            <div class="context-show__section">
+              <div class="context-show__section-label mb-3">Informations</div>
+              <div class="context-info-list">
+                <div class="context-info-item">
+                  <span class="context-info-label">Niveau</span>
+                  <span class="context-info-value"><%= @context.level %></span>
+                </div>
+
+                <div class="context-info-item">
+                  <span class="context-info-label">Date</span>
+                  <span class="context-info-value"><%= @context.date %></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-7">
+            <div class="context-show__section">
+              <div class="context-show__section-label mb-3">Document</div>
+
+              <% if @context.document.attached? %>
+                <div class="context-show__doc-card">
+                  <div>
+                    <h2 class="context-show__doc-title mb-2">Ton cours est disponible</h2>
+                    <p class="context-show__doc-text mb-0">
+                      Tu peux l'ouvrir pour le consulter rapidement ou le telecharger pour le garder avec toi.
+                    </p>
+                  </div>
+
+                  <div class="context-show__doc-actions mt-4">
+                    <%= link_to "Ouvrir mon cours",
+                        url_for(@context.document),
+                        target: "_blank",
+                        class: "document-btn text-decoration-none" %>
+
+                    <%= link_to "Telecharger mon cours",
+                        rails_blob_path(@context.document, disposition: "attachment"),
+                        class: "document-btn text-decoration-none" %>
+                  </div>
+                </div>
+              <% else %>
+                <div class="context-show__doc-card context-show__doc-card--empty">
+                  <h2 class="context-show__doc-title mb-2">Aucun document ajoute</h2>
+                  <p class="context-show__doc-text mb-0">
+                    Ce cours n'a pas encore de document attache. Tu peux quand meme utiliser la fiche et creer une discussion avec l'assistant.
+                  </p>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
