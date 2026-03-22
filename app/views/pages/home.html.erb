@@ -4,8 +4,16 @@
       <div class="container">
         <div class="d-flex justify-content-between align-items-start">
           <div class="home-banner-copy">
-            <h1 class="mb-3">Révisez vos cours avec un assistant IA !</h1>
-            <p class="mb-4">Importez votre cours, posez vos questions, révisez plus efficacement.</p>
+            <% if user_signed_in? %>
+              <h1 class="mb-3">
+                Salut <br>
+                <%=current_user.email.split("@").first%> !
+              </h1>
+              <p class="mb-4">Importez votre cours, posez vos questions, révisez plus efficacement.</p>
+            <% else %>
+              <h1 class="mb-3">Révisez vos cours avec un assistant IA !</h1>
+              <p class="mb-4">Importez votre cours, posez vos questions, révisez plus efficacement.</p>
+            <% end %>
 
             <% if user_signed_in? %>
               <%= link_to new_context_path, class: "home-cta text-decoration-none" do %>
