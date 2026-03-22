@@ -1,5 +1,6 @@
 // Import page-specific CSS files here.
 @import "home";
+
 .contexts-page {
   min-height: 100vh;
   background: linear-gradient(180deg, #f5f5f7 0%, #eceef2 100%);
@@ -20,44 +21,71 @@
   color: #111827;
 }
 
-.new-context-btn {
-  min-height: 52px;
-  padding: 0.85rem 1.4rem;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #1f2937 0%, #111827 100%);
-  color: #ffffff;
-  font-weight: 600;
-  box-shadow:
-    0 10px 24px rgba(17, 24, 39, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  transition: all 0.2s ease;
+.dashboard-cta-wrap {
+  display: flex;
+  justify-content: flex-start;
 }
 
-.new-context-btn:hover {
-  color: #ffffff;
-  transform: translateY(-1px);
-  box-shadow:
-    0 16px 30px rgba(17, 24, 39, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+.dashboard-cta-wrap .home-cta {
+  width: 100%;
+  max-width: 360px;
 }
+
+.empty-dashboard-cta {
+  display: flex;
+  justify-content: center;
+}
+
+.empty-dashboard-cta .home-cta {
+  width: 100%;
+  max-width: 360px;
+}
+
+@media (min-width: 768px) {
+  .dashboard-cta-wrap {
+    justify-content: flex-end;
+  }
+}
+
+/* =========================
+   CARD BASE + THEME SYSTEM
+   ========================= */
 
 .context-card {
+  --subject-card-bg: rgba(255, 255, 255, 0.78);
+  --subject-card-border: rgba(255, 255, 255, 0.72);
+  --subject-card-inner: rgba(255, 255, 255, 0.82);
+
+  --subject-badge-bg: #eef2f7;
+  --subject-badge-color: #5b6472;
+
+  --subject-soft-bg: rgba(248, 250, 252, 0.92);
+  --subject-soft-border: rgba(226, 232, 240, 0.8);
+
+  --subject-btn-bg: rgba(255, 255, 255, 0.92);
+  --subject-btn-border: rgba(17, 24, 39, 0.08);
+  --subject-btn-hover-bg: rgba(255, 255, 255, 1);
+
+  --subject-accent: #111827;
+  --subject-shadow: rgba(15, 23, 42, 0.08);
+  --subject-shadow-hover: rgba(15, 23, 42, 0.12);
+
   height: 100%;
   border-radius: 28px;
-  background: rgba(255, 255, 255, 0.78);
+  background: var(--subject-card-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--subject-card-border);
   box-shadow:
-    0 16px 40px rgba(15, 23, 42, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.82);
+    0 16px 40px var(--subject-shadow),
+    inset 0 1px 0 var(--subject-card-inner);
   transition: transform 0.22s ease, box-shadow 0.22s ease;
 }
 
 .context-card:hover {
   transform: translateY(-4px);
   box-shadow:
-    0 24px 50px rgba(15, 23, 42, 0.12),
+    0 24px 50px var(--subject-shadow-hover),
     inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
@@ -70,8 +98,8 @@
   align-items: center;
   padding: 0.38rem 0.8rem;
   border-radius: 999px;
-  background: #eef2f7;
-  color: #5b6472;
+  background: var(--subject-badge-bg);
+  color: var(--subject-badge-color);
   font-size: 0.88rem;
   font-weight: 600;
 }
@@ -95,8 +123,8 @@
   align-items: center;
   padding: 0.95rem 1rem;
   border-radius: 18px;
-  background: rgba(248, 250, 252, 0.92);
-  border: 1px solid rgba(226, 232, 240, 0.8);
+  background: var(--subject-soft-bg);
+  border: 1px solid var(--subject-soft-border);
 }
 
 .context-info-label {
@@ -118,10 +146,10 @@
   min-height: 44px;
   padding: 0.75rem 1.05rem;
   border-radius: 999px;
-  background: #ffffff;
+  background: var(--subject-btn-bg);
   color: #111827;
   font-weight: 600;
-  border: 1px solid rgba(17, 24, 39, 0.08);
+  border: 1px solid var(--subject-btn-border);
   box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
   transition: all 0.2s ease;
 }
@@ -129,8 +157,98 @@
 .document-btn:hover {
   color: #111827;
   transform: translateY(-1px);
+  background: var(--subject-btn-hover-bg);
   box-shadow: 0 12px 26px rgba(15, 23, 42, 0.1);
 }
+
+.new-context-btn {
+  --cta-red: #e60f05;
+  --cta-red-dark: #9f140f;
+  --cta-amber: #ff8a1f;
+  --cta-cream: #fff2dd;
+  position: relative;
+  padding: 1rem 3.5rem 1rem 1.35rem;
+  border-radius: 24px;
+  overflow: hidden;
+  color: #fffdf8;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  background:
+    radial-gradient(circle at top left, rgba(255, 234, 204, 0.3), transparent 38%),
+    linear-gradient(135deg, var(--cta-red) 0%, #f04d17 42%, var(--cta-amber) 100%);
+  border: 1px solid rgba(255, 244, 229, 0.34);
+  box-shadow:
+    0 18px 34px rgba(159, 20, 15, 0.34),
+    inset 0 1px 0 rgba(255, 248, 240, 0.38),
+    inset 0 -8px 18px rgba(122, 10, 7, 0.18);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
+}
+
+.new-context-btn::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: 23px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 42%);
+  pointer-events: none;
+}
+
+.new-context-btn::after {
+  content: ">";
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--cta-red-dark);
+  background: linear-gradient(180deg, #fff7ea 0%, var(--cta-cream) 100%);
+  box-shadow:
+    0 8px 18px rgba(122, 10, 7, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.new-context-btn:hover {
+  color: #fffdf8;
+  transform: translateY(-3px) scale(1.01);
+  filter: saturate(1.04);
+  box-shadow:
+    0 24px 42px rgba(159, 20, 15, 0.42),
+    inset 0 1px 0 rgba(255, 248, 240, 0.44),
+    inset 0 -8px 18px rgba(122, 10, 7, 0.24);
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  transition: transform 0.18s ease, opacity 0.18s ease;
+}
+
+.icon-btn:hover {
+  transform: scale(1.08);
+  opacity: 0.85;
+}
+
+.icon-btn.danger:hover {
+  opacity: 0.75;
+}
+
+/* =========================
+   EMPTY STATE
+   ========================= */
 
 .empty-context-state {
   padding: 5rem 0;
@@ -161,4 +279,116 @@
 .empty-context-text {
   color: #6b7280;
   font-size: 1.05rem;
+}
+
+/* =========================
+   SUBJECT THEMES
+   ========================= */
+
+.theme-default {
+  --subject-card-bg: rgba(255, 255, 255, 0.78);
+  --subject-card-border: rgba(255, 255, 255, 0.72);
+  --subject-card-inner: rgba(255, 255, 255, 0.82);
+
+  --subject-badge-bg: #eef2f7;
+  --subject-badge-color: #5b6472;
+
+  --subject-soft-bg: rgba(248, 250, 252, 0.92);
+  --subject-soft-border: rgba(226, 232, 240, 0.8);
+
+  --subject-btn-bg: rgba(255, 255, 255, 0.92);
+  --subject-btn-border: rgba(17, 24, 39, 0.08);
+  --subject-btn-hover-bg: rgba(255, 255, 255, 1);
+
+  --subject-accent: #111827;
+}
+
+.theme-maths {
+  --subject-card-bg: rgba(232, 241, 255, 0.82);
+  --subject-card-border: rgba(196, 216, 255, 0.9);
+  --subject-card-inner: rgba(255, 255, 255, 0.7);
+
+  --subject-badge-bg: #dce8ff;
+  --subject-badge-color: #4666ae;
+
+  --subject-soft-bg: rgba(244, 248, 255, 0.96);
+  --subject-soft-border: rgba(198, 215, 246, 0.95);
+
+  --subject-btn-bg: rgba(255, 255, 255, 0.9);
+  --subject-btn-border: rgba(84, 125, 199, 0.16);
+  --subject-btn-hover-bg: rgba(248, 251, 255, 1);
+
+  --subject-accent: #3f63b3;
+}
+
+.theme-histoire {
+  --subject-card-bg: rgba(255, 244, 233, 0.82);
+  --subject-card-border: rgba(245, 220, 194, 0.92);
+  --subject-card-inner: rgba(255, 255, 255, 0.68);
+
+  --subject-badge-bg: #f6e1cf;
+  --subject-badge-color: #9a5d39;
+
+  --subject-soft-bg: rgba(255, 249, 243, 0.96);
+  --subject-soft-border: rgba(241, 218, 195, 0.95);
+
+  --subject-btn-bg: rgba(255, 255, 255, 0.9);
+  --subject-btn-border: rgba(154, 93, 57, 0.14);
+  --subject-btn-hover-bg: rgba(255, 252, 248, 1);
+
+  --subject-accent: #9a5d39;
+}
+
+.theme-francais {
+  --subject-card-bg: rgba(255, 240, 247, 0.82);
+  --subject-card-border: rgba(245, 210, 228, 0.92);
+  --subject-card-inner: rgba(255, 255, 255, 0.72);
+
+  --subject-badge-bg: #ffdceb;
+  --subject-badge-color: #b0517d;
+
+  --subject-soft-bg: rgba(255, 248, 252, 0.96);
+  --subject-soft-border: rgba(244, 213, 229, 0.95);
+
+  --subject-btn-bg: rgba(255, 255, 255, 0.9);
+  --subject-btn-border: rgba(176, 81, 125, 0.14);
+  --subject-btn-hover-bg: rgba(255, 251, 253, 1);
+
+  --subject-accent: #b0517d;
+}
+
+.theme-langues {
+  --subject-card-bg: rgba(243, 239, 255, 0.84);
+  --subject-card-border: rgba(220, 210, 250, 0.94);
+  --subject-card-inner: rgba(255, 255, 255, 0.72);
+
+  --subject-badge-bg: #e7ddff;
+  --subject-badge-color: #6e56b4;
+
+  --subject-soft-bg: rgba(250, 248, 255, 0.96);
+  --subject-soft-border: rgba(223, 214, 248, 0.95);
+
+  --subject-btn-bg: rgba(255, 255, 255, 0.9);
+  --subject-btn-border: rgba(110, 86, 180, 0.14);
+  --subject-btn-hover-bg: rgba(252, 251, 255, 1);
+
+  --subject-accent: #6e56b4;
+}
+
+.theme-sciences {
+  --subject-card-bg: rgba(236, 251, 244, 0.84);
+  --subject-card-border: rgba(201, 235, 218, 0.95);
+  --subject-card-inner: rgba(255, 255, 255, 0.72);
+
+  --subject-badge-bg: #d9f2e5;
+  --subject-badge-color: #327c5d;
+
+  --subject-soft-bg: rgba(247, 255, 251, 0.96);
+  --subject-soft-border: rgba(204, 236, 220, 0.95);
+
+  --subject-btn-bg: rgba(255, 255, 255, 0.9);
+  --subject-btn-border: rgba(50, 124, 93, 0.14);
+  --subject-btn-hover-bg: rgba(250, 255, 252, 1);
+
+  --subject-accent: #327c5d;
 }

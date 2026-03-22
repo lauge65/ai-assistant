@@ -33,7 +33,9 @@
       <% end %>
     </div>
 
-  <%= render "shared/footer" %>
+  <% if controller_name == "pages" && action_name == "home" %>
+    <%= render "shared/footer" %>
+  <% end %>
 
   </body>
 </html>
