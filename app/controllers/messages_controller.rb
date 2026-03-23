@@ -31,7 +31,17 @@ class MessagesController < ApplicationController
 
     # lier le document à l'envoi vers le LLM
     response = if @context.document.attached? && @context.document.content_type == "application/pdf"
-    @ruby_llm_chat.ask(user_content, with: { pdf: @context.document.url })
+      # Télécharger le PDF dans un fichier temporaire pour éviter les problèmes d'auth Cloudinary
+      temp_file = Tempfile.new(['document', '.pdf'])
+      begin
+        temp_file.binmode
+        @context.document.download { |chunk| temp_file.write(chunk) }
+        temp_file.rewind
+        @ruby_llm_chat.ask(user_content, with: { pdf: temp_file.path })
+      ensure
+        temp_file.close
+        temp_file.unlink
+      end
     else
       @ruby_llm_chat.ask(user_content)
     end
