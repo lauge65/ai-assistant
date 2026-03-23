@@ -31,16 +31,15 @@ class MessagesController < ApplicationController
 
     # lier le document à l'envoi vers le LLM
     response = if @context.document.attached? && @context.document.content_type == "application/pdf"
-      # Télécharger le PDF dans un fichier temporaire pour éviter les problèmes d'auth Cloudinary
-      temp_file = Tempfile.new(['document', '.pdf'])
+      # Télécharger le PDF via Active Storage open (gère l'authentification Cloudinary)
       begin
-        temp_file.binmode
-        @context.document.download { |chunk| temp_file.write(chunk) }
-        temp_file.rewind
-        @ruby_llm_chat.ask(user_content, with: { pdf: temp_file.path })
-      ensure
-        temp_file.close
-        temp_file.unlink
+        @context.document.open do |temp_file|
+          @ruby_llm_chat.ask(user_content, with: { pdf: temp_file.path })
+        end
+      rescue ActiveStorage::IntegrityError, ActiveStorage::FileNotFoundError => e
+        # Si le fichier est inaccessible, répondre sans le PDF
+        Rails.logger.error("Document inaccessible pour context #{@context.id}: #{e.message}")
+        @ruby_llm_chat.ask(user_content + "\n\n(Note: Le document PDF n'est pas accessible actuellement, réponds du mieux possible sans le document.)")
       end
     else
       @ruby_llm_chat.ask(user_content)
