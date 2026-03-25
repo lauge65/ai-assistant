@@ -29,3 +29,21 @@
 
 en:
   hello: "Hello world"
+  helpers:
+    submit:
+      create: "Créer"
+      update: "Mettre à jour"
+      submit: "Envoyer"
+      context:
+        create: "Créer"
+        update: "Mettre à jour"
+
+fr:
+  helpers:
+    submit:
+      create: "Créer"
+      update: "Mettre à jour"
+      submit: "Envoyer"
+      context:
+        create: "Créer"
+        update: "Mettre à jour"

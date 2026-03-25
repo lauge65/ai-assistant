@@ -9,22 +9,51 @@
 <% end %>
 
 <%= simple_form_for @context, html: { class: "context-form" } do |f| %>
-  <%= f.input :title,
-      label: "Titre du cours",
-      placeholder: "Exemple : Les melanges et corps purs",
-      input_html: { class: "context-form__input" } %>
-  <%= f.input :level,
-          label: "Niveau",
-          include_blank: "Choisir un niveau",
-          collection: ["CP", "CE1", "CE2", "CM1", "CM2", "6ème", "5ème", "4ème", "3ème", "Seconde", "Première", "Terminale"],
-          input_html: { class: "form-select context-form__input" } %>
-  <%= f.input :subject,
-          label: "Matiere",
-          include_blank: "Choisir une matière",
-          collection: ["Physique-Chimie", "Géographie"],
-          input_html: { class: "form-select context-form__input" } %>
-  <%= f.input :date, as: :date, label: "Date du cours", input_html: { class: "context-form__input" } %>
-  <%= f.input :document, as: :file, label: "Document du cours", input_html: { class: "context-form__input" } %>
+  <div class="context-form__section">
+    <h3 class="context-form__section-title">Informations du cours</h3>
+
+    <%= f.input :title,
+          label: "Titre du cours",
+          placeholder: "Exemple : Les melanges et corps purs",
+          input_html: { class: "form-control context-form__input" } %>
+
+    <div class="row">
+      <div class="col-md-6">
+        <%= f.input :level,
+              label: "Niveau",
+              include_blank: "Choisir un niveau",
+              collection: ["CP", "CE1", "CE2", "CM1", "CM2", "6ème", "5ème", "4ème", "3ème", "Seconde", "Première", "Terminale"],
+              input_html: { class: "form-select context-form__select" } %>
+      </div>
+
+      <div class="col-md-6">
+        <%= f.input :date,
+              as: :date,
+              label: "Date du cours",
+              input_html: { class: "form-control context-form__input" } %>
+      </div>
+    </div>
+  </div>
+
+  <div class="context-form__section">
+    <h3 class="context-form__section-title">Matiere</h3>
+    <div class="context-form__radio-grid">
+      <%= f.input :subject,
+            label: false,
+            collection: ["Physique-Chimie", "Histoire-Géographie", "EMC", "Mathématiques", "SVT", "Histoire", "Français", "Langues", "Technologie", "Arts plastiques", "Éducation musicale", "SES", "SNT"],
+            as: :radio_buttons,
+            item_wrapper_class: "context-form__radio-item" %>
+    </div>
+  </div>
+
+  <div class="context-form__section">
+    <h3 class="context-form__section-title">Document PDF</h3>
+    <p class="context-form__hint">Importe ton cours au format PDF.</p>
+    <%= f.input :document,
+          as: :file,
+          label: false,
+          input_html: { class: "form-control context-form__file", accept: "application/pdf" } %>
+  </div>
 
   <div class="context-form__actions">
     <%= link_to contexts_path, class: "document-btn text-decoration-none" do %>
@@ -32,6 +61,11 @@
       <span>Retour a mes cours</span>
     <% end %>
 
-    <%= f.button :submit, button_text, class: "context-form__submit border-0" %>
+    <div class="d-flex justify-content-center">
+      <%= f.button :submit, class: "home-cta border-0" do %>
+        <span class="home-cta-label"><%= button_text %></span>
+        <span class="home-cta-note">Cree mon assistant de revision</span>
+      <% end %>
+    </div>
   </div>
 <% end %>

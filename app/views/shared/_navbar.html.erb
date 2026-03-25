@@ -11,24 +11,32 @@
       <ul class="navbar-nav me-auto">
         <% if user_signed_in? %>
           <li class="nav-item active">
-            <%= link_to "Dashboard", "/contexts", class: "nav-link" %>
+            <%= link_to "Mes cours", "/contexts", class: "nav-link" %>
           </li>
-          <li class="nav-item">
-            <%= link_to "My contexts", "#", class: "nav-link", data: { action: "click->toggle#call" } %>
-          </li>
+
+        <% last_context = current_user.contexts.order(created_at: :desc).first %>
+        <% last_chat = last_context&.chats&.last %>
+
+        <li class="nav-item">
+          <% if last_chat %>
+            <%= link_to "Reprendre ma révision", chat_path(last_chat), class: "nav-link" %>
+          <% else %>
+            <%= link_to "Reprendre ma révision", contexts_path, class: "nav-link text-muted" %>
+          <% end %>
+        </li>
+
           <li class="nav-item dropdown">
           <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar", alt: "dropdown menu" %>
+            <%= image_tag "image-log.png", class: "avatar", alt: "dropdown menu" %>
           </a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <%= link_to "Action", "#", class: "dropdown-item" %>
-              <%= link_to "Another action", "#", class: "dropdown-item" %>
-              <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
+              <%= link_to "Mon compte", "#", class: "dropdown-item" %>
+              <%= link_to "Se déconnecter", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
             </div>
           </li>
         <% else %>
           <li class="nav-item">
-            <%= link_to "Login", new_user_session_path, class: "nav-link" %>
+            <%= link_to "Connexion", new_user_session_path, class: "nav-link" %>
           </li>
         <% end %>
       </ul>

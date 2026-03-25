@@ -688,3 +688,156 @@
 
   --subject-accent: #327c5d;
 }
+
+/* =========================
+   Mise en place du formulaire
+   ========================= */
+
+.context-form-card {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow:
+    0 20px 50px rgba(15, 23, 42, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.context-form__section {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+}
+
+.context-form__section:last-of-type {
+  border-bottom: none;
+  margin-bottom: 1.5rem;
+}
+
+.context-form__section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.context-form__input,
+.context-form__select {
+  padding: 0.85rem 1rem;
+  border-radius: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: rgba(255, 255, 255, 0.9);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.context-form__input:focus,
+.context-form__select:focus {
+  border-color: rgba(230, 15, 5, 0.4);
+  box-shadow: 0 0 0 4px rgba(230, 15, 5, 0.08);
+  outline: none;
+}
+
+.context-form__hint {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-bottom: 0.75rem;
+}
+
+.context-form__file {
+  padding: 1rem;
+  border-radius: 16px;
+  border: 2px dashed rgba(148, 163, 184, 0.5);
+  background: rgba(248, 250, 252, 0.8);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.context-form__file:hover {
+  border-color: rgba(230, 15, 5, 0.4);
+  background: rgba(255, 248, 240, 0.5);
+}
+
+.context-form__radio-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.context-form__radio-item {
+  display: inline-block;
+}
+
+.context-form__radio-item label {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  background: rgba(248, 250, 252, 0.9);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.context-form__radio-item label:hover {
+  background: rgba(255, 248, 240, 0.8);
+  border-color: rgba(230, 15, 5, 0.3);
+}
+
+.context-form__radio-item input[type="radio"] {
+  display: none;
+}
+
+.context-form__radio-item input[type="radio"]:checked + label,
+.context-form__radio-item label:has(input[type="radio"]:checked) {
+  background: linear-gradient(135deg, #e60f05 0%, #ff8a1f 100%);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(230, 15, 5, 0.25);
+}
+
+.context-form__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.context-form__actions .home-cta {
+  width: 100%;
+  max-width: 360px;
+}
+
+.context-form__back-link {
+  font-size: 0.95rem;
+  color: #6b7280;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.context-form__back-link:hover {
+  color: #e60f05;
+}
+
+@media (max-width: 767px) {
+  .context-form-card {
+    padding: 1.25rem;
+    border-radius: 20px;
+  }
+
+  .context-form__radio-grid {
+    gap: 0.4rem;
+  }
+
+  .context-form__radio-item label {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+  }
+}
