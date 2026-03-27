@@ -14,7 +14,7 @@
       <h3 class="context-form__section-title">📚 Informations du cours</h3>
 
       <%= f.input :title,
-            label: "Titre du cours",
+            label: "Titre : ",
             placeholder: "Ex: Le système solaire",
             input_html: { class: "form-control context-form__input" } %>
 
@@ -31,7 +31,7 @@
                 as: :string,
                 label: "Date du cours",
                 placeholder: "Choisir une date",
-                input_html: { 
+                input_html: {
                   class: "form-control context-form__input",
                   data: {controller: "flatpickr"} } %>
         </div>
@@ -39,10 +39,9 @@
     </div>
 
     <div class="context-form__section">
-      <h3 class="context-form__section-title">📖 Matière</h3>
       <div class="context-form__radio-grid">
         <%= f.input :subject,
-              label: false,
+              label: "📖 Matière",
               collection: ["Physique-Chimie", "Histoire-Géographie", "EMC", "Mathématiques", "SVT", "Histoire", "Français", "Langues", "Technologie", "Arts plastiques", "Éducation musicale", "SES", "SNT"],
               as: :radio_buttons,
               item_wrapper_class: "context-form__radio-item" %>
