@@ -60,9 +60,17 @@
                     <% if context.chats.any? %>
                       <div class="d-flex flex-column gap-2">
                         <% context.chats.each_with_index do |chat, index| %>
-                          <%= link_to "🤖 Assistant ##{index + 1}",
-                            chat_path(chat),
-                            class: "document-btn text-decoration-none" %>
+                          <div class="d-flex align-items-center">
+                            <%= link_to "🤖 Assistant ##{index + 1}",
+                              chat_path(chat),
+                              class: "document-btn text-decoration-none" %>
+                            <%= link_to chat_path(chat),
+                              data: { turbo_method: :delete, turbo_confirm: "Supprimer ce cours et l'assistant associé ?" },
+                              class: "icon-btn danger" do %>
+                                ✖
+                            <% end %>
+                          </div>
+
                         <% end %>
                       </div>
                     <% end %>

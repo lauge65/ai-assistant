@@ -20,4 +20,10 @@ class ChatsController < ApplicationController
     @context = @chat.context
     @message = Message.new
   end
+
+  def destroy
+    @chat = Chat.joins(:context).where(contexts: { user_id: current_user.id }).find(params[:id])
+    @chat.destroy
+    redirect_to contexts_path, notice: "Assistant supprimé."
+  end
 end
