@@ -28,9 +28,12 @@
         </div>
         <div class="col-md-6">
           <%= f.input :date,
-                as: :date,
+                as: :string,
                 label: "Date du cours",
-                input_html: { class: "form-control context-form__input" } %>
+                placeholder: "Choisir une date",
+                input_html: { 
+                  class: "form-control context-form__input",
+                  data: {controller: "flatpickr"} } %>
         </div>
       </div>
     </div>
