@@ -1,5 +1,6 @@
 class MessagesController < ApplicationController
   before_action :authenticate_user!
+  include ActionView::RecordIdentifier
 
   SYSTEM_PROMPT = <<~PROMPT
     Tu es un assistant pédagogique.
@@ -18,49 +19,82 @@ class MessagesController < ApplicationController
     #récupérer les données du form
     user_content = message_params[:content]
 
-    # pour lancer ruby_llm sur gemini avec un modèle capable de lire les pdf
+    #1 enregistrer le message user
+    @user_message = Message.create!(chat: @chat, role: "user", content: user_content)
+
+    # Broadcaster immédiatement le message utilisateur
+    Turbo::StreamsChannel.broadcast_append_to(
+      "chat_#{@chat.id}",
+      target: "messages",
+      partial: "messages/message",
+      locals: { message: @user_message }
+    )
+
+    #2 Créer le message assistant VIDE en base AVANT l'appel LLM
+    #    → indispensable pour pouvoir le broadcaster dans le bloc chunk
+    @assistant_message = Message.create!(chat: @chat, role: "assistant", content: "")
+
+    # Broadcaster immédiatement le message assistant vide (sera mis à jour par le streaming)
+    Turbo::StreamsChannel.broadcast_append_to(
+      "chat_#{@chat.id}",
+      target: "messages",
+      partial: "messages/message",
+      locals: { message: @assistant_message }
+    )
+
+
+    #3 Construire le chat RubyLLM avec ruby_llm sur gemini avec un modèle capable de lire les pdf
     @ruby_llm_chat = RubyLLM.chat(model: "gemini-2.5-flash").with_instructions(instructions)
     build_conversation_history
 
-    # enregistrer le message user
-    @user_message = Message.create!(
-      chat: @chat,
-      role: "user",
-      content: user_content
+    # 4. Appel LLM avec streaming
+    accumulated_content = ""
+
+    streaming_block = lambda do |chunk|
+      next if chunk.content.blank?
+
+      accumulated_content += chunk.content
+
+      # Mettre à jour le contenu en mémoire (pas en base à chaque chunk = trop lent)
+      @assistant_message.content = accumulated_content
+
+      # Broadcaster le message mis à jour via ActionCable → Turbo Stream
+      Turbo::StreamsChannel.broadcast_replace_to(
+        "chat_#{@chat.id}",
+        target: dom_id(@assistant_message),
+        partial: "messages/message",
+        locals: { message: @assistant_message }
       )
+    end
 
     # lier le document à l'envoi vers le LLM
-    response = if @context.document.attached? && @context.document.content_type == "application/pdf"
-      # Télécharger le PDF via Active Storage open (gère l'authentification Cloudinary)
+    if @context.document.attached? && @context.document.content_type == "application/pdf"
+      # Télécharger le PDF via Active Storage localement (nécessaire pour Gemini, une URL ne suffit pas)
       begin
         @context.document.open do |temp_file|
-          @ruby_llm_chat.ask(user_content, with: { pdf: temp_file.path })
+          @ruby_llm_chat.ask(user_content, with: { pdf: temp_file.path }, &streaming_block)
         end
       rescue ActiveStorage::IntegrityError, ActiveStorage::FileNotFoundError => e
         # Si le fichier est inaccessible, répondre sans le PDF
         Rails.logger.error("Document inaccessible pour context #{@context.id}: #{e.message}")
-        @ruby_llm_chat.ask(user_content + "\n\n(Note: Le document PDF n'est pas accessible actuellement, réponds du mieux possible sans le document.)")
+        fallback = user_content + "\n\n(Note: Le document PDF n'est pas accessible actuellement.)"
+        @ruby_llm_chat.ask(fallback, &streaming_block)
       end
     else
-      @ruby_llm_chat.ask(user_content)
+      @ruby_llm_chat.ask(user_content, &streaming_block)
     end
 
-    #enregitrer le message assistant ia
-    @assistant_message = Message.create!(
-      chat: @chat,
-      role: "assistant",
-      content: response.content
-    )
+    # 5. Sauvegarder le contenu final en base (une seule écriture)
+    @assistant_message.update!(content: accumulated_content)
 
-    #créer une instance vide pour le prochain message
+    #6. créer une instance vide pour le prochain message
     @message = Message.new
 
-    # pour ne pas que cela remonte à chaque réponse
+    # 7. pour ne pas que cela remonte à chaque réponse
     respond_to do |format|
       format.turbo_stream
       format.html { redirect_to chat_path(@chat) }
     end
-
   end
 
 
@@ -73,12 +107,7 @@ class MessagesController < ApplicationController
 
   # instruction du prompts
   def instructions
-    [
-      SYSTEM_PROMPT,
-      level_context,
-      subject_context,
-      document_context
-    ].compact.join("\n\n")
+    [SYSTEM_PROMPT, level_context, subject_context, document_context].compact.join("\n\n")
   end
 
   def level_context
@@ -91,40 +120,14 @@ class MessagesController < ApplicationController
 
   def document_context
     return unless @context.document.attached?
-
     "Un document est associé à ce contexte. Son contenu détaillé pourra être exploité ensuite."
   end
 
   #méthode pour construire l'historique
   def build_conversation_history
-    @chat.messages.order(:created_at).each do |message|
-      @ruby_llm_chat.add_message(
-        role: message.role,
-        content: message.content
-      )
+    # On exclut le message assistant vide créé juste avant, il ne doit pas être dans l'historique
+    @chat.messages.where.not(id: @assistant_message.id).order(:created_at).each do |message|
+      @ruby_llm_chat.add_message(role: message.role, content: message.content)
     end
   end
 end
-
-
-# Ancien code que j'ai modifié pour mettre en place l'historique du chat
-    # @message = Message.new(message_params)
-    # @message.chat = @chat
-    # @message.role = "user"
-
-  #   if @message.save
-  #     @ruby_llm_chat = RubyLLM.chat
-  #     build_conversation_history
-  #     response = @ruby_llm_chat.with_instructions(instructions).ask(@message.content)
-
-  #     Message.create!(
-  #       chat: @chat,
-  #       role: "assistant",
-  #       content: response.content
-  #     )
-
-  #     redirect_to chat_path(@chat)
-  #   else
-  #     render "chats/show", status: :unprocessable_entity
-  #   end
-  # end
