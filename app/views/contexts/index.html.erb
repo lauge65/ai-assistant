@@ -69,9 +69,10 @@
                             <span>Assistant #<%= index + 1 %></span>
                           <% end %>
 
-                          <%= link_to chat_path(chat),
-                              data: { turbo_method: :delete, turbo_confirm: "Supprimer cet assistant et toute sa discussion ?" },
-                              class: "icon-btn danger",
+                          <%= button_to chat_path(chat),
+                              method: :delete,
+                              form: { data: { turbo_confirm: "Supprimer cet assistant et toute sa discussion ?" }, class: "d-inline" },
+                              class: "icon-btn danger border-0",
                               aria: { label: "Supprimer l'assistant ##{index + 1}" } do %>
                             <i class="fa-solid fa-trash"></i>
                           <% end %>
