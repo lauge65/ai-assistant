@@ -1,3 +1,5 @@
+<%= turbo_stream_from "chat_#{@chat.id}" %>
+
 <div class="contexts-page py-5">
   <div class="container">
     <div class="mb-4">
@@ -80,7 +82,7 @@
             <i class="fa-solid fa-trash"></i>
           <% end %>
         </div>
-          <div id="messages" class="chat-thread">
+          <div id="messages" class="chat-thread" data-controller="autoscroll">
             <% if @chat.messages.any? %>
               <%= render @chat.messages %>
             <% else %>

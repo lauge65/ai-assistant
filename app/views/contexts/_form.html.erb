@@ -28,9 +28,13 @@
 
       <div class="col-md-6">
         <%= f.input :date,
-              as: :date,
+              as: :string,
               label: "Date du cours",
-              input_html: { class: "form-control context-form__input" } %>
+              placeholder: "Choisir une date",
+              input_html: {
+                class: "form-control context-form__input",
+                data: { controller: "flatpickr" }
+              } %>
       </div>
     </div>
   </div>
@@ -48,7 +52,7 @@
 
   <div class="context-form__section">
     <h3 class="context-form__section-title">Document PDF</h3>
-    <p class="context-form__hint">Importe ton cours au format PDF.</p>
+    <p class="context-form__hint">Importe ton cours au format PDF (max 10 Mo).</p>
     <%= f.input :document,
           as: :file,
           label: false,

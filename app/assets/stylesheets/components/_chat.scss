@@ -137,6 +137,8 @@
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.62) 0%, rgba(244, 247, 251, 0.9) 100%);
   border: 1px solid rgba(203, 213, 225, 0.65);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  max-height: 60vh;
+  overflow-y: auto;
 }
 
 .chat-message {
