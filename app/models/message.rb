@@ -3,7 +3,8 @@ class Message < ApplicationRecord
   belongs_to :chat
 
   validates :role, inclusion: { in: %w[user assistant] }
-  validates :content, presence: true
+  # Permettre le contenu vide pour les messages assistant (streaming)
+  validates :content, presence: true, if: -> { role == "user" }
 
   validate :user_message_limit, if: -> { role == "user" }
 
