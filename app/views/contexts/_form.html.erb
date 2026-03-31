@@ -17,8 +17,8 @@
           placeholder: "Exemple : Les melanges et corps purs",
           input_html: { class: "form-control context-form__input" } %>
 
-    <div class="row">
-      <div class="col-md-6">
+    <div class="row context-form__row">
+      <div class="col-md-6 context-form__field">
         <%= f.input :level,
               label: "Niveau",
               include_blank: "Choisir un niveau",
@@ -26,7 +26,7 @@
               input_html: { class: "form-select context-form__select" } %>
       </div>
 
-      <div class="col-md-6">
+      <div class="col-md-6 context-form__field">
         <%= f.input :date,
               as: :string,
               label: "Date du cours",

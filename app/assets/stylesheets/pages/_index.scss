@@ -725,6 +725,14 @@
   margin-bottom: 1rem;
 }
 
+.context-form__row {
+  align-items: flex-end;
+}
+
+.context-form__field .form-label {
+  min-height: 1.5rem;
+}
+
 .context-form__input,
 .context-form__select {
   padding: 0.85rem 1rem;
