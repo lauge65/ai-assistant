@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_03_11_193032) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_31_110000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -46,7 +46,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_11_193032) do
     t.bigint "context_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "share_token", null: false
     t.index ["context_id"], name: "index_chats_on_context_id"
+    t.index ["share_token"], name: "index_chats_on_share_token", unique: true
   end
 
   create_table "contexts", force: :cascade do |t|

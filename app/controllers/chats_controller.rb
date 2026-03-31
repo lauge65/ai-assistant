@@ -19,6 +19,7 @@ class ChatsController < ApplicationController
   def show
     @context = @chat.context
     @message = Message.new
+    @share_url = shared_chat_url(@chat.share_token) if @chat.supports_share_token? && @chat.share_token.present?
   end
 
   def destroy
