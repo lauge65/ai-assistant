@@ -9,9 +9,9 @@ body {
   min-height: 70vh;
   display: flex;
   align-items: center;
-  background-image: image-url("easy-learn-banner.png");
+  background-image: image-url("banbannew.png");
   background-size: cover;
-  background-position: center 35%;
+  background-position: center;
   background-repeat: no-repeat;
 }
 
@@ -334,7 +334,7 @@ body {
 @media (max-width: 768px) {
   .home-banner {
     min-height: 40vh;
-    background-position: center, center;
+    background-position: center;
   }
 
   .home-banner .container {
