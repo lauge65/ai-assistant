@@ -39,11 +39,26 @@
           </div>
           </div>
         <div class="d-flex align-items-center">
-  <div class="mt-4">
+  <div class="mt-4 d-flex flex-column gap-3">
     <%= button_to "Créer un nouvel assistant sur le même cours",
       context_chats_path(@context),
       method: :post,
       class: "new-context-btn border-0 text-decoration-none d-inline-flex align-items-center justify-content-center" %>
+
+    <% if @context.document.attached? %>
+      <% if @context.podcast_script&.completed? %>
+        <%= link_to download_context_podcast_script_path(@context),
+                    class: "podcast-btn text-decoration-none d-inline-flex align-items-center justify-content-center",
+                    data: { turbo: false } do %>
+          🎙️ Télécharger le script podcast
+        <% end %>
+      <% else %>
+        <%= button_to "🎙️ Générer un script podcast",
+          context_podcast_script_path(@context),
+          method: :post,
+          class: "podcast-btn border-0 text-decoration-none d-inline-flex align-items-center justify-content-center" %>
+      <% end %>
+    <% end %>
   </div>
 </div>
         </div>
