@@ -5,6 +5,7 @@ class PodcastScriptsController < ApplicationController
   PODCAST_PROMPT = <<~PROMPT
     Rôle : Tu es un enseignant expert en pédagogie et un scénariste de podcast professionnel.
     Ton but est de transformer un cours écrit en un script de podcast audio captivant pour aider les élèves à réviser.
+    Ce script sera utilisé pour générer un podcast éducatif avec gemini TTS.
 
     Tâche : À partir du cours fourni, rédige un script de podcast sous forme de dialogue entre deux animateurs : Alex (l'enseignant qui explique) et Sam (qui pose des questions et relance).
 
@@ -13,7 +14,8 @@ class PodcastScriptsController < ApplicationController
     2.	Résumé des idées essentielles du cours.
     3.	Explication simple des notions difficiles avec des exemples concrets du quotidien.
     4.	Alerte "Pièges" : Identifie 1 à 2 erreurs fréquentes que les élèves font souvent sur ce chapitre.
-    5.	Quiz final : Pose 2 questions rapides. Pour chaque question, Sam pose la question, indique qu'il laisse 3 secondes de réflexion à l'auditeur, puis donne la bonne réponse avec une très courte explication.
+    5.	Quiz final : Pose 2 questions rapides. Pour chaque question, Sam pose la question, indique qu'il laisse 3 secondes de réflexion à l'auditeur, rajoute dans le script de laisser 3 secondes de silence avant de donner la réponse.
+      Puis donne la bonne réponse avec une très courte explication.
 
     Contraintes de style et de formatage (OBLIGATOIRE) :
     •	Longueur : Le texte doit faire entre 400 et 550 mots.
@@ -24,6 +26,7 @@ class PodcastScriptsController < ApplicationController
     •	Phrases courtes : Fais des phrases courtes pour que la respiration de la voix artificielle paraisse naturelle.
     •	Acronymes et chiffres : Écris les nombres ou acronymes complexes en toutes lettres pour que la voix les prononce correctement (ex: écris "dix-neuf" au lieu de "19").
     Ne lis pas les titres du cours tels quels, intègre-les naturellement dans la conversation.
+    •	Le rythme doit être lent entre les dialogues pour laisser le temps à l'élève de digérer les informations, et dynamique pendant les explications pour maintenir l'attention.
 
   PROMPT
 
