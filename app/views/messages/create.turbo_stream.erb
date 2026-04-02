@@ -1,5 +1,5 @@
-<%= turbo_stream.append "messages", partial: "messages/message", locals: { message: @user_message } %>
-<%= turbo_stream.append "messages", partial: "messages/message", locals: { message: @assistant_message } %>
+<%# Les messages sont déjà ajoutés via ActionCable streaming %>
+<%# On remplace juste le formulaire pour le vider %>
 
 <%= turbo_stream.replace "new_message" do %>
   <%= render "messages/form", chat: @chat, message: Message.new %>

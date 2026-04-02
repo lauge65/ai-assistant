@@ -1,0 +1,43 @@
+<div class="contexts-page py-5">
+  <div class="container">
+    <div class="context-card mb-4">
+      <div class="context-card-body">
+        <h1 class="context-card-title mb-2"><%= @context.title %></h1>
+        <p class="context-badge mb-4"><%= @context.subject %></p>
+
+        <div class="context-info-list">
+          <div class="context-info-item">
+            <span class="context-info-label">Niveau</span>
+            <span class="context-info-value"><%= @context.level %></span>
+          </div>
+
+          <div class="context-info-item">
+            <span class="context-info-label">Date</span>
+            <span class="context-info-value"><%= @context.date %></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="context-card chat-card mb-4">
+      <div class="context-card-body">
+        <div class="chat-card__header mb-4">
+          <div>
+            <h2 class="context-card-title mb-2">Chat partage</h2>
+            <p class="chat-card__subtitle mb-0">Cette conversation est disponible en lecture seule.</p>
+          </div>
+        </div>
+
+        <div id="messages" class="chat-thread">
+          <% if @chat.messages.any? %>
+            <%= render @chat.messages %>
+          <% else %>
+            <div class="chat-empty-state">
+              <p class="chat-empty-state__text mb-0">Aucun message n'est disponible dans ce chat partage.</p>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -4,6 +4,15 @@
 
 import { application } from "controllers/application"
 
+import AutoscrollController from "controllers/autoscroll_controller"
+application.register("autoscroll", AutoscrollController)
+
+import ChatFormController from "controllers/chat_form_controller"
+application.register("chat-form", ChatFormController)
+
+import ClipboardController from "controllers/clipboard_controller"
+application.register("clipboard", ClipboardController)
+
 import FlatpickrController from "controllers/flatpickr_controller"
 application.register("flatpickr", FlatpickrController)
 

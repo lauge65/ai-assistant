@@ -1,5 +1,6 @@
 class ChatsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_chat, only: [:show, :destroy]
 
   def create
     @context = current_user.contexts.find(params[:context_id])
@@ -16,14 +17,19 @@ class ChatsController < ApplicationController
   end
 
   def show
-    @chat = Chat.joins(:context).where(contexts: { user_id: current_user.id }).find(params[:id])
     @context = @chat.context
     @message = Message.new
+    @share_url = shared_chat_url(@chat.share_token) if @chat.supports_share_token? && @chat.share_token.present?
   end
 
   def destroy
-    @chat = Chat.joins(:context).where(contexts: { user_id: current_user.id }).find(params[:id])
     @chat.destroy
     redirect_to contexts_path, notice: "Assistant supprimé."
+  end
+
+  private
+
+  def set_chat
+    @chat = Chat.joins(:context).where(contexts: { user_id: current_user.id }).find(params[:id])
   end
 end

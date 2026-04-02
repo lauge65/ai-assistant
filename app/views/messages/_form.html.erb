@@ -1,14 +1,19 @@
-<div data-controller="speech">
+ <%= simple_form_for [chat, message], html: {
+  class: "chat-form",
+  data: { controller: "chat-form speech" }
+ } do |f| %>
 
-  <%= simple_form_for [chat, message], html: { class: "chat-form" } do |f| %>
-  <%= f.input :content,
-    label: "Votre question",
-    placeholder: "Exemple : peux-tu m’expliquer ce document simplement ?",
-    input_html: {
+   <%= f.input :content,
+     label: "Votre question",
+      placeholder: "Exemple : peux-tu m’expliquer ce document simplement ?",
+      input_html: {
         rows: 4,
         class: "form-control chat-form__input",
         autocomplete: "off",
-        data: { speech_target: "input" }
+        data: {
+          speech_target: "input",
+          chat_form_target: "input"
+        }
       } %>
 
   <div class="chat-form__actions d-flex justify-content-end align-items-center gap-2">
@@ -18,12 +23,13 @@
               data-action="click->speech#toggle"
               data-speech-target="button"
               title="Envoyer un vocal">
-        <i class="fa-solid fa-microphone"></i>
-      </button>
+      <i class="fa-solid fa-microphone"></i>
+    </button>
 
-    <%= f.button :submit, "Envoyer", class: "chat-send-btn border-0" %>
+    <%= f.button :submit, "Envoyer",
+      class: "chat-send-btn border-0",
+      data: { chat_form_target: "submit" } %>
+
 
   </div>
-  <% end %>
-
-</div>
+<% end %>

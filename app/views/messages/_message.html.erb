@@ -1,4 +1,4 @@
-<div class="chat-message chat-message--<%= message.role %>">
+<div id="<%= dom_id(message) %>" class="chat-message chat-message--<%= message.role %>">
   <div class="chat-bubble">
     <strong class="chat-bubble__author">
       <%= message.role == "user" ? "Vous" : "EasyLearn AI" %>

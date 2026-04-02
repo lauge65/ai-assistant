@@ -1,3 +1,5 @@
+<%= turbo_stream_from "chat_#{@chat.id}" %>
+
 <div class="contexts-page py-5">
   <div class="container">
     <div class="mb-4">
@@ -23,6 +25,48 @@
       </div>
     </div>
 
+    <% if @chat.messages.any? && @share_url.present? %>
+      <div class="context-card chat-share-card mb-4" data-controller="clipboard">
+        <div class="context-card-body">
+          <div class="chat-share-card__header">
+            <div>
+              <h2 class="context-card-title mb-2">Partager ce chat</h2>
+              <p class="chat-card__subtitle mb-0">Génère un lien de partage ou scanne le QR code pour ouvrir cette discussion en lecture seule.</p>
+            </div>
+            <div class="chat-share-card__badge">Lecture seule</div>
+          </div>
+
+          <div class="chat-share-card__content">
+            <div class="chat-share-card__link-block">
+              <label class="chat-share-card__label" for="share-url">URL de partage</label>
+              <div class="chat-share-card__link-row">
+                <input
+                  id="share-url"
+                  type="text"
+                  class="chat-share-card__input"
+                  value="<%= @share_url %>"
+                  readonly
+                  data-clipboard-target="source">
+                <button
+                  type="button"
+                  class="chat-share-card__copy-btn"
+                  data-action="clipboard#copy"
+                  data-clipboard-target="button">
+                  Copier le lien
+                </button>
+              </div>
+            </div>
+
+            <div class="chat-share-card__qr">
+              <%= image_tag "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=#{ERB::Util.url_encode(@share_url)}",
+                  alt: "QR code de partage du chat",
+                  class: "chat-share-card__qr-image" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
     <div class="context-card chat-card mb-4">
       <div class="context-card-body">
         <div class="chat-card__header mb-4">
@@ -30,8 +74,9 @@
             <h2 class="context-card-title mb-2">Discussion avec mon assistant IA</h2>
             <p class="chat-card__subtitle mb-0">Pose ta question et reçois une explication claire, rapide et adaptée a ton niveau.</p>
           </div>
+
         </div>
-          <div id="messages" class="chat-thread">
+          <div id="messages" class="chat-thread" data-controller="autoscroll">
             <% if @chat.messages.any? %>
               <%= render @chat.messages %>
             <% else %>
