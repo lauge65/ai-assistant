@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_04_01_172824) do
+ActiveRecord::Schema[7.1].define(version: 2026_04_02_080418) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -110,6 +110,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_01_172824) do
     t.string "status", default: "pending"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "audio_status", default: "pending"
     t.index ["context_id"], name: "index_podcast_scripts_on_context_id"
   end
 

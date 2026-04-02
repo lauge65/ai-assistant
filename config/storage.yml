@@ -1,6 +1,7 @@
 cloudinary:
   service: Cloudinary
   folder: <%= Rails.env %>
+  resource_type: auto
 
 # test:
 #   service: Disk
