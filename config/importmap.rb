@@ -12,6 +12,7 @@ pin "controllers/chat_form_controller", to: "controllers/chat_form_controller.js
 pin "controllers/clipboard_controller", to: "controllers/clipboard_controller.js"
 pin "controllers/flatpickr_controller", to: "controllers/flatpickr_controller.js"
 pin "controllers/hello_controller", to: "controllers/hello_controller.js"
+pin "controllers/speech_controller", to: "controllers/speech_controller.js"
 pin "controllers/toggle_controller", to: "controllers/toggle_controller.js"
 pin "controllers", to: "controllers/index.js"
 
