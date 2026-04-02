@@ -228,8 +228,8 @@
 }
 
 .chat-form {
-  position: relative;
-  z-index: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .chat-form .form-label {
@@ -265,6 +265,9 @@
 .chat-form__actions {
   display: flex;
   justify-content: flex-end;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
 }
 
 .chat-send-btn {
@@ -310,6 +313,27 @@
   box-shadow:
     0 0 0 4px rgba(230, 15, 5, 0.18),
     0 24px 42px rgba(159, 20, 15, 0.42);
+}
+
+.chat-mic-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #6b7280;
+  transition: color 0.2s ease, transform 0.2s ease;
+  padding: 0.85rem 1rem;
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.chat-mic-btn:hover {
+  color: #111827;
+  transform: scale(1.05);
+}
+
+.chat-mic-btn:focus {
+  outline: none;
 }
 
 @media (min-width: 872px) {

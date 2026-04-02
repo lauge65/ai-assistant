@@ -21,3 +21,6 @@ application.register("hello", HelloController)
 
 import ToggleController from "controllers/toggle_controller"
 application.register("toggle", ToggleController)
+
+import SpeechController from "./speech_controller"
+application.register("speech", SpeechController)
