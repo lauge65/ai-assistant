@@ -5,11 +5,7 @@ Rails.application.routes.draw do
   resources :contexts do
     resources :chats, only: [:create]
     resource :podcast_script, only: [:create] do
-      member do
-        get :download
-        post :generate_audio
-        get :download_audio
-      end
+      get :download_audio, on: :member
     end
   end
 

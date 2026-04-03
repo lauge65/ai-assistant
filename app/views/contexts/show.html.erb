@@ -46,33 +46,16 @@
       class: "new-context-btn border-0 text-decoration-none d-inline-flex align-items-center justify-content-center" %>
 
     <% if @context.document.attached? %>
-      <%# Étape 1: Générer ou télécharger le script %>
-      <% if @context.podcast_script&.completed? %>
-        <%= link_to download_context_podcast_script_path(@context),
+      <% if @context.podcast_script&.audio&.attached? %>
+        <%# Podcast prêt : afficher le bouton de téléchargement %>
+        <%= link_to download_audio_context_podcast_script_path(@context),
                     class: "podcast-btn text-decoration-none d-inline-flex align-items-center justify-content-center",
                     data: { turbo: false } do %>
-          📝 Télécharger le script podcast
-        <% end %>
-
-        <%# Étape 2: Générer ou télécharger l'audio %>
-        <% if @context.podcast_script.audio_completed? && @context.podcast_script.audio.attached? %>
-          <%= link_to download_audio_context_podcast_script_path(@context),
-                      class: "podcast-audio-btn text-decoration-none d-inline-flex align-items-center justify-content-center",
-                      data: { turbo: false } do %>
-            � Télécharger le podcast audio
-          <% end %>
-        <% elsif @context.podcast_script.audio_generating? %>
-          <button class="podcast-audio-btn text-decoration-none d-inline-flex align-items-center justify-content-center" disabled>
-            ⏳ Génération audio en cours...
-          </button>
-        <% else %>
-          <%= button_to "🎙️ Générer le podcast audio",
-            generate_audio_context_podcast_script_path(@context),
-            method: :post,
-            class: "podcast-audio-btn border-0 text-decoration-none d-inline-flex align-items-center justify-content-center" %>
+          🎧 Télécharger le podcast
         <% end %>
       <% else %>
-        <%= button_to "🎙️ Générer un script podcast",
+        <%# Pas encore de podcast : afficher le bouton de génération %>
+        <%= button_to "🎙️ Générer le podcast",
           context_podcast_script_path(@context),
           method: :post,
           class: "podcast-btn border-0 text-decoration-none d-inline-flex align-items-center justify-content-center" %>

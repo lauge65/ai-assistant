@@ -31,56 +31,29 @@ class PodcastScriptsController < ApplicationController
   PROMPT
 
   # POST /contexts/:context_id/podcast_script
+  # Génère le script ET l'audio en une seule action
   def create
     # Vérifier qu'un document PDF est attaché
     unless @context.document.attached? && @context.document.content_type == "application/pdf"
-      redirect_to context_path(@context), alert: "Un document PDF est requis pour générer le script."
+      redirect_to context_path(@context), alert: "Un document PDF est requis pour générer le podcast."
       return
     end
 
     # Créer ou récupérer le podcast_script existant
     @podcast_script = @context.podcast_script || @context.build_podcast_script
 
-    # Générer le script (appel LLM simple, sans streaming)
-    if generate_script
-      redirect_to context_path(@context), notice: "Le script du podcast a été généré avec succès !"
-    else
-      redirect_to context_path(@context), alert: "Une erreur est survenue lors de la génération du script."
-    end
-  end
-
-  # GET /contexts/:context_id/podcast_script/download
-  def download
-    @podcast_script = @context.podcast_script
-
-    if @podcast_script.nil? || !@podcast_script.completed?
-      redirect_to context_path(@context), alert: "Le script n'est pas encore prêt."
+    # Étape 1 : Générer le script via LLM
+    unless generate_script
+      redirect_to context_path(@context), alert: "Erreur lors de la génération du script."
       return
     end
 
-    # Générer le fichier texte
-    filename = "podcast_script_#{@context.title.parameterize}_#{Date.today}.txt"
-    send_data @podcast_script.content,
-              filename: filename,
-              type: "text/plain",
-              disposition: "attachment"
-  end
-
-  # POST /contexts/:context_id/podcast_script/generate_audio
-  def generate_audio
-    @podcast_script = @context.podcast_script
-
-    if @podcast_script.nil? || !@podcast_script.completed?
-      redirect_to context_path(@context), alert: "Le script doit d'abord être généré."
-      return
-    end
-
-    # Appeler le service Gemini TTS
+    # Étape 2 : Générer l'audio via Gemini TTS
     service = GeminiTtsService.new(@podcast_script)
     result = service.generate_audio
 
     if result[:success]
-      redirect_to context_path(@context), notice: "Le podcast audio a été généré avec succès !"
+      redirect_to context_path(@context), notice: "Le podcast a été généré avec succès ! 🎧"
     else
       redirect_to context_path(@context), alert: "Erreur lors de la génération audio : #{result[:error]}"
     end
@@ -90,13 +63,12 @@ class PodcastScriptsController < ApplicationController
   def download_audio
     @podcast_script = @context.podcast_script
 
-    if @podcast_script.nil? || !@podcast_script.audio_completed? || !@podcast_script.audio.attached?
-      redirect_to context_path(@context), alert: "L'audio n'est pas encore prêt."
+    if @podcast_script.nil? || !@podcast_script.audio.attached?
+      redirect_to context_path(@context), alert: "Le podcast n'est pas encore prêt."
       return
     end
 
     # Télécharger directement le fichier depuis le service de stockage
-    # Cela évite les problèmes d'accès Cloudinary (erreur 401)
     filename = "podcast_#{@context.title.parameterize}_#{Date.today}.mp3"
 
     send_data @podcast_script.audio.download,
@@ -112,7 +84,6 @@ class PodcastScriptsController < ApplicationController
   end
 
   def generate_script
-    # Construire le chat RubyLLM (appel simple sans streaming)
     ruby_llm_chat = RubyLLM.chat(model: "gemini-2.5-flash").with_instructions(instructions)
 
     begin
@@ -123,7 +94,6 @@ class PodcastScriptsController < ApplicationController
         )
       end
 
-      # Sauvegarder le contenu
       @podcast_script.update!(content: response.content, status: "completed")
       true
 
