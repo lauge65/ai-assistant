@@ -38,15 +38,12 @@
 
           <div class="chat-share-card__content">
             <div class="chat-share-card__link-block">
-              <label class="chat-share-card__label" for="share-url">URL de partage</label>
-              <div class="chat-share-card__link-row">
-                <input
-                  id="share-url"
-                  type="text"
-                  class="chat-share-card__input"
-                  value="<%= @share_url %>"
-                  readonly
-                  data-clipboard-target="source">
+              <input
+                id="share-url"
+                type="hidden"
+                value="<%= @share_url %>"
+                data-clipboard-target="source">
+              <div class="chat-share-card__copy-row">
                 <button
                   type="button"
                   class="chat-share-card__copy-btn"
