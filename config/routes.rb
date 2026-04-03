@@ -4,6 +4,9 @@ Rails.application.routes.draw do
 
   resources :contexts do
     resources :chats, only: [:create]
+    resource :podcast_script, only: [:create] do
+      get :download_audio, on: :member
+    end
   end
 
   resources :chats, only: [:show, :destroy] do

@@ -2,12 +2,12 @@
   color: white;
   padding: 8px 24px;
   border-radius: 4px;
-  background: #670BFF;
+  background: #670bff;
   transition: background 0.3s ease;
 }
 
 .btn-flat:hover {
-  background: #4D04C4;
+  background: #4d04c4;
   color: white;
 }
 
@@ -15,10 +15,50 @@
   text-decoration: none;
   font-size: 18px;
   color: rgba(0, 0, 0, 0.6);
-  transition: all 0.2s ease
+  transition: all 0.2s ease;
 }
 
 .icon-btn:hover {
   color: rgba(0, 0, 0, 0.9);
   transform: translateY(-1px);
+}
+
+.podcast-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 14px rgba(139, 92, 246, 0.35);
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.45);
+  }
+}
+
+.podcast-audio-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.45);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+  }
 }
