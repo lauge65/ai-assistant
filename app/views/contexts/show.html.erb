@@ -53,6 +53,19 @@
                     data: { turbo: false } do %>
           🎧 Télécharger le podcast
         <% end %>
+      <% elsif @context.podcast_script&.generating? || @context.podcast_script&.audio_status == "generating" %>
+        <%# Génération en cours : afficher un message d'attente %>
+        <div class="podcast-btn text-decoration-none d-inline-flex align-items-center justify-content-center" style="opacity: 0.7; cursor: wait;">
+          ⏳ Génération en cours...
+        </div>
+        <small class="text-muted mt-1">Rafraîchissez la page dans 1-2 minutes</small>
+      <% elsif @context.podcast_script&.failed? || @context.podcast_script&.audio_status == "failed" %>
+        <%# Génération échouée : permettre de réessayer %>
+        <%= button_to "🔄 Réessayer le podcast",
+          context_podcast_script_path(@context),
+          method: :post,
+          class: "podcast-btn border-0 text-decoration-none d-inline-flex align-items-center justify-content-center" %>
+        <small class="text-danger mt-1">La génération précédente a échoué</small>
       <% else %>
         <%# Pas encore de podcast : afficher le bouton de génération %>
         <%= button_to "🎙️ Générer le podcast",
