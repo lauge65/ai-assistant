@@ -43,6 +43,25 @@ class ContextsController < ApplicationController
     redirect_to contexts_path
   end
 
+  def generate_summary
+    @context = current_user.contexts.find(params[:id])
+    texte_pour_la_fiche = "Voici la fiche de révision pour le cours de #{@context.subject}.\n\n(Le texte généré par l'Intelligence Artificielle arrivera ici !)"
+    pdf = Prawn::Document.new
+    pdf.text "Fiche de révision : #{@context.title}", size: 24, style: :bold
+    pdf.move_down 20 # On saute une ligne
+    pdf.text texte_pour_la_fiche, size: 12
+    chemin_temporaire = Rails.root.join("tmp", "fiche_#{@context.id}.pdf")
+    pdf.render_file(chemin_temporaire)
+
+    @context.summary.attach(
+      io: File.open(chemin_temporaire),
+      filename: "fiche_revision_#{@context.subject.parameterize}.pdf",
+      content_type: "application/pdf"
+      )
+
+    redirect_to context_path(@context), notice: "Et voilà 🎉 ! Ta fiche de révision en PDF a été crée avec succès !"
+  end
+
   private
 
   def set_context

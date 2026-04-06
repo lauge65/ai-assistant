@@ -44,7 +44,9 @@
       context_chats_path(@context),
       method: :post,
       class: "new-context-btn border-0 text-decoration-none d-inline-flex align-items-center justify-content-center" %>
-
+    <%= link_to "📝 Générer la fiche de révision",
+      generate_summary_context_path(@context),
+      class: "new-context-btn text-decoration-none d-inline-flex align-items-center justify-content-center" %>
     <% if @context.document.attached? %>
       <% if @context.podcast_script&.audio&.attached? %>
         <%# Podcast prêt : afficher le bouton de téléchargement %>

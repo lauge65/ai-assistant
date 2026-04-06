@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   root to: "pages#home"
 
   resources :contexts do
+    member do
+      get :generate_summary
+    end
     resources :chats, only: [:create]
     resource :podcast_script, only: [:create] do
       get :download_audio, on: :member
