@@ -66,30 +66,18 @@
 .chat-share-card__content {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 220px;
-  gap: 1.4rem;
+  gap: 2rem;
   align-items: center;
 }
 
-.chat-share-card__label {
-  display: inline-block;
-  margin-bottom: 0.5rem;
-  font-weight: 700;
-  color: #1f2937;
-}
-
-.chat-share-card__link-row {
+.chat-share-card__link-block {
   display: flex;
-  gap: 0.75rem;
+  justify-content: flex-start;
 }
 
-.chat-share-card__input {
-  flex: 1 1 auto;
-  min-width: 0;
-  padding: 0.95rem 1rem;
-  border: 1px solid rgba(191, 92, 54, 0.14);
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.98);
-  color: #4b342b;
+.chat-share-card__copy-row {
+  display: flex;
+  align-items: center;
 }
 
 .chat-share-card__copy-btn {
@@ -354,14 +342,18 @@
 
 @media (max-width: 767px) {
   .chat-share-card__header,
-  .chat-share-card__link-row,
   .chat-share-card__content {
     grid-template-columns: 1fr;
     flex-direction: column;
   }
 
-  .chat-share-card__copy-btn,
-  .chat-share-card__input {
+  .chat-share-card__link-block,
+  .chat-share-card__copy-row {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .chat-share-card__copy-btn {
     width: 100%;
   }
 

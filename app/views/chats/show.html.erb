@@ -31,22 +31,19 @@
           <div class="chat-share-card__header">
             <div>
               <h2 class="context-card-title mb-2">Partager ce chat</h2>
-              <p class="chat-card__subtitle mb-0">Génère un lien de partage ou scanne le QR code pour ouvrir cette discussion en lecture seule.</p>
+              <p class="chat-card__subtitle mb-0">Génère un lien de partage ou scanne le QR code pour ouvrir cette discussion dans une autre fenêtre ou sur ton téléphone</p>
             </div>
-            <div class="chat-share-card__badge">Lecture seule</div>
+            <div class="chat-share-card__badge">Partage</div>
           </div>
 
           <div class="chat-share-card__content">
             <div class="chat-share-card__link-block">
-              <label class="chat-share-card__label" for="share-url">URL de partage</label>
-              <div class="chat-share-card__link-row">
-                <input
-                  id="share-url"
-                  type="text"
-                  class="chat-share-card__input"
-                  value="<%= @share_url %>"
-                  readonly
-                  data-clipboard-target="source">
+              <input
+                id="share-url"
+                type="hidden"
+                value="<%= @share_url %>"
+                data-clipboard-target="source">
+              <div class="chat-share-card__copy-row">
                 <button
                   type="button"
                   class="chat-share-card__copy-btn"
