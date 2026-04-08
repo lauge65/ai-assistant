@@ -23,7 +23,7 @@
           <%= f.input :level,
                 label: "Niveau scolaire",
                 include_blank: "Choisir un niveau",
-                collection: ["CP", "CE1", "CE2", "CM1", "CM2", "6ème", "5ème", "4ème", "3ème", "Seconde", "Première", "Terminale"],
+                collection: User::LEVELS,
                 input_html: { class: "form-select context-form__select" } %>
         </div>
         <div class="col-md-6">

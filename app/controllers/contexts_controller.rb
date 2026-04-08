@@ -11,7 +11,7 @@ class ContextsController < ApplicationController
   end
 
   def new
-    @context = Context.new
+    @context = current_user.contexts.new(level: current_user.level)
   end
 
   def create

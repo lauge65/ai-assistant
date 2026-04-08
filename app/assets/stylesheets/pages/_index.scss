@@ -545,3 +545,163 @@
     font-size: 0.85rem;
   }
 }
+
+.account-page {
+  min-height: calc(100vh - 72px);
+  background:
+    radial-gradient(circle at top left, rgba(255, 221, 188, 0.55), transparent 32%),
+    linear-gradient(180deg, #f5f5f7 0%, #eceef2 100%);
+}
+
+.account-hero {
+  max-width: 780px;
+}
+
+.account-eyebrow {
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8a8a8e;
+}
+
+.account-title {
+  font-size: clamp(2.4rem, 4vw, 4rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: #111827;
+}
+
+.account-subtitle {
+  max-width: 680px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #4b5563;
+}
+
+.account-card {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2rem;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.86);
+  box-shadow:
+    0 20px 50px rgba(15, 23, 42, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+}
+
+.account-form__section {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.7);
+}
+
+.account-form__section:last-of-type {
+  margin-bottom: 1.5rem;
+  border-bottom: none;
+}
+
+.account-profile-head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.account-profile-head__avatar {
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+}
+
+.account-section-title {
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.account-section-copy {
+  max-width: 560px;
+  font-size: 0.96rem;
+  line-height: 1.6;
+  color: #6b7280;
+}
+
+.account-inline-note {
+  margin: -0.25rem 0 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  background: rgba(255, 248, 240, 0.85);
+  border: 1px solid rgba(255, 138, 31, 0.18);
+  color: #8a4b12;
+  font-size: 0.92rem;
+}
+
+.account-form .form-label {
+  font-weight: 600;
+  color: #111827;
+}
+
+.account-form .form-text,
+.account-form .hint {
+  color: #6b7280;
+  font-size: 0.88rem;
+}
+
+.account-form__actions {
+  margin-top: 0.5rem;
+}
+
+.account-danger-zone {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(230, 15, 5, 0.12);
+  box-shadow: 0 16px 34px rgba(15, 23, 42, 0.05);
+}
+
+.account-danger-zone__title {
+  margin-bottom: 0.35rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #7f1d1d;
+}
+
+.account-danger-zone__copy {
+  margin-bottom: 1rem;
+  color: #6b7280;
+}
+
+.account-danger-zone__button {
+  padding: 0.8rem 1.15rem;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #b91c1c 0%, #dc2626 100%);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 12px 24px rgba(185, 28, 28, 0.18);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.account-danger-zone__button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 26px rgba(185, 28, 28, 0.22);
+}
+
+@media (max-width: 767px) {
+  .account-card,
+  .account-danger-zone {
+    padding: 1.25rem;
+    border-radius: 20px;
+  }
+
+  .account-profile-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
