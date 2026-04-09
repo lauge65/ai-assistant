@@ -43,13 +43,17 @@ class ContextsController < ApplicationController
     redirect_to contexts_path
   end
 
-  def generate_summary
+def generate_summary
     @context = current_user.contexts.find(params[:id])
-    texte_pour_la_fiche = "Voici la fiche de révision pour le cours de #{@context.subject}.\n\n(Le texte généré par l'Intelligence Artificielle arrivera ici !)"
+    instructions = "Tu es un professeur expert. Rédige une fiche de révision simple, claire et structurée (sans mise en forme complexe) pour un élève de niveau #{@context.level}. La matière est #{@context.subject} et le titre du cours est '#{@context.title}'."
+    ruby_llm_chat = RubyLLM.chat(model: "gemini-2.5-flash").with_instructions(instructions)
+    reponse_ia = ruby_llm_chat.send_message("Rédige la fiche de révision maintenant.")
+    texte_pour_la_fiche = reponse_ia.text
     pdf = Prawn::Document.new
     pdf.text "Fiche de révision : #{@context.title}", size: 24, style: :bold
-    pdf.move_down 20 # On saute une ligne
+    pdf.move_down 20
     pdf.text texte_pour_la_fiche, size: 12
+
     chemin_temporaire = Rails.root.join("tmp", "fiche_#{@context.id}.pdf")
     pdf.render_file(chemin_temporaire)
 
@@ -57,9 +61,9 @@ class ContextsController < ApplicationController
       io: File.open(chemin_temporaire),
       filename: "fiche_revision_#{@context.subject.parameterize}.pdf",
       content_type: "application/pdf"
-      )
+    )
 
-    redirect_to context_path(@context), notice: "Et voilà 🎉 ! Ta fiche de révision en PDF a été crée avec succès !"
+    redirect_to context_path(@context), notice: "Et voilà 🎉 ! Ta fiche de révision en PDF a été créée avec succès !"
   end
 
   private
