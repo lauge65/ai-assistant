@@ -4,6 +4,10 @@ class ContextsController < ApplicationController
 
   def index
     @contexts = current_user.contexts
+
+    if params[:query].present?
+      @contexts = @contexts.search_by_title_and_subject(params[:query])
+    end
   end
 
   def show

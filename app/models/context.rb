@@ -12,6 +12,18 @@ class Context < ApplicationRecord
   validate :document_size_limit
   validate :document_content_type
 
+  include PgSearch::Model
+  pg_search_scope :search_by_title_and_subject,
+    against: {
+      title: 'A',
+      subject: 'B'
+    },
+    using: {
+      tsearch: {
+        prefix: true
+      }
+    }
+
   private
 
   def document_size_limit
