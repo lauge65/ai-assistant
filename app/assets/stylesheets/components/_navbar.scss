@@ -33,3 +33,30 @@
 .navbar-lewagon .navbar-brand:hover .navbar-logo {
   transform: scale(1.5) translateY(-1px);
 }
+
+.contexts-search-bar {
+  margin-bottom: 32px;
+}
+
+.search-form {
+  width: 100%;
+}
+
+.search-input-group {
+  display: flex;
+  gap: 12px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+}
+
+.search-btn {
+  padding: 12px 18px;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  background: white;
+}
