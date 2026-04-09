@@ -23,16 +23,34 @@
             </div>
           </div>
 
-          <div class="mt-4">
+          <div class="mt-4 d-flex gap-2 flex-wrap">
             <% if @context.document.attached? %>
-              <%= link_to "⬇️ Télécharger mon cours",
-                  rails_blob_path(@context.document, disposition: "attachment"),
-                  class: "document-btn text-decoration-none" %>
-
               <%= link_to "📄 Ouvrir mon cours",
                   url_for(@context.document),
                   target: "_blank",
                   class: "document-btn text-decoration-none" %>
+
+              <% if @context.podcast_script&.audio&.attached? %>
+                <%= link_to "🎧 Télécharger le podcast",
+                    download_audio_context_podcast_script_path(@context),
+                    class: "document-btn text-decoration-none",
+                    data: { turbo: false } %>
+              <% elsif @context.podcast_script&.generating? || @context.podcast_script&.audio_status == "generating" %>
+                <span class="document-btn" style="opacity: 0.7; cursor: wait;">
+                  ⏳ Génération en cours...
+                </span>
+              <% elsif @context.podcast_script&.failed? || @context.podcast_script&.audio_status == "failed" %>
+                <%= button_to "🔄 Réessayer le podcast",
+                    context_podcast_script_path(@context),
+                    method: :post,
+                    class: "document-btn border-0" %>
+              <% else %>
+                <%= button_to "🎙️ Générer le podcast",
+                    context_podcast_script_path(@context),
+                    method: :post,
+                    class: "document-btn border-0" %>
+              <% end %>
+
             <% else %>
               <p>Pas de cours téléchargé.</p>
             <% end %>
@@ -40,40 +58,10 @@
           </div>
         <div class="d-flex align-items-center">
   <div class="mt-4 d-flex flex-column gap-3">
-    <%= button_to "🤖 Créer un nouvel assistant IA sur le même cours",
+    <%= button_to "🤖 Nouvel assistant sur le même cours",
       context_chats_path(@context),
       method: :post,
       class: "new-context-btn border-0 text-decoration-none d-inline-flex align-items-center justify-content-center" %>
-
-    <% if @context.document.attached? %>
-      <% if @context.podcast_script&.audio&.attached? %>
-        <%# Podcast prêt : afficher le bouton de téléchargement %>
-        <%= link_to download_audio_context_podcast_script_path(@context),
-                    class: "podcast-btn text-decoration-none d-inline-flex align-items-center justify-content-center",
-                    data: { turbo: false } do %>
-          🎧 Télécharger le podcast
-        <% end %>
-      <% elsif @context.podcast_script&.generating? || @context.podcast_script&.audio_status == "generating" %>
-        <%# Génération en cours : afficher un message d'attente %>
-        <div class="podcast-btn text-decoration-none d-inline-flex align-items-center justify-content-center" style="opacity: 0.7; cursor: wait;">
-          ⏳ Génération en cours...
-        </div>
-        <small class="text-muted mt-1">Rafraîchissez la page dans 1-2 minutes</small>
-      <% elsif @context.podcast_script&.failed? || @context.podcast_script&.audio_status == "failed" %>
-        <%# Génération échouée : permettre de réessayer %>
-        <%= button_to "🔄 Réessayer le podcast",
-          context_podcast_script_path(@context),
-          method: :post,
-          class: "podcast-btn border-0 text-decoration-none d-inline-flex align-items-center justify-content-center" %>
-        <small class="text-danger mt-1">La génération précédente a échoué</small>
-      <% else %>
-        <%# Pas encore de podcast : afficher le bouton de génération %>
-        <%= button_to "🎙️ Générer le podcast",
-          context_podcast_script_path(@context),
-          method: :post,
-          class: "podcast-btn border-0 text-decoration-none d-inline-flex align-items-center justify-content-center" %>
-      <% end %>
-    <% end %>
   </div>
 </div>
         </div>
