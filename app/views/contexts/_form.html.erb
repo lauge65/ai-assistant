@@ -19,17 +19,12 @@
             input_html: { class: "form-control context-form__input" } %>
 
       <div class="row">
-         <div class="col-md-6">
-           <%= f.label :level, "Niveau", class: "form-label" %>
-           <%= f.select :level,
-           grouped_options_for_select({
-             "Primaire" => ["CP", "CE1", "CE2", "CM1", "CM2"],
-             "Collège" => ["6ème", "5ème", "4ème", "3ème"],
-             "Lycée" => ["Seconde", "Première", "Terminale"],
-             "Supérieur" => ["Supérieur"]
-           }, f.object.level),
-          { include_blank: "Choisir ton niveau" },
-          { class: "form-select form-select-sm context-form__select" } %>
+        <div class="col-md-6">
+          <%= f.input :level,
+                label: "Niveau scolaire",
+                include_blank: "Choisir un niveau",
+                collection: User::LEVELS,
+                input_html: { class: "form-select context-form__select" } %>
         </div>
 
         <div class="col-md-6">

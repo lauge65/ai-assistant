@@ -7,7 +7,7 @@
             <% if user_signed_in? %>
               <h1 class="mb-3">
                 Salut <br>
-                <%=current_user.email.split("@").first%> !
+                <%= current_user.display_first_name %> !
               </h1>
               <p class="mb-4">Importe ton cours, crée ton assistant, révise plus efficacement.</p>
             <% else %>

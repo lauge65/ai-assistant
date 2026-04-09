@@ -1,35 +1,105 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<div class="account-page">
+  <div class="container py-5">
+    <div class="account-hero mb-4">
+      <p class="account-eyebrow mb-2">Mon espace</p>
+      <h1 class="account-title mb-2">Mon compte</h1>
+      <p class="account-subtitle mb-0">Personnalise ton profil pour retrouver un accueil plus simple et un niveau prérempli dans tes prochains cours.</p>
+    </div>
 
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= f.error_notification %>
+    <div class="account-card">
+      <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "account-form" }) do |f| %>
+        <%= f.error_notification %>
 
-  <div class="form-inputs">
-    <%= f.input :email, required: true, autofocus: true %>
+        <div class="account-form__section">
+          <div class="account-profile-head">
+            <% if resource.avatar.attached? %>
+              <%= image_tag resource.avatar, class: "avatar-large account-profile-head__avatar", alt: "Photo de profil actuelle" %>
+            <% else %>
+              <span class="avatar avatar-large avatar-placeholder account-profile-head__avatar"><%= resource.avatar_initial %></span>
+            <% end %>
 
-    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-      <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
-    <% end %>
+            <div>
+              <h2 class="account-section-title mb-1">Informations personnelles</h2>
+              <p class="account-section-copy mb-0">Choisis le prénom affiché sur l'accueil, ton niveau par défaut et une photo de profil.</p>
+            </div>
+          </div>
 
-    <%= f.input :password,
-                hint: "leave it blank if you don't want to change it",
-                required: false,
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :password_confirmation,
-                required: false,
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :current_password,
-                hint: "we need your current password to confirm your changes",
-                required: true,
-                input_html: { autocomplete: "current-password" } %>
+          <div class="row">
+            <div class="col-md-6">
+              <%= f.input :first_name,
+                          label: "Prénom",
+                          required: false,
+                          input_html: { autocomplete: "given-name", class: "form-control context-form__input" } %>
+            </div>
+            <div class="col-md-6">
+              <%= f.input :level,
+                          label: "Niveau scolaire",
+                          required: false,
+                          collection: User::LEVELS,
+                          include_blank: "Choisir un niveau",
+                          input_html: { class: "form-select context-form__select" } %>
+            </div>
+          </div>
+
+          <%= f.input :avatar,
+                      as: :file,
+                      label: "Photo de profil",
+                      required: false,
+                      hint: "Formats acceptés : PNG, JPEG ou WEBP.",
+                      input_html: { accept: "image/png,image/jpeg,image/webp", class: "form-control context-form__file" } %>
+        </div>
+
+        <div class="account-form__section">
+          <h2 class="account-section-title">Connexion et sécurité</h2>
+          <p class="account-section-copy">Tu peux mettre à jour ton email ici, et changer ton mot de passe seulement si tu en as besoin.</p>
+
+          <%= f.input :email,
+                      required: true,
+                      autofocus: true,
+                      input_html: { class: "form-control context-form__input", autocomplete: "email" } %>
+
+          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+            <p class="account-inline-note">Adresse en attente de confirmation : <%= resource.unconfirmed_email %></p>
+          <% end %>
+
+          <div class="row">
+            <div class="col-md-6">
+              <%= f.input :password,
+                          label: "Nouveau mot de passe",
+                          hint: "Laisse vide si tu ne souhaites pas le modifier.",
+                          required: false,
+                          input_html: { autocomplete: "new-password", class: "form-control context-form__input" } %>
+            </div>
+            <div class="col-md-6">
+              <%= f.input :password_confirmation,
+                          label: "Confirmation du mot de passe",
+                          required: false,
+                          input_html: { autocomplete: "new-password", class: "form-control context-form__input" } %>
+            </div>
+          </div>
+
+          <%= f.input :current_password,
+                      label: "Mot de passe actuel",
+                      hint: "Uniquement nécessaire si tu modifies ton email ou ton mot de passe.",
+                      required: false,
+                      input_html: { autocomplete: "current-password", class: "form-control context-form__input" } %>
+        </div>
+
+        <div class="context-form__actions account-form__actions">
+          <%= f.button :submit, class: "home-cta border-0" do %>
+            <span class="home-cta-label">Mettre à jour mon profil</span>
+            <span class="home-cta-note">Enregistre ton prénom, ton niveau et ta photo</span>
+          <% end %>
+
+          <%= link_to "Retour", :back, class: "context-form__back-link" %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="account-danger-zone mt-4">
+      <h3 class="account-danger-zone__title">Supprimer mon compte</h3>
+      <p class="account-danger-zone__copy">Cette action est définitive et supprimera ton espace personnel.</p>
+      <%= button_to "Supprimer mon compte", registration_path(resource_name), data: { confirm: "Es-tu sûr ?", turbo_confirm: "Es-tu sûr ?" }, method: :delete, class: "account-danger-zone__button" %>
+    </div>
   </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, "Update" %>
-  </div>
-<% end %>
-
-<h3>Cancel my account</h3>
-
-<div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
-
-<%= link_to "Back", :back %>
+</div>
