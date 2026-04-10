@@ -21,9 +21,9 @@ class ContextsController < ApplicationController
   def create
     @context =current_user.contexts.new(context_params)
     if @context.save
-      chat = @context.chats.create!
-      redirect_to chat_path(chat),
-        notice: "Bravo 🎉 Tu peux discuter avec ton assistant pour réviser ton cours de #{@context.subject}"
+      @context.chats.create!
+      redirect_to contexts_path,
+        notice: "Bravo 🎉 Ton cours #{@context.title} a été importé avec succès !"
     else
       render :new, status: :unprocessable_entity
     end
