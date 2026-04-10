@@ -79,9 +79,18 @@ class MessagesController < ApplicationController
         Rails.logger.error("Document inaccessible pour context #{@context.id}: #{e.message}")
         fallback = user_content + "\n\n(Note: Le document PDF n'est pas accessible actuellement.)"
         @ruby_llm_chat.ask(fallback, &streaming_block)
+      rescue RubyLLM::ServiceUnavailableError => e
+        # Rate limit ou serveur indisponible
+        Rails.logger.error("Gemini API indisponible: #{e.message}")
+        accumulated_content = "⚠️ Le service est temporairement surchargé. Merci de réessayer dans quelques secondes."
       end
     else
-      @ruby_llm_chat.ask(user_content, &streaming_block)
+      begin
+        @ruby_llm_chat.ask(user_content, &streaming_block)
+      rescue RubyLLM::ServiceUnavailableError => e
+        Rails.logger.error("Gemini API indisponible: #{e.message}")
+        accumulated_content = "⚠️ Le service est temporairement surchargé. Merci de réessayer dans quelques secondes."
+      end
     end
 
     # 5. Sauvegarder le contenu final en base (une seule écriture)
