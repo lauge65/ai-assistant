@@ -23,9 +23,10 @@
           <%= f.input :level,
                 label: "Niveau scolaire",
                 include_blank: "Choisir un niveau",
-                collection: ["CP", "CE1", "CE2", "CM1", "CM2", "6ème", "5ème", "4ème", "3ème", "Seconde", "Première", "Terminale"],
+                collection: User::LEVELS,
                 input_html: { class: "form-select context-form__select" } %>
         </div>
+
         <div class="col-md-6">
           <%= f.input :date,
                 as: :string,
@@ -42,7 +43,7 @@
       <div class="context-form__radio-grid">
         <%= f.input :subject,
               label: "📖 Matière",
-              collection: ["Physique-Chimie", "Histoire-Géographie", "EMC", "Mathématiques", "SVT", "Histoire", "Français", "Langues", "Technologie", "Arts plastiques", "Éducation musicale", "SES", "SNT"],
+              collection: ["Physique-Chimie", "Histoire-Géographie", "EMC", "Mathématiques", "SVT", "Histoire", "Français", "Langues", "Technologie", "Arts plastiques", "Éducation musicale", "SES", "SNT", "Autre"],
               as: :radio_buttons,
               item_wrapper_class: "context-form__radio-item" %>
       </div>

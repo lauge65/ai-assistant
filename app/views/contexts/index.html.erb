@@ -1,5 +1,20 @@
 <div class="contexts-page py-5">
   <div class="container">
+
+    <!-- SEARCH BAR -->
+    <div class="contexts-search-bar mb-5">
+      <%= form_with url: contexts_path, method: :get, local: true, class: "search-form" do %>
+        <div class="search-input-group">
+          <%= text_field_tag :query,
+            params[:query],
+            placeholder: "Rechercher un cours...",
+            class: "search-input" %>
+
+          <%= submit_tag "Rechercher", class: "search-btn" %>
+        </div>
+      <% end %>
+    </div>
+
     <div class="contexts-header d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-5">
       <div>
         <p class="contexts-subtitle mb-2">Dashboard</p>
@@ -8,8 +23,8 @@
 
       <div class="mt-4 mt-md-0 dashboard-cta-wrap">
         <%= link_to new_context_path, class: "home-cta text-decoration-none" do %>
-          <span class="home-cta-label">Importer un nouveau cours</span>
-          <span class="home-cta-note">Ajoute un nouveau cours et crée son assistant IA</span>
+          <span class="home-cta-label">Ajouter un cours</span>
+          <span class="home-cta-note">Crée ton assistant de révision</span>
         <% end %>
       </div>
     </div>
@@ -53,7 +68,7 @@
 
                 <div class="mt-4">
                   <div class="d-flex justify-content-between align-items-start gap-3">
-                    <%= link_to "📄 Mon cours",
+                    <%= link_to "📚 Réviser",
                       context_path(context),
                       class: "document-btn text-decoration-none" %>
 
@@ -61,7 +76,7 @@
                       <div class="d-flex flex-column gap-2">
                         <% context.chats.each_with_index do |chat, index| %>
                           <div class="d-flex align-items-center gap-1">
-                            <%= link_to "🤖 Assistant ##{index + 1}",
+                            <%= link_to "🤖 Assistan IA ##{index + 1}",
                               chat_path(chat),
                               class: "document-btn text-decoration-none" %>
                             <%= button_to chat_path(chat),
@@ -71,7 +86,6 @@
                               ✖
                             <% end %>
                           </div>
-
                         <% end %>
                       </div>
                     <% end %>
@@ -85,18 +99,29 @@
     <% else %>
       <div class="empty-context-state text-center">
         <div class="empty-context-box mx-auto">
-          <p class="empty-context-emoji mb-3">📚</p>
-          <h2 class="empty-context-title mb-2">Pas encore de cours importé</h2>
-          <p class="empty-context-text mb-4">
-            Commence en important ton premier cours.
-          </p>
+          <% if params[:query].present? %>
+            <%# Recherche sans résultat %>
+            <p class="empty-context-emoji mb-3">🔍</p>
+            <h2 class="empty-context-title mb-2">Aucun cours trouvé</h2>
+            <p class="empty-context-text mb-4">
+              Aucun cours ne correspond à "<%= params[:query] %>".
+            </p>
+            <%= link_to "Voir tous mes cours", contexts_path, class: "btn btn-outline-primary" %>
+          <% else %>
+            <%# Aucun cours importé %>
+            <p class="empty-context-emoji mb-3">📚</p>
+            <h2 class="empty-context-title mb-2">Pas encore de cours importé</h2>
+            <p class="empty-context-text mb-4">
+              Commence en important ton premier cours.
+            </p>
 
-          <div class="empty-dashboard-cta">
-            <%= link_to new_context_path, class: "home-cta text-decoration-none" do %>
-              <span class="home-cta-label">Importer un nouveau cours</span>
-              <span class="home-cta-note">Ajoute ton premier cours dans EasyLearn</span>
-            <% end %>
-          </div>
+            <div class="empty-dashboard-cta">
+              <%= link_to new_context_path, class: "home-cta text-decoration-none" do %>
+                <span class="home-cta-label">Importer un nouveau cours</span>
+                <span class="home-cta-note">Ajoute ton premier cours dans EasyLearn</span>
+              <% end %>
+            </div>
+          <% end %>
         </div>
       </div>
     <% end %>

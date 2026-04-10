@@ -4,6 +4,10 @@ class ContextsController < ApplicationController
 
   def index
     @contexts = current_user.contexts
+
+    if params[:query].present?
+      @contexts = @contexts.search_by_title_and_subject(params[:query])
+    end
   end
 
   def show
@@ -11,15 +15,15 @@ class ContextsController < ApplicationController
   end
 
   def new
-    @context = Context.new
+    @context = current_user.contexts.new(level: current_user.level)
   end
 
   def create
     @context =current_user.contexts.new(context_params)
     if @context.save
-      chat = @context.chats.create!
-      redirect_to chat_path(chat),
-        notice: "Bravo 🎉 Tu peux discuter avec ton assistant pour réviser ton cours de #{@context.subject}"
+      @context.chats.create!
+      redirect_to contexts_path,
+        notice: "Bravo 🎉 Ton cours #{@context.title} a été importé avec succès !"
     else
       render :new, status: :unprocessable_entity
     end

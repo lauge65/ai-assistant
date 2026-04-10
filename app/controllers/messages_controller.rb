@@ -72,16 +72,29 @@ class MessagesController < ApplicationController
       # Télécharger le PDF via Active Storage localement (nécessaire pour Gemini, une URL ne suffit pas)
       begin
         @context.document.open do |temp_file|
+          Rails.logger.info("🚀 Appel API Gemini avec PDF - Chat #{@chat.id}")
           @ruby_llm_chat.ask(user_content, with: { pdf: temp_file.path }, &streaming_block)
+          Rails.logger.info("✅ Fin appel API Gemini - Chat #{@chat.id}")
         end
       rescue ActiveStorage::IntegrityError, ActiveStorage::FileNotFoundError => e
         # Si le fichier est inaccessible, répondre sans le PDF
         Rails.logger.error("Document inaccessible pour context #{@context.id}: #{e.message}")
         fallback = user_content + "\n\n(Note: Le document PDF n'est pas accessible actuellement.)"
         @ruby_llm_chat.ask(fallback, &streaming_block)
+      rescue RubyLLM::ServiceUnavailableError => e
+        # Rate limit ou serveur indisponible
+        Rails.logger.error("Gemini API indisponible: #{e.message}")
+        accumulated_content = "⚠️ Le service est temporairement surchargé. Merci de réessayer dans quelques secondes."
       end
     else
-      @ruby_llm_chat.ask(user_content, &streaming_block)
+      begin
+        Rails.logger.info("🚀 Appel API Gemini sans PDF - Chat #{@chat.id}")
+        @ruby_llm_chat.ask(user_content, &streaming_block)
+        Rails.logger.info("✅ Fin appel API Gemini - Chat #{@chat.id}")
+      rescue RubyLLM::ServiceUnavailableError => e
+        Rails.logger.error("Gemini API indisponible: #{e.message}")
+        accumulated_content = "⚠️ Le service est temporairement surchargé. Merci de réessayer dans quelques secondes."
+      end
     end
 
     # 5. Sauvegarder le contenu final en base (une seule écriture)
