@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   resources :contexts do
     member do
-      get :generate_summary
+      post :generate_summary
     end
     resources :chats, only: [:create]
     resource :podcast_script, only: [:create] do
