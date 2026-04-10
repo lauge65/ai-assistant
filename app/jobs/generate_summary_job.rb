@@ -6,11 +6,13 @@ class GenerateSummaryJob < ApplicationJob
 
     return unless context.document.attached? && context.document.content_type == "application/pdf"
 
-    instructions = "Tu es un professeur expert. Rédige une fiche de révision complète et structurée basée sur le contenu du document PDF fourni. La fiche doit être adaptée à un élève de niveau #{context.level} en #{context.subject}. Titre du cours : '#{context.title}'."
+    instructions = "Tu es un professeur expert.
+    Rédige une fiche de révision complète et structurée basée sur le contenu du document PDF fourni.
+    La fiche doit être adaptée à un élève de niveau #{context.level} en #{context.subject}. Titre du cours : '#{context.title}'."
 
     begin
       Rails.logger.info("🚀 [Job] Appel API Gemini pour generate_summary - Context #{context.id}")
-      ruby_llm_chat = RubyLLM.chat(model: "gemini-2.5-flash").with_instructions(instructions)
+      ruby_llm_chat = RubyLLM.chat(model: "gemini-3.1-flash-lite-preview").with_instructions(instructions)
 
       texte_pour_la_fiche = nil
       context.document.open do |temp_file|
