@@ -55,6 +55,7 @@ gem "pg_search"
 
 gem "cloudinary"
 gem "image_processing", "~> 1.2" # needed by ActiveStorage
+gem "prawn"
 
 group :development, :test do
   gem "dotenv-rails"

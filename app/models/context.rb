@@ -7,6 +7,7 @@ class Context < ApplicationRecord
   has_one :podcast_script, dependent: :destroy
 
   has_one_attached :document
+  has_one_attached :summary
   validates :title, :level, :subject, :date, :document, presence: true
 
   validate :document_size_limit

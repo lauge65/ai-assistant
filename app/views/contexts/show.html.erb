@@ -55,17 +55,30 @@
               <p>Pas de cours téléchargé.</p>
             <% end %>
           </div>
-          </div>
-        <div class="d-flex align-items-center">
-  <div class="mt-4 d-flex flex-column gap-3">
-    <%= button_to "🤖 Nouvel assistant sur le même cours",
-      context_chats_path(@context),
-      method: :post,
-      class: "new-context-btn border-0 text-decoration-none d-inline-flex align-items-center justify-content-center" %>
-  </div>
-</div>
         </div>
-    </div>
+
+        <div class="d-flex align-items-center">
+          <div class="mt-4 d-flex flex-column gap-3">
+            <%= button_to "🤖 Nouvel assistant sur le même cours",
+              context_chats_path(@context),
+              method: :post,
+              class: "new-context-btn border-0 text-decoration-none d-inline-flex align-items-center justify-content-center" %>
+
+            <% if @context.summary.attached? %>
+              <%= link_to "⬇️ Télécharger la fiche de révision",
+                rails_blob_path(@context.summary, disposition: "attachment"),
+                target: "_blank",
+                class: "new-context-btn text-decoration-none d-inline-flex align-items-center justify-content-center" %>
+            <% else %>
+              <%= button_to "📝 Générer la fiche de révision",
+                generate_summary_context_path(@context),
+                method: :post,
+                class: "new-context-btn border-0 text-decoration-none d-inline-flex align-items-center justify-content-center" %>
+            <% end %>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 </div>

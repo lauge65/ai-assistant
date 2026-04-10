@@ -71,7 +71,8 @@ Rails.application.configure do
   # config.cache_store = :mem_cache_store
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
-  # config.active_job.queue_adapter = :resque
+  # Pour un usage simple avec 1 dyno, :async suffit
+  config.active_job.queue_adapter = :async
   # config.active_job.queue_name_prefix = "ai_assistant_production"
 
   config.action_mailer.perform_caching = false

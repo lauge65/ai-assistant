@@ -1,6 +1,6 @@
 class ContextsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_context, only: [:show, :edit, :update, :destroy]
+  before_action :set_context, only: [:show, :edit, :update, :destroy, :generate_summary]
 
   def index
     @contexts = current_user.contexts
@@ -42,9 +42,19 @@ class ContextsController < ApplicationController
   end
 
   def destroy
-    @context = current_user.contexts.find(params[:id])
     @context.destroy
     redirect_to contexts_path
+  end
+
+  def generate_summary
+    unless @context.document.attached? && @context.document.content_type == "application/pdf"
+      return redirect_to context_path(@context), alert: "⚠️ Aucun PDF attaché à ce cours."
+    end
+
+    # Lancer la génération en arrière-plan
+    GenerateSummaryJob.perform_later(@context.id)
+
+    redirect_to context_path(@context), notice: "📝 La fiche de révision est en cours de génération. Reviens dans quelques secondes !"
   end
 
   private
