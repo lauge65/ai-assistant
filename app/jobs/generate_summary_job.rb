@@ -27,11 +27,32 @@ class GenerateSummaryJob < ApplicationJob
       return
     end
 
-    # Générer le PDF
+    # Générer le PDF avec police UTF-8
+    Prawn::Fonts::AFM.hide_m17n_warning = true
     pdf = Prawn::Document.new
+
+    # Utiliser une police TTF compatible UTF-8
+    font_path = Rails.root.join("app", "assets", "fonts", "DejaVuSans.ttf")
+    font_bold_path = Rails.root.join("app", "assets", "fonts", "DejaVuSans-Bold.ttf")
+    if File.exist?(font_path)
+      pdf.font_families.update("DejaVu" => {
+        normal: font_path.to_s,
+        bold: File.exist?(font_bold_path) ? font_bold_path.to_s : font_path.to_s
+      })
+      pdf.font "DejaVu"
+    end
+
+    # Nettoyer le texte pour éviter les caractères problématiques
+    texte_propre = texte_pour_la_fiche.to_s
+      .gsub(/[\u2018\u2019]/, "'")   # Smart quotes -> apostrophe simple
+      .gsub(/[\u201C\u201D]/, '"')   # Smart double quotes -> guillemets simples
+      .gsub(/\u2026/, "...")          # Ellipsis -> trois points
+      .gsub(/[\u2013\u2014]/, "-")   # Tirets spéciaux -> tiret simple
+      .encode("UTF-8", invalid: :replace, undef: :replace, replace: "")
+
     pdf.text "Fiche de révision : #{context.title}", size: 24, style: :bold
     pdf.move_down 20
-    pdf.text texte_pour_la_fiche, size: 12
+    pdf.text texte_propre, size: 12
 
     chemin_temporaire = Rails.root.join("tmp", "fiche_#{context.id}_#{Time.now.to_i}.pdf")
     pdf.render_file(chemin_temporaire)
