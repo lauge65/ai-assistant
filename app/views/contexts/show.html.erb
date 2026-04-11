@@ -1,40 +1,44 @@
 <div class="container my-5">
+  <div
+    class="confetti-overlay"
+    data-controller="confetti"
+    data-confetti-active-value="<%= flash[:confetti].present? %>">
+  </div>
+
   <%= link_to "← Retour à mes cours", contexts_path, class: "text-decoration-none" %>
 
   <div class="context-card mt-4">
     <div class="context-card-body">
-
       <div class="d-flex justify-content-between align-items-start flex-wrap gap-4">
-
-        <div style="max-width: 700px">
-          <h1 class="context-card-title"><%= @context.title %></h1>
-
-          <p class="context-badge mb-4"><%= @context.subject %></p>
-
-          <div class="context-info-list">
-            <div class="context-info-item">
-              <span class="context-info-label">Niveau</span>
-              <span class="context-info-value"><%= @context.level %></span>
+        <div class="context-show-main" style="max-width: 700px">
+          <div class="d-flex align-items-start justify-content-between flex-wrap gap-3 mb-4">
+            <div>
+              <p class="context-badge mb-2"><%= @context.subject %></p>
+              <h1 class="context-card-title mb-2"><%= @context.title %></h1>
+              <div class="context-meta-chips">
+                <span class="context-meta-chip"><%= @context.level %></span>
+                <span class="context-meta-chip"><%= l(@context.date, format: :long) %></span>
+              </div>
             </div>
 
-            <div class="context-info-item">
-              <span class="context-info-label">Date</span>
-              <span class="context-info-value"><%= @context.date %></span>
-            </div>
+            <%= render "progress_ring", context: @context %>
           </div>
 
           <div class="mt-4 d-flex gap-2 flex-wrap">
             <% if @context.document.attached? %>
               <%= link_to "📄 Ouvrir mon cours",
-                  url_for(@context.document),
-                  target: "_blank",
+                  lecture_context_path(@context),
                   class: "document-btn text-decoration-none" %>
 
               <% if @context.podcast_script&.audio&.attached? %>
                 <%= link_to "🎧 Télécharger le podcast",
                     download_audio_context_podcast_script_path(@context),
                     class: "document-btn text-decoration-none",
-                    data: { turbo: false } %>
+                    data: {
+                      turbo: false,
+                      controller: "progress-refresh",
+                      action: "click->progress-refresh#scheduleReload"
+                    } %>
               <% elsif @context.podcast_script&.generating? || @context.podcast_script&.audio_status == "generating" %>
                 <span class="document-btn" style="opacity: 0.7; cursor: wait;">
                   ⏳ Génération en cours...
@@ -55,6 +59,26 @@
               <p>Pas de cours téléchargé.</p>
             <% end %>
           </div>
+
+          <div class="context-progress-panel mt-4">
+            <div class="context-progress-panel__header">
+              <div>
+                <p class="context-progress-panel__eyebrow mb-1">Ma progression</p>
+                <h2 class="context-progress-panel__title mb-0">Les etapes de revision</h2>
+              </div>
+
+              <span class="context-progress-panel__summary"><%= @context.progress_completed_steps %>/5</span>
+            </div>
+
+            <div class="context-progress-steps">
+              <% @context.progress_step_labels.each do |step, label| %>
+                <div class="context-progress-step <%= "is-complete" if @context.public_send(step) %>">
+                  <span class="context-progress-step__icon"><%= @context.public_send(step) ? "✓" : "•" %></span>
+                  <span class="context-progress-step__label"><%= label %></span>
+                </div>
+              <% end %>
+            </div>
+          </div>
         </div>
 
         <div class="d-flex align-items-center">
@@ -65,9 +89,8 @@
               class: "new-context-btn border-0 text-decoration-none d-inline-flex align-items-center justify-content-center" %>
 
             <% if @context.summary.attached? %>
-              <%= link_to "⬇️ Télécharger la fiche de révision",
-                rails_blob_path(@context.summary, disposition: "attachment"),
-                target: "_blank",
+              <%= link_to "📖 Lire la fiche de révision",
+                lecture_summary_context_path(@context),
                 class: "new-context-btn text-decoration-none d-inline-flex align-items-center justify-content-center" %>
             <% else %>
               <%= button_to "📝 Générer la fiche de révision",
@@ -75,9 +98,23 @@
                 method: :post,
                 class: "new-context-btn border-0 text-decoration-none d-inline-flex align-items-center justify-content-center" %>
             <% end %>
+
+            <% if @context.revision_completed? %>
+              <span class="context-completion-badge">✅ Révision terminée</span>
+            <% elsif @context.all_steps_before_revision_done? %>
+              <%= button_to "🎉 Je me sens prêt",
+                complete_revision_context_path(@context),
+                method: :patch,
+                class: "document-btn document-btn--ready border-0 text-decoration-none d-inline-flex align-items-center justify-content-center" %>
+            <% else %>
+              <span
+                class="document-btn document-btn--locked d-inline-flex align-items-center justify-content-center"
+                title="Termine toutes les étapes pour débloquer cette action">
+                🔒 Je me sens prêt
+              </span>
+            <% end %>
           </div>
         </div>
-
       </div>
     </div>
   </div>

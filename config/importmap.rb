@@ -10,10 +10,13 @@ pin "controllers/application", to: "controllers/application.js"
 pin "controllers/autoscroll_controller", to: "controllers/autoscroll_controller.js"
 pin "controllers/chat_form_controller", to: "controllers/chat_form_controller.js"
 pin "controllers/clipboard_controller", to: "controllers/clipboard_controller.js"
+pin "controllers/confetti_controller", to: "controllers/confetti_controller.js"
 pin "controllers/flatpickr_controller", to: "controllers/flatpickr_controller.js"
 pin "controllers/hello_controller", to: "controllers/hello_controller.js"
+pin "controllers/progress_refresh_controller", to: "controllers/progress_refresh_controller.js"
 pin "controllers/speech_controller", to: "controllers/speech_controller.js"
 pin "controllers/toggle_controller", to: "controllers/toggle_controller.js"
+pin "controllers/pdf_reader_controller", to: "controllers/pdf_reader_controller.js"
 pin "controllers", to: "controllers/index.js"
 
 pin "bootstrap", to: "bootstrap.min.js", preload: true

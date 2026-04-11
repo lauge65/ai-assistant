@@ -15,6 +15,7 @@ class MessagesController < ApplicationController
   def create
     @chat = Chat.joins(:context).where(contexts: { user_id: current_user.id }).find(params[:chat_id])
     @context = @chat.context
+    @context.mark_step!(:assistant_used) unless @context.assistant_used?
 
     #récupérer les données du form
     user_content = message_params[:content]

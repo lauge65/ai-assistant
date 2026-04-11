@@ -1,0 +1,23 @@
+<div
+  data-controller="pdf-reader"
+  data-pdf-reader-url-value="<%= mark_document_read_context_path(@context) %>"
+  data-pdf-reader-already-read-value="<%= @context.document_opened %>">
+
+  <div class="lecture-toolbar">
+    <%= link_to "← Retour au cours", context_path(@context), class: "lecture-toolbar__back text-decoration-none" %>
+    <span class="lecture-toolbar__title"><%= @context.title %></span>
+  </div>
+
+  <embed src="<%= @pdf_url %>" type="application/pdf" class="lecture-embed">
+
+  <div class="lecture-footer container py-4 text-center">
+    <p class="lecture-footer__hint text-muted">
+      <% if @context.document_opened? %>
+        ✅ Cours marqué comme lu.
+      <% else %>
+        Descendez jusqu'en bas du document pour valider la lecture.
+      <% end %>
+    </p>
+    <%= link_to "← Retour au cours", context_path(@context), class: "document-btn text-decoration-none" %>
+  </div>
+</div>

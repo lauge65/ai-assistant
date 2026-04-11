@@ -37,6 +37,8 @@ class PodcastScriptsController < ApplicationController
       return
     end
 
+    @context.mark_step!(:podcast_opened) unless @context.podcast_opened?
+
     # Télécharger directement le fichier depuis le service de stockage
     filename = "podcast_#{@context.title.parameterize}_#{Date.today}.mp3"
 

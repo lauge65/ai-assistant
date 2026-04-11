@@ -1,0 +1,14 @@
+<div class="context-progress-ring" style="<%= progress_ring_style(context) %>">
+  <div class="context-progress-ring__halo"></div>
+
+  <svg viewBox="0 0 120 120" aria-hidden="true">
+    <circle class="context-progress-ring__track" cx="60" cy="60" r="52"></circle>
+    <circle class="context-progress-ring__value" cx="60" cy="60" r="52"></circle>
+  </svg>
+
+  <div class="context-progress-ring__content">
+    <div class="context-progress-ring__core"></div>
+    <strong><%= context.progress_percentage %>%</strong>
+    <span>progression</span>
+  </div>
+</div>

@@ -13,14 +13,23 @@ application.register("chat-form", ChatFormController)
 import ClipboardController from "controllers/clipboard_controller"
 application.register("clipboard", ClipboardController)
 
+import ConfettiController from "controllers/confetti_controller"
+application.register("confetti", ConfettiController)
+
 import FlatpickrController from "controllers/flatpickr_controller"
 application.register("flatpickr", FlatpickrController)
 
 import HelloController from "controllers/hello_controller"
 application.register("hello", HelloController)
 
+import ProgressRefreshController from "controllers/progress_refresh_controller"
+application.register("progress-refresh", ProgressRefreshController)
+
 import ToggleController from "controllers/toggle_controller"
 application.register("toggle", ToggleController)
 
 import SpeechController from "controllers/speech_controller"
 application.register("speech", SpeechController)
+
+import PdfReaderController from "controllers/pdf_reader_controller"
+application.register("pdf-reader", PdfReaderController)

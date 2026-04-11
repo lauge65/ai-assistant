@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_04_08_103000) do
+ActiveRecord::Schema[7.1].define(version: 2026_04_11_103000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -59,6 +59,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_08_103000) do
     t.date "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "document_opened", default: false, null: false
+    t.boolean "assistant_used", default: false, null: false
+    t.boolean "podcast_opened", default: false, null: false
+    t.boolean "revision_completed", default: false, null: false
+    t.boolean "summary_opened", default: false, null: false
     t.index ["user_id"], name: "index_contexts_on_user_id"
   end
 
