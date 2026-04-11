@@ -407,9 +407,10 @@ DEPENDENCIES
   image_processing (~> 1.2)
   importmap-rails
   jbuilder
+  matrix
   pg (~> 1.1)
-  prawn
   pg_search
+  prawn
   puma (>= 5.0)
   rails (~> 7.1.6)
   redis (>= 4.0.1)

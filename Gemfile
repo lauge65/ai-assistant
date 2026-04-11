@@ -56,6 +56,7 @@ gem "pg_search"
 gem "cloudinary"
 gem "image_processing", "~> 1.2" # needed by ActiveStorage
 gem "prawn"
+gem "matrix" # needed for prawn on Heroku
 
 group :development, :test do
   gem "dotenv-rails"
