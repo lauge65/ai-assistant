@@ -51,7 +51,7 @@ class Context < ApplicationRecord
   def mark_step!(step_name)
     return unless PROGRESS_STEPS.include?(step_name.to_sym)
 
-    update!(step_name => true)
+    update_column(step_name, true)
   end
 
   private
