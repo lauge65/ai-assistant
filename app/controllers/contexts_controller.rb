@@ -71,6 +71,7 @@ class ContextsController < ApplicationController
       return redirect_to context_path(@context), alert: "⚠️ Aucun PDF attaché à ce cours."
     end
 
+    @context.mark_step!(:document_opened)
     @pdf_url = rails_blob_url(@context.document, disposition: "inline")
   end
 
@@ -84,6 +85,7 @@ class ContextsController < ApplicationController
       return redirect_to context_path(@context), alert: "⚠️ Aucune fiche disponible."
     end
 
+    @context.mark_step!(:summary_opened)
     @pdf_url = rails_blob_url(@context.summary, disposition: "inline")
   end
 
