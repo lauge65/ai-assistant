@@ -93,6 +93,10 @@
   padding: 1.6rem;
 }
 
+.context-card-header-meta {
+  min-width: 0;
+}
+
 .context-badge {
   display: inline-flex;
   align-items: center;
@@ -109,6 +113,24 @@
   font-weight: 700;
   letter-spacing: -0.03em;
   color: #111827;
+}
+
+.context-meta-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.context-meta-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.32rem 0.72rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  color: #475569;
+  font-size: 0.82rem;
+  font-weight: 600;
 }
 
 .context-info-list {
@@ -159,6 +181,247 @@
   transform: translateY(-1px);
   background: var(--subject-btn-hover-bg);
   box-shadow: 0 12px 26px rgba(15, 23, 42, 0.1);
+}
+
+.context-card-progress {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.context-progress-caption {
+  color: #64748b;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.confetti-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 9999;
+}
+
+.confetti-piece {
+  position: absolute;
+  opacity: 0.95;
+  border-radius: 2px;
+  animation-name: confetti-fall;
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation-fill-mode: forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes confetti-fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -20px, 0) rotate(0deg) scale(0.7);
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--confetti-drift), 110vh, 0) rotate(var(--confetti-rotate)) scale(1);
+  }
+}
+
+.context-progress-ring {
+  --progress-accent: #4f46e5;
+  --progress-accent-soft: rgba(79, 70, 229, 0.16);
+  --progress-offset: 326.73;
+  position: relative;
+  width: 160px;
+  height: 160px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+}
+
+.context-progress-ring svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  position: relative;
+  z-index: 2;
+}
+
+.context-progress-ring__halo {
+  position: absolute;
+  inset: 14px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.2) 40%, transparent 72%),
+    radial-gradient(circle at 70% 70%, var(--progress-accent-soft), transparent 58%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    0 16px 30px rgba(15, 23, 42, 0.08);
+  z-index: 1;
+}
+
+.context-progress-ring__track,
+.context-progress-ring__value {
+  fill: none;
+  stroke-width: 9;
+}
+
+.context-progress-ring__track {
+  stroke: rgba(255, 255, 255, 0.8);
+}
+
+.context-progress-ring__value {
+  stroke: var(--progress-accent);
+  stroke-linecap: round;
+  stroke-dasharray: 326.73;
+  stroke-dashoffset: var(--progress-offset);
+  transition: stroke-dashoffset 0.35s ease;
+  filter: drop-shadow(0 8px 14px var(--progress-accent-soft));
+}
+
+.context-progress-ring__content {
+  position: absolute;
+  inset: 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 3;
+}
+
+.context-progress-ring__core {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.72)),
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.95), transparent 62%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -18px 24px rgba(148, 163, 184, 0.08);
+}
+
+.context-progress-ring__content strong {
+  position: relative;
+  color: #0f172a;
+  font-size: 2.1rem;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.context-progress-ring__content span {
+  position: relative;
+  margin-top: 0.3rem;
+  color: #64748b;
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.context-progress-panel {
+  padding: 1.35rem;
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0.5));
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    0 14px 26px rgba(15, 23, 42, 0.05);
+}
+
+.context-progress-panel__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.context-progress-panel__eyebrow {
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.context-progress-panel__title {
+  color: #0f172a;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.context-progress-panel__summary {
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  color: #0f172a;
+  font-weight: 700;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.context-progress-steps {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.context-progress-step {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  color: #475569;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.context-progress-step.is-complete {
+  background: rgba(236, 253, 245, 0.78);
+  border-color: rgba(52, 211, 153, 0.24);
+  color: #065f46;
+}
+
+.context-progress-step__icon {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.16);
+  font-weight: 800;
+}
+
+.context-progress-step.is-complete .context-progress-step__icon {
+  background: rgba(16, 185, 129, 0.16);
+}
+
+.context-progress-step__label {
+  font-weight: 600;
+}
+
+.context-completion-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.8rem 1.1rem;
+  border-radius: 999px;
+  background: rgba(236, 253, 245, 0.94);
+  border: 1px solid rgba(16, 185, 129, 0.24);
+  color: #065f46;
+  font-weight: 700;
 }
 
 .new-context-btn {
@@ -279,6 +542,22 @@
 .empty-context-text {
   color: #6b7280;
   font-size: 1.05rem;
+}
+
+@media (max-width: 767px) {
+  .context-progress-ring {
+    width: 136px;
+    height: 136px;
+  }
+
+  .context-progress-ring__content strong {
+    font-size: 1.7rem;
+  }
+
+  .context-progress-panel__header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }
 
 /* =========================
@@ -703,5 +982,98 @@
   .account-profile-head {
     flex-direction: column;
     align-items: flex-start;
+  }
+}
+
+// Lecture page (PDF reader)
+.lecture-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.lecture-toolbar__back {
+  color: #4f46e5;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.lecture-toolbar__title {
+  font-weight: 600;
+  color: #111827;
+  font-size: 0.95rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lecture-embed {
+  display: block;
+  width: 100%;
+  height: calc(100vh - 52px);
+  border: none;
+}
+
+.lecture-footer {
+  text-align: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.lecture-footer__hint {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.document-btn--locked {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: grayscale(0.4);
+}
+
+.document-btn--ready {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+  animation: pulse-ready 2s ease-in-out infinite;
+}
+
+@keyframes pulse-ready {
+  0%, 100% { box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3); }
+  50% { box-shadow: 0 8px 28px rgba(79, 70, 229, 0.55); }
+}
+
+.lecture-confirm {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(79, 70, 229, 0.2);
+  box-shadow: 0 4px 16px rgba(79, 70, 229, 0.08);
+}
+
+.lecture-confirm__label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 600;
+  color: #111827;
+  cursor: pointer;
+  font-size: 1rem;
+
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #4f46e5;
   }
 }

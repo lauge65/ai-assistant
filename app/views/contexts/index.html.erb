@@ -35,39 +35,42 @@
           <div class="col-md-6 col-xl-4">
             <div class="context-card h-100 <%= subject_theme(context.subject) %>">
               <div class="context-card-body d-flex flex-column h-100">
-                <div class="d-flex justify-content-between align-items-start mb-4">
-                  <div>
+                <div class="d-flex justify-content-between align-items-start gap-3 mb-4">
+                  <div class="context-card-header-meta">
                     <p class="context-badge mb-2"><%= context.subject %></p>
-                    <h2 class="context-card-title mb-0"><%= context.title %></h2>
+                    <div class="context-meta-chips">
+                      <span class="context-meta-chip"><%= context.level %></span>
+                      <span class="context-meta-chip"><%= l(context.date, format: :long) %></span>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-end gap-3">
+                    <%= link_to edit_context_path(context), class: "icon-btn" do %>
+                      ✏️
+                    <% end %>
+
+                    <%= button_to context_path(context),
+                        method: :delete,
+                        form: { data: { turbo_confirm: "Supprimer ce cours et l'assistant associé ?" }, class: "d-inline" },
+                        class: "icon-btn danger" do %>
+                      ✖
+                    <% end %>
                   </div>
                 </div>
 
-                <div class="d-flex justify-content-end gap-3 mb-3">
-                  <%= link_to edit_context_path(context), class: "icon-btn" do %>
-                    ✏️
-                  <% end %>
-
-                  <%= link_to context_path(context),
-                      data: { turbo_method: :delete, turbo_confirm: "Supprimer ce cours et l'assistant associé ?" },
-                      class: "icon-btn danger" do %>
-                    ✖
-                  <% end %>
+                <div class="context-card-progress">
+                  <%= render "progress_ring", context: context %>
                 </div>
 
-                <div class="context-info-list">
-                  <div class="context-info-item">
-                    <span class="context-info-label">Niveau</span>
-                    <span class="context-info-value"><%= context.level %></span>
-                  </div>
-
-                  <div class="context-info-item">
-                    <span class="context-info-label">Date</span>
-                    <span class="context-info-value"><%= context.date %></span>
-                  </div>
+                <div class="text-center mt-4">
+                  <h2 class="context-card-title mb-2"><%= context.title %></h2>
+                  <p class="context-progress-caption mb-0">
+                    <%= context.progress_completed_steps %> étape<%= "s" if context.progress_completed_steps > 1 %> sur 5 complétées
+                  </p>
                 </div>
 
                 <div class="mt-4">
-                  <div class="d-flex justify-content-between align-items-start gap-3">
+                  <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap">
                     <%= link_to "📚 Réviser",
                       context_path(context),
                       class: "document-btn text-decoration-none" %>
@@ -76,7 +79,7 @@
                       <div class="d-flex flex-column gap-2">
                         <% context.chats.each_with_index do |chat, index| %>
                           <div class="d-flex align-items-center gap-1">
-                            <%= link_to "🤖 Assistan IA ##{index + 1}",
+                            <%= link_to "🤖 Assistant IA ##{index + 1}",
                               chat_path(chat),
                               class: "document-btn text-decoration-none" %>
                             <%= button_to chat_path(chat),

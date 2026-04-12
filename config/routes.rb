@@ -5,6 +5,13 @@ Rails.application.routes.draw do
   resources :contexts do
     member do
       post :generate_summary
+      get :open_document
+      get :open_summary
+      patch :complete_revision
+      get :lecture
+      patch :mark_document_read
+      get :lecture_summary
+      patch :mark_summary_read
     end
     resources :chats, only: [:create]
     resource :podcast_script, only: [:create] do

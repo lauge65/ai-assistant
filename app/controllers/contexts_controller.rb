@@ -1,6 +1,6 @@
 class ContextsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_context, only: [:show, :edit, :update, :destroy, :generate_summary]
+  before_action :set_context, only: [:show, :edit, :update, :destroy, :generate_summary, :open_document, :open_summary, :complete_revision, :lecture, :mark_document_read, :lecture_summary, :mark_summary_read]
 
   def index
     @contexts = current_user.contexts
@@ -55,6 +55,62 @@ class ContextsController < ApplicationController
     GenerateSummaryJob.perform_later(@context.id)
 
     redirect_to context_path(@context), notice: "📝 La fiche de révision est en cours de génération. Reviens dans quelques secondes !"
+  end
+
+  def open_document
+    unless @context.document.attached?
+      return redirect_to context_path(@context), alert: "⚠️ Aucun PDF attaché à ce cours."
+    end
+
+    @context.mark_step!(:document_opened)
+    redirect_to rails_blob_url(@context.document, disposition: "inline")
+  end
+
+  def lecture
+    unless @context.document.attached?
+      return redirect_to context_path(@context), alert: "⚠️ Aucun PDF attaché à ce cours."
+    end
+
+    @pdf_url = rails_blob_url(@context.document, disposition: "inline")
+  end
+
+  def mark_document_read
+    @context.mark_step!(:document_opened)
+    render json: { ok: true }
+  end
+
+  def lecture_summary
+    unless @context.summary.attached?
+      return redirect_to context_path(@context), alert: "⚠️ Aucune fiche disponible."
+    end
+
+    @pdf_url = rails_blob_url(@context.summary, disposition: "inline")
+  end
+
+  def mark_summary_read
+    @context.mark_step!(:summary_opened)
+    render json: { ok: true }
+  end
+
+  def complete_revision
+    unless @context.all_steps_before_revision_done?
+      return redirect_to context_path(@context),
+        alert: "Tu n'as pas encore terminé toutes les étapes ! Ouvre ton cours, utilise l'assistant, écoute le podcast et lis ta fiche de révision."
+    end
+
+    @context.mark_step!(:revision_completed)
+    redirect_to context_path(@context),
+      notice: "Bravo ! Tu as terminé toutes les étapes de révision 🎉",
+      flash: { confetti: true }
+  end
+
+  def open_summary
+    unless @context.summary.attached?
+      return redirect_to context_path(@context), alert: "⚠️ Aucune fiche de revision disponible pour ce cours."
+    end
+
+    @context.mark_step!(:summary_opened)
+    redirect_to rails_blob_url(@context.summary, disposition: "attachment")
   end
 
   private
