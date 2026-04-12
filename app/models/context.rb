@@ -36,11 +36,11 @@ class Context < ApplicationRecord
 
   def progress_step_labels
     {
-      document_opened: "Cours ouvert",
-      assistant_used: "Assistant IA utilise",
-      podcast_opened: "Podcast ouvert",
-      summary_opened: "Fiche de revision ouverte",
-      revision_completed: "Revision terminee"
+      document_opened: "Je découvre le cours",
+      assistant_used: "J’éclaircis mes doutes avec l’assistant IA",
+      podcast_opened: "J’écoute le podcast pour mieux mémoriser",
+      summary_opened: "Je révise avec ma fiche de révision",
+      revision_completed: "Je valide mes révisions"
     }
   end
 
