@@ -408,8 +408,8 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   pg (~> 1.1)
-  prawn
   pg_search
+  prawn
   puma (>= 5.0)
   rails (~> 7.1.6)
   redis (>= 4.0.1)
