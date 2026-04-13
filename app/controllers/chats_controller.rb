@@ -5,9 +5,7 @@ class ChatsController < ApplicationController
   def create
     @context = current_user.contexts.find(params[:context_id])
 
-    @chat = Chat.new(
-      context: @context
-    )
+    @chat = @context.chats.build
 
     if @chat.save
       redirect_to chat_path(@chat)
@@ -23,8 +21,9 @@ class ChatsController < ApplicationController
   end
 
   def destroy
+    context = @chat.context
     @chat.destroy
-    redirect_to contexts_path, notice: "Assistant supprimé."
+    redirect_to context_path(context), notice: "Assistant supprimé."
   end
 
   private
