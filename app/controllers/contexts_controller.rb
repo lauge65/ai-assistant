@@ -3,7 +3,7 @@ class ContextsController < ApplicationController
   before_action :set_context, only: [:show, :edit, :update, :destroy, :generate_summary, :open_document, :open_summary, :complete_revision, :lecture, :mark_document_read, :lecture_summary, :mark_summary_read]
 
   def index
-    @contexts = current_user.contexts
+    @contexts = current_user.contexts.order(created_at: :desc)
 
     if params[:query].present?
       @contexts = @contexts.search_by_title_and_subject(params[:query])

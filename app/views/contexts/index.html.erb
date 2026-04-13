@@ -1,7 +1,6 @@
 <div class="contexts-page py-5">
   <div class="container">
 
-    <!-- SEARCH BAR -->
     <div class="contexts-search-bar mb-5">
       <%= form_with url: contexts_path, method: :get, local: true, class: "search-form" do %>
         <div class="search-input-group">
@@ -33,7 +32,9 @@
       <div class="row g-4">
         <% @contexts.each do |context| %>
           <div class="col-md-6 col-xl-4">
-            <div class="context-card h-100 <%= subject_theme(context.subject) %>">
+            <div class="context-card context-card--clickable h-100 position-relative <%= subject_theme(context.subject) %>">
+              <%= link_to "", context_path(context), class: "stretched-link context-card-link", aria: { label: "Ouvrir #{context.title}" } %>
+
               <div class="context-card-body d-flex flex-column h-100">
                 <div class="d-flex justify-content-between align-items-start gap-3 mb-4">
                   <div class="context-card-header-meta">
@@ -44,55 +45,27 @@
                     </div>
                   </div>
 
-                  <div class="d-flex justify-content-end gap-3">
+                  <div class="d-flex justify-content-end gap-3 context-card-actions">
                     <%= link_to edit_context_path(context), class: "icon-btn" do %>
-                      ✏️
+                    <i class="fa-solid fa-pen"></i>
                     <% end %>
 
                     <%= button_to context_path(context),
                         method: :delete,
                         form: { data: { turbo_confirm: "Supprimer ce cours et l'assistant associé ?" }, class: "d-inline" },
                         class: "icon-btn danger" do %>
-                      ✖
+                      <i class="fa-solid fa-trash"></i>
                     <% end %>
                   </div>
                 </div>
 
-                <div class="context-card-progress">
-                  <%= render "progress_ring", context: context %>
-                </div>
-
-                <div class="text-center mt-4">
+                <div class="text-center mt-2 mb-3">
                   <h2 class="context-card-title mb-2"><%= context.title %></h2>
-                  <p class="context-progress-caption mb-0">
-                    <%= context.progress_completed_steps %> étape<%= "s" if context.progress_completed_steps > 1 %> sur 5 complétées
-                  </p>
+
                 </div>
 
-                <div class="mt-4">
-                  <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap">
-                    <%= link_to "📚 Réviser",
-                      context_path(context),
-                      class: "document-btn text-decoration-none" %>
-
-                    <% if context.chats.any? %>
-                      <div class="d-flex flex-column gap-2">
-                        <% context.chats.each_with_index do |chat, index| %>
-                          <div class="d-flex align-items-center gap-1">
-                            <%= link_to "🤖 Assistant IA ##{index + 1}",
-                              chat_path(chat),
-                              class: "document-btn text-decoration-none" %>
-                            <%= button_to chat_path(chat),
-                              method: :delete,
-                              form: { data: { turbo_confirm: "Supprimer cet assistant ?" }, class: "d-inline" },
-                              class: "icon-btn danger" do %>
-                              ✖
-                            <% end %>
-                          </div>
-                        <% end %>
-                      </div>
-                    <% end %>
-                  </div>
+                <div class="context-card-progress mt-3">
+                  <%= render "progress_ring", context: context %>
                 </div>
               </div>
             </div>
@@ -103,7 +76,6 @@
       <div class="empty-context-state text-center">
         <div class="empty-context-box mx-auto">
           <% if params[:query].present? %>
-            <%# Recherche sans résultat %>
             <p class="empty-context-emoji mb-3">🔍</p>
             <h2 class="empty-context-title mb-2">Aucun cours trouvé</h2>
             <p class="empty-context-text mb-4">
@@ -111,7 +83,6 @@
             </p>
             <%= link_to "Voir tous mes cours", contexts_path, class: "btn btn-outline-primary" %>
           <% else %>
-            <%# Aucun cours importé %>
             <p class="empty-context-emoji mb-3">📚</p>
             <h2 class="empty-context-title mb-2">Pas encore de cours importé</h2>
             <p class="empty-context-text mb-4">
