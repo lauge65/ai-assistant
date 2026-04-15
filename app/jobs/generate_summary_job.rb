@@ -6,9 +6,26 @@ class GenerateSummaryJob < ApplicationJob
 
     return unless context.document.attached? && context.document.content_type == "application/pdf"
 
-    instructions = "Tu es un professeur expert.
-    Rédige une fiche de révision complète et structurée basée sur le contenu du document PDF fourni.
-    La fiche doit être adaptée à un élève de niveau #{context.level} en #{context.subject}. Titre du cours : '#{context.title}'."
+    instructions = <<~PROMPT
+      Rôle : Tu es un professeur expert en pédagogie. Ton but est de transformer un cours écrit en une fiche de révision parfaite, synthétique et facile à mémoriser.
+
+      Tâche : À partir du document de cours fourni, rédige une fiche de révision structurée.
+      Niveau de l'élève : #{context.level}.
+      Matière : #{context.subject}.
+      Titre du cours : '#{context.title}'.
+
+      Structure obligatoire de la fiche :
+      1. L'essentiel en 5 points : Un résumé ultra-court et percutant au début.
+      2. Les concepts clés : Explication simple des grandes idées du cours.
+      3. Attention au piège : Identifie 1 erreur fréquente que les élèves font souvent sur ce chapitre.
+
+      Contraintes de formatage (OBLIGATOIRE POUR LE LOGICIEL) :
+      - N'utilise JAMAIS de Markdown (interdiction stricte d'utiliser les symboles #, * ou **).
+      - Pour mettre du texte en gras, utilise STRICTEMENT les balises HTML <b> et </b> (exemple : <b>mot important</b>).
+      - Pour les titres de parties, écris-les simplement en MAJUSCULES et encadrés des balises <b>.
+      - Pour faire une liste, utilise un simple tiret "-" en début de ligne.
+      - Fais des phrases courtes et saute des lignes pour aérer la fiche.
+    PROMPT
 
     begin
       Rails.logger.info("🚀 [Job] Appel API Gemini pour generate_summary - Context #{context.id}")
@@ -42,17 +59,19 @@ class GenerateSummaryJob < ApplicationJob
       pdf.font "DejaVu"
     end
 
-    # Nettoyer le texte pour éviter les caractères problématiques
     texte_propre = texte_pour_la_fiche.to_s
-      .gsub(/[\u2018\u2019]/, "'")   # Smart quotes -> apostrophe simple
-      .gsub(/[\u201C\u201D]/, '"')   # Smart double quotes -> guillemets simples
-      .gsub(/\u2026/, "...")          # Ellipsis -> trois points
-      .gsub(/[\u2013\u2014]/, "-")   # Tirets spéciaux -> tiret simple
+      .gsub(/\*\*(.*?)\*\*/, '<b>\1</b>') # Transforme le gras Markdown (**) en balise HTML <b>
+      .gsub(/^\s*\*\s*/, "- ")             # Remplace les puces Markdown (*) par de vrais tirets
+      .gsub(/#+\s*/, "")                   # Supprime les symboles de titres Markdown (#)
+      .gsub(/[\u2018\u2019]/, "'")         # Smart quotes -> apostrophe simple
+      .gsub(/[\u201C\u201D]/, '"')         # Smart double quotes -> guillemets simples
+      .gsub(/\u2026/, "...")               # Ellipsis -> trois points
+      .gsub(/[\u2013\u2014]/, "-")         # Tirets spéciaux -> tiret simple
       .encode("UTF-8", invalid: :replace, undef: :replace, replace: "")
 
     pdf.text "Fiche de révision : #{context.title}", size: 24, style: :bold
     pdf.move_down 20
-    pdf.text texte_propre, size: 12
+    pdf.text texte_propre, size: 12, inline_format: true
 
     chemin_temporaire = Rails.root.join("tmp", "fiche_#{context.id}_#{Time.now.to_i}.pdf")
     pdf.render_file(chemin_temporaire)
