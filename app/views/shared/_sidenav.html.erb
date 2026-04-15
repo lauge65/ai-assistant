@@ -1,4 +1,5 @@
 
+<% if user_signed_in? %>
 <div class="sidebar-box">
   <div class="nav-item">
     <%= link_to contexts_path, class: "nav-link sidebar-link #{'active' if current_page?(contexts_path)}" do %>
@@ -34,3 +35,4 @@
     <% end %>
   </div>
 </div>
+<% end %>
