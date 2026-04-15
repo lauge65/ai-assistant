@@ -19,7 +19,6 @@
   padding-top: 0;
   padding-bottom: 0;
   margin-right: 1.5rem;
-  overflow: hidden;
 }
 
 .navbar-lewagon .navbar-logo {
@@ -59,4 +58,55 @@
   border: 1px solid #dcdcdc;
   border-radius: 8px;
   background: white;
+}
+
+
+
+.sidebar-sticky {
+  position: sticky;
+  top: 24px;
+  align-self: start;
+}
+
+.sidebar-box {
+  height: calc(100vh - 48px);
+  background: #fff;
+  border: 1px solid #e9ecef;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  color: #4b5563 !important;
+  text-decoration: none;
+}
+
+.sidebar-link:hover {
+  background: #f5f7ff;
+  color: #1d4ed8 !important;
+}
+
+.sidebar-link.active {
+  background: #eef4ff;
+  color: #1d4ed8 !important;
+}
+
+.sidebar-link.disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.sidebar-profile {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid #eef0f3;
 }

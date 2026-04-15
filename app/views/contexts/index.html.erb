@@ -1,5 +1,14 @@
 <div class="contexts-page py-5">
-  <div class="container">
+  <div class="container-fluid px-3">
+    <div class="row g-4 align-items-start">
+      <div class="col-md-3 col-lg-2">
+        <div class="sidebar-sticky">
+          <%= render "shared/sidenav" %>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-lg-10">
+
 
     <div class="contexts-search-bar mb-5">
       <%= form_with url: contexts_path, method: :get, local: true, class: "search-form" do %>
@@ -99,5 +108,8 @@
         </div>
       </div>
     <% end %>
+
+      </div>
+    </div>
   </div>
 </div>
