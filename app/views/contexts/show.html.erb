@@ -5,117 +5,169 @@
     data-confetti-active-value="<%= flash[:confetti].present? %>">
   </div>
 
+  <%= turbo_stream_from "chat_#{@chat.id}" if @chat.present? %>
+
   <%= link_to "← Retour à mes cours", contexts_path, class: "text-decoration-none" %>
 
-  <div class="context-card mt-4">
-    <div class="context-card-body">
-      <div class="d-flex justify-content-between align-items-start flex-wrap gap-4">
-        <div class="context-show-main" style="max-width: 700px">
-          <div class="d-flex align-items-start justify-content-between flex-wrap gap-3 mb-4">
-            <div>
-              <p class="context-badge mb-2"><%= @context.subject %></p>
-              <h1 class="context-card-title mb-2"><%= @context.title %></h1>
-              <div class="context-meta-chips">
-                <span class="context-meta-chip"><%= @context.level %></span>
-                <span class="context-meta-chip"><%= l(@context.date, format: :long) %></span>
-              </div>
-            </div>
+  <div class="context-show-layout mt-4">
 
-            <%= render "progress_ring", context: @context %>
-          </div>
-
-          <div class="mt-4 d-flex gap-2 flex-wrap">
-            <% if @context.document.attached? %>
-              <%= link_to "📄 Ouvrir mon cours",
-                  lecture_context_path(@context),
-                  class: "document-btn text-decoration-none" %>
-
-              <% if @context.podcast_script&.audio&.attached? %>
-                <%= link_to "🎧 Télécharger le podcast",
-                    download_audio_context_podcast_script_path(@context),
-                    class: "document-btn text-decoration-none",
-                    data: {
-                      turbo: false,
-                      controller: "progress-refresh",
-                      action: "click->progress-refresh#scheduleReload"
-                    } %>
-              <% elsif @context.podcast_script&.generating? || @context.podcast_script&.audio_status == "generating" %>
-                <span class="document-btn" style="opacity: 0.7; cursor: wait;">
-                  ⏳ Génération en cours...
-                </span>
-              <% elsif @context.podcast_script&.failed? || @context.podcast_script&.audio_status == "failed" %>
-                <%= button_to "🔄 Réessayer le podcast",
-                    context_podcast_script_path(@context),
-                    method: :post,
-                    class: "document-btn border-0" %>
-              <% else %>
-                <%= button_to "🎙️ Générer le podcast",
-                    context_podcast_script_path(@context),
-                    method: :post,
-                    class: "document-btn border-0" %>
-              <% end %>
-
-            <% else %>
-              <p>Pas de cours téléchargé.</p>
-            <% end %>
-          </div>
-
-          <div class="context-progress-panel mt-4">
-            <div class="context-progress-panel__header">
-              <div>
-                <p class="context-progress-panel__eyebrow mb-1">Ma progression</p>
-                <h2 class="context-progress-panel__title mb-0">Les etapes de revision</h2>
-              </div>
-
-              <span class="context-progress-panel__summary"><%= @context.progress_completed_steps %>/5</span>
-            </div>
-
-            <div class="context-progress-steps">
-              <% @context.progress_step_labels.each do |step, label| %>
-                <div class="context-progress-step <%= "is-complete" if @context.public_send(step) %>">
-                  <span class="context-progress-step__icon"><%= @context.public_send(step) ? "✓" : "•" %></span>
-                  <span class="context-progress-step__label"><%= label %></span>
+    <!-- COLONNE GAUCHE -->
+    <div class="context-show-main-column">
+      <div class="context-card">
+        <div class="context-card-body">
+          <div class="d-flex justify-content-between align-items-start flex-wrap gap-4">
+            <div class="context-show-main">
+              <div class="d-flex align-items-start justify-content-between flex-wrap gap-3 mb-4">
+                <div>
+                  <p class="context-badge mb-2"><%= @context.subject %></p>
+                  <h1 class="context-card-title mb-2"><%= @context.title %></h1>
+                  <div class="context-meta-chips">
+                    <span class="context-meta-chip"><%= @context.level %></span>
+                    <span class="context-meta-chip"><%= l(@context.date, format: :long) %></span>
+                  </div>
                 </div>
-              <% end %>
+
+                <%= render "progress_ring", context: @context %>
+              </div>
+
+              <div class="context-actions-row mt-4">
+                <% if @context.document.attached? %>
+                  <%= link_to "📄 Mon cours",
+                      lecture_context_path(@context),
+                      class: "document-btn text-decoration-none" %>
+                <% else %>
+                  <span class="document-btn context-action-disabled">📄 Mon cours</span>
+                <% end %>
+
+                <% if @context.podcast_script&.audio&.attached? %>
+                  <%= link_to "🎧 Le podcast",
+                      download_audio_context_podcast_script_path(@context),
+                      class: "document-btn text-decoration-none",
+                      data: {
+                        turbo: false,
+                        controller: "progress-refresh",
+                        action: "click->progress-refresh#scheduleReload"
+                      } %>
+                <% elsif @context.podcast_script&.generating? || @context.podcast_script&.audio_status == "generating" %>
+                  <span class="document-btn context-action-disabled">⏳ Le podcast</span>
+                <% elsif @context.podcast_script&.failed? || @context.podcast_script&.audio_status == "failed" %>
+                  <%= button_to "🔄 Le podcast",
+                      context_podcast_script_path(@context),
+                      method: :post,
+                      class: "document-btn border-0" %>
+                <% else %>
+                  <%= button_to "🎙️ Le podcast",
+                      context_podcast_script_path(@context),
+                      method: :post,
+                      class: "document-btn border-0" %>
+                <% end %>
+
+                <% if @context.summary.attached? %>
+                  <%= link_to "📖 La fiche de révision",
+                      lecture_summary_context_path(@context),
+                      class: "document-btn text-decoration-none" %>
+                <% else %>
+                  <%= button_to "📝 La fiche de révision",
+                      generate_summary_context_path(@context),
+                      method: :post,
+                      class: "document-btn border-0" %>
+                <% end %>
+              </div>
+
+              <div class="context-progress-panel mt-4">
+                <div class="context-progress-panel__header">
+                  <div>
+                    <p class="context-progress-panel__eyebrow mb-1">Ma progression</p>
+                    <h2 class="context-progress-panel__title mb-0">Les etapes de revision</h2>
+                  </div>
+
+                  <span class="context-progress-panel__summary"><%= @context.progress_completed_steps %>/5</span>
+                </div>
+
+                <div class="context-progress-steps">
+                  <% @context.progress_step_labels.each do |step, label| %>
+                    <div class="context-progress-step <%= "is-complete" if @context.public_send(step) %>">
+                      <span class="context-progress-step__icon"><%= @context.public_send(step) ? "✓" : "•" %></span>
+                      <span class="context-progress-step__label"><%= label %></span>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+
+              <div class="mt-4 d-flex flex-column gap-2 align-items-start">
+                <% if @context.revision_completed? %>
+                  <span class="context-completion-badge">✅ Révision terminée</span>
+                <% elsif @context.all_steps_before_revision_done? %>
+                  <%= button_to "🎉 Je me sens prêt",
+                    complete_revision_context_path(@context),
+                    method: :patch,
+                    class: "document-btn document-btn--ready border-0 text-decoration-none d-inline-flex align-items-center justify-content-center" %>
+                <% else %>
+                  <span
+                    class="document-btn document-btn--locked d-inline-flex align-items-center justify-content-center"
+                    title="Termine toutes les étapes pour débloquer cette action">
+                    🔒 Je me sens prêt
+                  </span>
+                <% end %>
+              </div>
+
             </div>
           </div>
         </div>
+      </div>
+    </div>
 
-        <div class="d-flex align-items-center">
-          <div class="mt-4 d-flex flex-column gap-3">
-            <%= button_to "🤖 Nouvel assistant sur le même cours",
-              context_chats_path(@context),
-              method: :post,
-              class: "new-context-btn border-0 text-decoration-none d-inline-flex align-items-center justify-content-center" %>
+    <!-- COLONNE DROITE -->
+    <div class="context-show-chat-column">
 
-            <% if @context.summary.attached? %>
-              <%= link_to "📖 Lire la fiche de révision",
-                lecture_summary_context_path(@context),
-                class: "new-context-btn text-decoration-none d-inline-flex align-items-center justify-content-center" %>
+      <% if @chat.present? && @share_url.present? %>
+        <div class="context-card mb-4">
+          <div class="context-card-body text-center">
+            <h2 class="context-card-title mb-3">Continuer sur mobile</h2>
+            <p class="chat-card__subtitle mb-3">
+              Scanne ce QR code pour retrouver cette discussion sur ton téléphone.
+            </p>
+
+            <%= image_tag "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=#{ERB::Util.url_encode(@share_url)}",
+                alt: "QR code du chat",
+                class: "chat-share-qr-image" %>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="context-card chat-card mb-4">
+        <div class="context-card-body">
+          <div class="chat-card__header mb-4">
+            <div>
+              <h2 class="context-card-title mb-2">Discussion avec mon assistant IA</h2>
+              <p class="chat-card__subtitle mb-0">
+                Pose ta question et reçois une explication claire, rapide et adaptée à ton niveau.
+              </p>
+            </div>
+          </div>
+
+          <div id="messages" class="chat-thread" data-controller="autoscroll">
+            <% if @chat.present? && @chat.messages.any? %>
+              <%= render @chat.messages %>
             <% else %>
-              <%= button_to "📝 Générer la fiche de révision",
-                generate_summary_context_path(@context),
-                method: :post,
-                class: "new-context-btn border-0 text-decoration-none d-inline-flex align-items-center justify-content-center" %>
-            <% end %>
-
-            <% if @context.revision_completed? %>
-              <span class="context-completion-badge">✅ Révision terminée</span>
-            <% elsif @context.all_steps_before_revision_done? %>
-              <%= button_to "🎉 Je me sens prêt",
-                complete_revision_context_path(@context),
-                method: :patch,
-                class: "document-btn document-btn--ready border-0 text-decoration-none d-inline-flex align-items-center justify-content-center" %>
-            <% else %>
-              <span
-                class="document-btn document-btn--locked d-inline-flex align-items-center justify-content-center"
-                title="Termine toutes les étapes pour débloquer cette action">
-                🔒 Je me sens prêt
-              </span>
+              <div class="chat-empty-state">
+                <p class="chat-empty-state__text mb-0">Commence la conversation ci-dessous</p>
+              </div>
             <% end %>
           </div>
         </div>
       </div>
+
+      <div id="new_message">
+        <div class="context-card chat-composer-card">
+          <div class="context-card-body">
+            <% if @chat.present? %>
+              <%= render "messages/form", chat: @chat, message: @message %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>

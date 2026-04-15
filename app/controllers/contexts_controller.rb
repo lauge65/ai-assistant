@@ -12,6 +12,9 @@ class ContextsController < ApplicationController
 
   def show
     @context = current_user.contexts.find(params[:id])
+    @chat = @context.chats.last || @context.chats.create!
+    @message = Message.new
+    @share_url = shared_chat_url(@chat.share_token) if @chat.supports_share_token? && @chat.share_token.present?
   end
 
   def new
