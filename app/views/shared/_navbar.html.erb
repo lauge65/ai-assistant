@@ -14,12 +14,11 @@
             <%= link_to "Mes cours", "/contexts", class: "nav-link" %>
           </li>
 
-        <% last_context = current_user.contexts.order(created_at: :desc).first %>
-        <% last_chat = last_context&.chats&.last %>
+        <% last_context = current_user.contexts.order(updated_at: :desc).first %>
 
         <li class="nav-item">
-          <% if last_chat %>
-            <%= link_to "Reprendre ma révision", chat_path(last_chat), class: "nav-link" %>
+          <% if last_context %>
+            <%= link_to "Reprendre ma révision", context_path(last_context), class: "nav-link" %>
           <% else %>
             <%= link_to "Reprendre ma révision", contexts_path, class: "nav-link text-muted" %>
           <% end %>
