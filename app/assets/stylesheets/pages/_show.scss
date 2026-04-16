@@ -58,9 +58,26 @@
 }
 
 .chat-share-qr-image {
-  width: 160px;
+  width: 110px;
   max-width: 100%;
   height: auto;
+  border-radius: 10px;
+}
+
+.context-card--compact-qr {
+  .context-card-body {
+    padding: 0.9rem 1.2rem;
+  }
+}
+
+.compact-qr__layout {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.compact-qr__text {
+  flex: 1;
 }
 
 @media (max-width: 1100px) {

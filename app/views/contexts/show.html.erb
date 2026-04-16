@@ -134,21 +134,6 @@
     <!-- COLONNE DROITE -->
     <div class="context-show-chat-column">
 
-      <% if @chat.present? && @share_url.present? %>
-        <div class="context-card mb-4">
-          <div class="context-card-body text-center">
-            <h2 class="context-card-title mb-3">Continuer sur mobile</h2>
-            <p class="chat-card__subtitle mb-3">
-              Scanne ce QR code pour retrouver cette discussion sur ton téléphone.
-            </p>
-
-            <%= image_tag "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=#{ERB::Util.url_encode(@share_url)}",
-                alt: "QR code du chat",
-                class: "chat-share-qr-image" %>
-          </div>
-        </div>
-      <% end %>
-
       <div class="context-card chat-card mb-4">
         <div class="context-card-body">
           <div class="chat-card__header mb-4">
@@ -181,6 +166,24 @@
           </div>
         </div>
       </div>
+
+      <% if @chat.present? && @share_url.present? %>
+        <div class="context-card context-card--compact-qr mt-4">
+          <div class="context-card-body">
+            <div class="compact-qr__layout">
+              <div class="compact-qr__text">
+                <h2 class="context-card-title mb-2">Continuer sur mobile</h2>
+                <p class="chat-card__subtitle mb-0">
+                  Scanne ce QR code pour retrouver cette discussion sur ton téléphone.
+                </p>
+              </div>
+              <%= image_tag "https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=#{ERB::Util.url_encode(@share_url)}",
+                  alt: "QR code du chat",
+                  class: "chat-share-qr-image" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
 
     </div>
   </div>
