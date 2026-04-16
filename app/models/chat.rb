@@ -1,5 +1,5 @@
 class Chat < ApplicationRecord
-  belongs_to :context
+  belongs_to :context, touch: true
   has_many :messages, dependent: :destroy
 
   before_create :assign_share_token, if: :supports_share_token?

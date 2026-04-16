@@ -1,5 +1,5 @@
 class PodcastScript < ApplicationRecord
-  belongs_to :context
+  belongs_to :context, touch: true
 
   has_one_attached :audio
 

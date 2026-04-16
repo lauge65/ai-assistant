@@ -1,6 +1,6 @@
 class Message < ApplicationRecord
   MAX_USER_MESSAGES = 30
-  belongs_to :chat
+  belongs_to :chat, touch: true
 
   validates :role, inclusion: { in: %w[user assistant] }
   # Permettre le contenu vide pour les messages assistant (streaming)
