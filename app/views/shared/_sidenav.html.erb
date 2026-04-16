@@ -35,7 +35,7 @@
   <div class="sidebar-profile">
     <div class="nav-item">
       <%= link_to edit_user_registration_path, class: "nav-link sidebar-link #{'active' if current_page?(edit_user_registration_path)}" do %>
-        <i class="fa-regular fa-gear"></i>
+        <%= image_tag "settings-icon-classic.svg", class: "sidebar-icon", alt: "" %>
         <span>Mon compte</span>
       <% end %>
     </div>
