@@ -327,6 +327,25 @@
   letter-spacing: 0.05em;
 }
 
+// ── Progress ring click affordance ──────────────────────────────────────────
+
+.progress-ring-trigger {
+  cursor: pointer;
+}
+
+.progress-ring-hint {
+  display: block;
+  text-align: center;
+  margin-top: 0.35rem;
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: $orange;
+  pointer-events: none;
+  user-select: none;
+}
+
 .context-progress-panel {
   padding: 1.35rem;
   border-radius: 24px;

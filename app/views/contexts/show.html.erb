@@ -17,8 +17,6 @@
 
   <%= turbo_stream_from "chat_#{@chat.id}" if @chat.present? %>
 
-  <%= link_to "← Retour à mes cours", contexts_path, class: "text-decoration-none" %>
-
   <div class="context-show-layout mt-4">
 
     <!-- COLONNE GAUCHE -->
@@ -37,8 +35,9 @@
                   </div>
                 </div>
 
-                <div data-action="click->toggle#call" style="cursor: pointer;" title="Voir ma progression">
+                <div class="progress-ring-trigger" data-action="click->toggle#call">
                   <%= render "progress_ring", context: @context %>
+                  <span class="progress-ring-hint">voir le détail</span>
                 </div>
               </div>
 
@@ -52,7 +51,7 @@
                 <% end %>
 
                 <% if @context.podcast_script&.audio&.attached? %>
-                  <%= link_to "🎧 Le podcast",
+                  <%= link_to "🎧 Podcast",
                       download_audio_context_podcast_script_path(@context),
                       class: "document-btn text-decoration-none",
                       data: {
@@ -61,25 +60,25 @@
                         action: "click->progress-refresh#scheduleReload"
                       } %>
                 <% elsif @context.podcast_script&.generating? || @context.podcast_script&.audio_status == "generating" %>
-                  <span class="document-btn context-action-disabled">⏳ Le podcast</span>
+                  <span class="document-btn context-action-disabled">⏳ Podcast</span>
                 <% elsif @context.podcast_script&.failed? || @context.podcast_script&.audio_status == "failed" %>
-                  <%= button_to "🔄 Le podcast",
+                  <%= button_to "🔄 Podcast",
                       context_podcast_script_path(@context),
                       method: :post,
                       class: "document-btn border-0" %>
                 <% else %>
-                  <%= button_to "🎙️ Le podcast",
+                  <%= button_to "🎙️ Podcast",
                       context_podcast_script_path(@context),
                       method: :post,
                       class: "document-btn border-0" %>
                 <% end %>
 
                 <% if @context.summary.attached? %>
-                  <%= link_to "📖 La fiche de révision",
+                  <%= link_to "📖 Fiche de révision",
                       lecture_summary_context_path(@context),
                       class: "document-btn text-decoration-none" %>
                 <% else %>
-                  <%= button_to "📝 La fiche de révision",
+                  <%= button_to "📝 Fiche de révision",
                       generate_summary_context_path(@context),
                       method: :post,
                       class: "document-btn border-0" %>
