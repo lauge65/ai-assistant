@@ -24,6 +24,13 @@
     <% end %>
   </div>
 
+  <div class="nav-item">
+    <%= link_to new_context_path, class: "nav-link sidebar-link #{'active' if current_page?(new_context_path)}" do %>
+      <i class="fa-solid fa-plus"></i>
+      <span>Ajouter un cours</span>
+    <% end %>
+  </div>
+
   <div class="sidebar-profile">
     <%= link_to edit_user_registration_path, class: "nav-link sidebar-link" do %>
       <% if current_user.avatar.attached? %>
