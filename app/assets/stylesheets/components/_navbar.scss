@@ -58,12 +58,17 @@
 
 
 
+.sidebar-col {
+  align-self: stretch;
+}
+
 .sidebar-sticky {
-  align-self: start;
+  position: sticky;
+  top: 16px;
 }
 
 .sidebar-box {
-  height: calc(100vh - 48px);
+  min-height: calc(100vh - 32px);
   background: #fff;
   border: 1px solid #e9ecef;
   border-radius: 20px;
