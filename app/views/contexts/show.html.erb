@@ -51,14 +51,11 @@
                 <% end %>
 
                 <% if @context.podcast_script&.audio&.attached? %>
-                  <%= link_to "🎧 Podcast",
-                      download_audio_context_podcast_script_path(@context),
+                  <%= link_to download_audio_context_podcast_script_path(@context),
                       class: "document-btn text-decoration-none",
-                      data: {
-                        turbo: false,
-                        controller: "progress-refresh",
-                        action: "click->progress-refresh#scheduleReload"
-                      } %>
+                      data: { turbo: false } do %>
+                    ⬇️ Podcast
+                  <% end %>
                 <% elsif @context.podcast_script&.generating? || @context.podcast_script&.audio_status == "generating" %>
                   <span class="document-btn context-action-disabled">⏳ Podcast</span>
                 <% elsif @context.podcast_script&.failed? || @context.podcast_script&.audio_status == "failed" %>
@@ -84,6 +81,17 @@
                       class: "document-btn border-0" %>
                 <% end %>
               </div>
+
+              <% if @context.podcast_script&.audio&.attached? %>
+                <div class="podcast-player-wrapper mt-4"
+                     data-controller="podcast-player"
+                     data-podcast-player-mark-url-value="<%= mark_played_context_podcast_script_path(@context) %>">
+                  <audio data-podcast-player-target="audio"
+                         src="<%= rails_blob_url(@context.podcast_script.audio, disposition: "inline") %>"
+                         preload="none">
+                  </audio>
+                </div>
+              <% end %>
 
               <div data-toggle-target="hideable" class="d-none">
               <div class="context-progress-panel mt-4">
