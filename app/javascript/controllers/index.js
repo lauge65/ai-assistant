@@ -33,3 +33,6 @@ application.register("speech", SpeechController)
 
 import PdfReaderController from "controllers/pdf_reader_controller"
 application.register("pdf-reader", PdfReaderController)
+
+import PodcastPlayerController from "controllers/podcast_player_controller"
+application.register("podcast-player", PodcastPlayerController)

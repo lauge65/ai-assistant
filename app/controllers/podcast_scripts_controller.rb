@@ -48,6 +48,12 @@ class PodcastScriptsController < ApplicationController
               disposition: "attachment"
   end
 
+  # PATCH /contexts/:context_id/podcast_script/mark_played
+  def mark_played
+    @context.mark_step!(:podcast_opened) unless @context.podcast_opened?
+    head :ok
+  end
+
   private
 
   def set_context

@@ -15,7 +15,8 @@ Rails.application.routes.draw do
     end
     resources :chats, only: [:create]
     resource :podcast_script, only: [:create] do
-      get :download_audio, on: :member
+      get   :download_audio, on: :member
+      patch :mark_played,    on: :member
     end
   end
 
