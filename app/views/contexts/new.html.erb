@@ -1,4 +1,18 @@
-<div class="container mt-4">
-  <h1 class="mb-4 text-center">Créer un assistant de révision</h1>
-  <%= render "form", button_text: "Créer" %>
+<div class="contexts-page py-5">
+  <div class="container-fluid px-3">
+    <div class="row g-4 align-items-start">
+      <div class="col-md-3 col-lg-2 sidebar-col">
+        <div class="sidebar-sticky">
+          <%= render "shared/sidenav" %>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-lg-10">
+        <div class="contexts-header mb-2">
+          <h1 class="contexts-title mb-0 text-center">Créer un assistant de révision</h1>
+        </div>
+        <%= render "form", button_text: "Créer" %>
+      </div>
+    </div>
+  </div>
 </div>
