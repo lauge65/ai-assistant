@@ -35,7 +35,10 @@
   <div class="sidebar-profile">
     <div class="nav-item">
       <%= link_to edit_user_registration_path, class: "nav-link sidebar-link #{'active' if current_page?(edit_user_registration_path)}" do %>
-        <%= image_tag "settings-icon-classic.svg", class: "sidebar-icon", alt: "" %>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M20 21C20 17.6863 16.4183 15 12 15C7.58172 15 4 17.6863 4 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
         <span>Mon compte</span>
       <% end %>
     </div>
