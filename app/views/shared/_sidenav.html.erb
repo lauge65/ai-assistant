@@ -47,12 +47,12 @@
         method: :delete,
         form: { data: { turbo_confirm: "Tu vas être déconnecté. Continuer ?" } },
         class: "nav-link sidebar-link sidebar-logout-btn" do %>
-      <% if current_user.avatar.attached? %>
-        <%= image_tag current_user.avatar, class: "avatar", alt: "Photo de profil" %>
-      <% else %>
-        <span class="avatar avatar-placeholder"><%= current_user.avatar_initial %></span>
-      <% end %>
-      <span> Déconnexion</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M14 8V6.5C14 5.67157 13.3284 5 12.5 5H7.5C6.67157 5 6 5.67157 6 6.5V17.5C6 18.3284 6.67157 19 7.5 19H12.5C13.3284 19 14 18.3284 14 17.5V16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M10 12H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 9L19 12L16 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Déconnexion</span>
     <% end %>
   </div>
 </div>
