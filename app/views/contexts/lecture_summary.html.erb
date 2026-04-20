@@ -5,7 +5,9 @@
     <span class="lecture-toolbar__title">Fiche de révision — <%= @context.title %></span>
   </div>
 
-  <embed src="<%= @pdf_url %>" type="application/pdf" class="lecture-embed">
+  <turbo-frame id="pdf-viewer">
+    <embed src="<%= @pdf_url %>" type="application/pdf" class="lecture-embed">
+  </turbo-frame>
 
   <div class="lecture-footer container py-4 text-center">
     <p class="lecture-footer__hint text-muted">✅ Fiche de révision marquée comme lue.</p>
