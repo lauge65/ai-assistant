@@ -4,3 +4,16 @@
 <%= turbo_stream.replace "new_message" do %>
   <%= render "messages/form", chat: @chat, message: Message.new %>
 <% end %>
+
+<%= turbo_stream.replace "progress_ring_trigger" do %>
+  <div id="progress_ring_trigger" class="progress-ring-trigger" data-action="click->toggle#call">
+    <%= render "contexts/progress_ring", context: @context %>
+    <span class="progress-ring-hint">voir le détail</span>
+  </div>
+<% end %>
+
+<%= turbo_stream.replace "context_progress_content" do %>
+  <div id="context_progress_content">
+    <%= render "contexts/progress_panel", context: @context %>
+  </div>
+<% end %>

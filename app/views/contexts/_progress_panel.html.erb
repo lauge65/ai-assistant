@@ -1,0 +1,36 @@
+<div class="context-progress-panel mt-4">
+  <div class="context-progress-panel__header">
+    <div>
+      <p class="context-progress-panel__eyebrow mb-1">Ma progression</p>
+      <h2 class="context-progress-panel__title mb-0">Les etapes de revision</h2>
+    </div>
+
+    <span class="context-progress-panel__summary"><%= context.progress_completed_steps %>/5</span>
+  </div>
+
+  <div class="context-progress-steps">
+    <% context.progress_step_labels.each do |step, label| %>
+      <div class="context-progress-step <%= "is-complete" if context.public_send(step) %>">
+        <span class="context-progress-step__icon"><%= context.public_send(step) ? "✓" : "•" %></span>
+        <span class="context-progress-step__label"><%= label %></span>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="mt-4 d-flex flex-column gap-2 align-items-start">
+  <% if context.revision_completed? %>
+    <span class="context-completion-badge">✅ Révision terminée</span>
+  <% elsif context.all_steps_before_revision_done? %>
+    <%= button_to "🎉 Je me sens prêt",
+      complete_revision_context_path(context),
+      method: :patch,
+      class: "document-btn document-btn--ready border-0 text-decoration-none d-inline-flex align-items-center justify-content-center" %>
+  <% else %>
+    <span
+      class="document-btn document-btn--locked d-inline-flex align-items-center justify-content-center"
+      title="Termine toutes les étapes pour débloquer cette action">
+      🔒 Je me sens prêt
+    </span>
+  <% end %>
+</div>
