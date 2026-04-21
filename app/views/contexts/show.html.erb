@@ -45,7 +45,8 @@
                 <% if @context.document.attached? %>
                   <%= link_to "📄 Mon cours",
                       lecture_context_path(@context),
-                      class: "document-btn text-decoration-none" %>
+                      class: "document-btn text-decoration-none",
+                      data: { turbo_frame: "pdf-viewer" } %>
                 <% else %>
                   <span class="document-btn context-action-disabled">📄 Mon cours</span>
                 <% end %>
@@ -73,7 +74,8 @@
                 <% if @context.summary.attached? %>
                   <%= link_to "📖 Fiche de révision",
                       lecture_summary_context_path(@context),
-                      class: "document-btn text-decoration-none" %>
+                      class: "document-btn text-decoration-none",
+                      data: { turbo_frame: "pdf-viewer" } %>
                 <% else %>
                   <%= button_to "📝 Fiche de révision",
                       generate_summary_context_path(@context),
@@ -92,6 +94,8 @@
                   </audio>
                 </div>
               <% end %>
+
+              <turbo-frame id="pdf-viewer" class="pdf-viewer-frame"></turbo-frame>
 
               <div data-toggle-target="hideable" class="d-none">
                 <div id="context_progress_content">
