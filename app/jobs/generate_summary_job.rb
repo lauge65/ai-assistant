@@ -40,21 +40,17 @@ class GenerateSummaryJob < ApplicationJob
 
       Rails.logger.info("✅ [Job] Fin appel API Gemini pour generate_summary - Context #{context.id}")
 
-    rescue RubyLLM::ServiceUnavailableError, RubyLLM::RateLimitError => e
-      attempts += 1
-      if attempts <= 2
+    rescue => e
+      if e.message.to_s.match?(/high demand|503|overload|rate.?limit|ServiceUnavailable/i) && attempts < 2
+        attempts += 1
         delay = attempts * 2
-        Rails.logger.warn("⚠️ [Job] Tentative #{attempts} échouée (503), retry dans #{delay}s...")
+        Rails.logger.warn("⚠️ [Job] Tentative #{attempts} échouée (surcharge), retry dans #{delay}s...")
         sleep(delay)
         retry
       else
-        Rails.logger.error("[Job] Toutes les tentatives ont échoué pour generate_summary: #{e.message}")
+        Rails.logger.error("[Job] Erreur generate_summary: #{e.message}")
         return
       end
-
-    rescue RubyLLM::ContextLengthExceededError => e
-      Rails.logger.error("[Job] Contexte trop long pour generate_summary: #{e.message}")
-      return
     end
 
     # Générer le PDF avec police UTF-8
