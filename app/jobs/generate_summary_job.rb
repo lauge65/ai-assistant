@@ -27,20 +27,33 @@ class GenerateSummaryJob < ApplicationJob
       - Fais des phrases courtes et saute des lignes pour aérer la fiche.
     PROMPT
 
+    attempts = 0
+    texte_pour_la_fiche = nil
     begin
-      Rails.logger.info("🚀 [Job] Appel API Gemini pour generate_summary - Context #{context.id}")
+      Rails.logger.info("🚀 [Job] Appel API Gemini pour generate_summary - Context #{context.id} (tentative #{attempts + 1})")
       ruby_llm_chat = RubyLLM.chat(model: "gemini-3.1-flash-lite-preview").with_instructions(instructions)
 
-      texte_pour_la_fiche = nil
       context.document.open do |temp_file|
         reponse_ia = ruby_llm_chat.ask("Analyse ce document et rédige une fiche de révision complète.", with: { pdf: temp_file.path })
         texte_pour_la_fiche = reponse_ia.content
       end
 
       Rails.logger.info("✅ [Job] Fin appel API Gemini pour generate_summary - Context #{context.id}")
-    rescue RubyLLM::RateLimitError, RubyLLM::ServiceUnavailableError, RubyLLM::ContextLengthExceededError => e
-      Rails.logger.error("[Job] Gemini API indisponible pour generate_summary: #{e.message}")
-      # On pourrait ajouter un statut d'erreur ici
+
+    rescue RubyLLM::ServiceUnavailableError, RubyLLM::RateLimitError => e
+      attempts += 1
+      if attempts <= 2
+        delay = attempts * 2
+        Rails.logger.warn("⚠️ [Job] Tentative #{attempts} échouée (503), retry dans #{delay}s...")
+        sleep(delay)
+        retry
+      else
+        Rails.logger.error("[Job] Toutes les tentatives ont échoué pour generate_summary: #{e.message}")
+        return
+      end
+
+    rescue RubyLLM::ContextLengthExceededError => e
+      Rails.logger.error("[Job] Contexte trop long pour generate_summary: #{e.message}")
       return
     end
 
