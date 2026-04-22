@@ -84,23 +84,19 @@ class GeneratePodcastJob < ApplicationJob
       Rails.logger.info("✅ Script généré (tentative #{attempts + 1}, modèle: #{model})")
       true
 
-    rescue RubyLLM::ServiceUnavailableError, RubyLLM::RateLimitError => e
-      attempts += 1
-      if attempts <= 3
-        delay = [0, 0, 2, 4][attempts]
-        Rails.logger.warn("⚠️ Tentative #{attempts} échouée (503), retry#{delay > 0 ? " dans #{delay}s" : " immédiatement"} [gemini-3.1-flash-lite-preview]")
+    rescue => e
+      if e.message.to_s.match?(/high demand|503|overload|rate.?limit|ServiceUnavailable/i) && attempts < 3
+        attempts += 1
+        delay = [0, 2, 4][attempts - 1] || 4
+        model_label = attempts == 1 ? "gemini-3.1-flash-lite-preview (switch)" : "gemini-3.1-flash-lite-preview"
+        Rails.logger.warn("⚠️ Tentative #{attempts} échouée (surcharge), retry#{delay > 0 ? " dans #{delay}s" : " immédiat"} [#{model_label}]")
         sleep(delay) if delay > 0
         retry
       else
-        Rails.logger.error("❌ Toutes les tentatives ont échoué: #{e.message}")
+        Rails.logger.error("❌ Erreur génération script: #{e.message}")
         @podcast_script.update!(status: "failed", content: "")
         false
       end
-
-    rescue StandardError => e
-      Rails.logger.error("Erreur génération script: #{e.message}")
-      @podcast_script.update!(status: "failed", content: "")
-      false
     end
   end
 
