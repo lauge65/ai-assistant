@@ -68,22 +68,40 @@ class GeneratePodcastJob < ApplicationJob
   private
 
   def generate_script
-    ruby_llm_chat = RubyLLM.chat(model: "gemini-2.5-flash").with_instructions(instructions)
+    attempts = 0
+    begin
+      model = attempts < 2 ? "gemini-2.5-flash" : "gemini-3.1-flash-lite-preview"
+      ruby_llm_chat = RubyLLM.chat(model: model).with_instructions(instructions)
 
-    response = @context.document.open do |temp_file|
-      ruby_llm_chat.ask(
-        "Génère un script de podcast à partir de ce document de cours.",
-        with: { pdf: temp_file.path }
-      )
+      response = @context.document.open do |temp_file|
+        ruby_llm_chat.ask(
+          "Génère un script de podcast à partir de ce document de cours.",
+          with: { pdf: temp_file.path }
+        )
+      end
+
+      @podcast_script.update!(content: response.content, status: "completed")
+      Rails.logger.info("✅ Script généré (tentative #{attempts + 1}, modèle: #{model})")
+      true
+
+    rescue RubyLLM::ServiceUnavailableError, RubyLLM::RateLimitError => e
+      attempts += 1
+      if attempts <= 2
+        delay = attempts * 2
+        Rails.logger.warn("⚠️ Tentative #{attempts} échouée (503), retry dans #{delay}s... [#{model}]")
+        sleep(delay)
+        retry
+      else
+        Rails.logger.error("❌ Toutes les tentatives ont échoué: #{e.message}")
+        @podcast_script.update!(status: "failed", content: "")
+        false
+      end
+
+    rescue StandardError => e
+      Rails.logger.error("Erreur génération script: #{e.message}")
+      @podcast_script.update!(status: "failed", content: "")
+      false
     end
-
-    @podcast_script.update!(content: response.content, status: "completed")
-    true
-
-  rescue StandardError => e
-    Rails.logger.error("Erreur génération script: #{e.message}")
-    @podcast_script.update!(status: "failed", content: "")
-    false
   end
 
   def instructions
