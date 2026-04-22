@@ -100,15 +100,22 @@ class GeminiTtsService
 
     Rails.logger.info("Appel Gemini TTS - Script de #{@podcast_script.content.length} caractères")
 
-    response = http.request(request)
+    attempts = 0
+    loop do
+      response = http.request(request)
+      Rails.logger.info("Réponse Gemini TTS reçue - Code: #{response.code} (tentative #{attempts + 1})")
 
-    Rails.logger.info("Réponse Gemini TTS reçue - Code: #{response.code}")
-
-    if response.code == "200"
-      parse_audio_response(response.body)
-    else
-      Rails.logger.error("Gemini TTS API error: #{response.code} - #{response.body}")
-      { success: false, error: "Erreur API: #{response.code}" }
+      if response.code == "200"
+        break parse_audio_response(response.body)
+      elsif ["503", "429"].include?(response.code) && attempts < 2
+        attempts += 1
+        delay = attempts * 2
+        Rails.logger.warn("⚠️ Gemini TTS #{response.code}, retry dans #{delay}s... (tentative #{attempts}/2)")
+        sleep(delay)
+      else
+        Rails.logger.error("Gemini TTS API error: #{response.code} - #{response.body}")
+        break({ success: false, error: "Erreur API: #{response.code}" })
+      end
     end
   end
 
