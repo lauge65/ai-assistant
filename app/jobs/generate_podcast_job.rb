@@ -70,7 +70,7 @@ class GeneratePodcastJob < ApplicationJob
   def generate_script
     attempts = 0
     begin
-      model = attempts < 2 ? "gemini-2.5-flash" : "gemini-3.1-flash-lite-preview"
+      model = attempts == 0 ? "gemini-2.5-flash" : "gemini-3.1-flash-lite-preview"
       ruby_llm_chat = RubyLLM.chat(model: model).with_instructions(instructions)
 
       response = @context.document.open do |temp_file|
@@ -86,10 +86,10 @@ class GeneratePodcastJob < ApplicationJob
 
     rescue RubyLLM::ServiceUnavailableError, RubyLLM::RateLimitError => e
       attempts += 1
-      if attempts <= 2
-        delay = attempts * 2
-        Rails.logger.warn("⚠️ Tentative #{attempts} échouée (503), retry dans #{delay}s... [#{model}]")
-        sleep(delay)
+      if attempts <= 3
+        delay = [0, 0, 2, 4][attempts]
+        Rails.logger.warn("⚠️ Tentative #{attempts} échouée (503), retry#{delay > 0 ? " dans #{delay}s" : " immédiatement"} [gemini-3.1-flash-lite-preview]")
+        sleep(delay) if delay > 0
         retry
       else
         Rails.logger.error("❌ Toutes les tentatives ont échoué: #{e.message}")
