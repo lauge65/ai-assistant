@@ -52,11 +52,15 @@
                 <% end %>
 
                 <% if @context.podcast_script&.audio&.attached? %>
-                  <%= link_to download_audio_context_podcast_script_path(@context),
+                  <%= link_to "⬇️ Podcast",
+                      download_audio_context_podcast_script_path(@context),
                       class: "document-btn text-decoration-none",
-                      data: { turbo: false } do %>
-                    ⬇️ Podcast
-                  <% end %>
+                      data: {
+                        controller: "podcast-download",
+                        action: "click->podcast-download#download",
+                        podcast_download_mark_url_value: mark_played_context_podcast_script_path(@context),
+                        podcast_download_download_url_value: download_audio_context_podcast_script_path(@context)
+                      } %>
                 <% elsif @context.podcast_script&.generating? || @context.podcast_script&.audio_status == "generating" %>
                   <span class="document-btn context-action-disabled">⏳ Podcast</span>
                 <% elsif @context.podcast_script&.failed? || @context.podcast_script&.audio_status == "failed" %>

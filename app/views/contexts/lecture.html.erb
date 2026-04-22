@@ -6,7 +6,10 @@
   </div>
 
   <turbo-frame id="pdf-viewer">
-    <embed src="<%= @pdf_url %>" type="application/pdf" class="lecture-embed">
+    <div data-controller="progress-update"
+         data-progress-update-url-value="<%= mark_document_read_context_path(@context) %>">
+      <embed src="<%= @pdf_url %>" type="application/pdf" class="lecture-embed">
+    </div>
   </turbo-frame>
 
   <div class="lecture-footer container py-4 text-center">

@@ -17,8 +17,13 @@ export default class extends Controller {
   markPlayed() {
     fetch(this.markUrlValue, {
       method: "PATCH",
-      headers: { "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content }
+      headers: {
+        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
+        "Accept": "text/vnd.turbo-stream.html"
+      }
     })
+      .then(response => response.text())
+      .then(html => Turbo.renderStreamMessage(html))
   }
 
   disconnect() {
