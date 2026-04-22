@@ -1,0 +1,6 @@
+<%= turbo_stream.replace "progress_ring_trigger" do %>
+  <%= render "contexts/progress_ring_trigger", context: @context %>
+<% end %>
+<%= turbo_stream.replace "context_progress_content" do %>
+  <%= render "contexts/progress_content", context: @context %>
+<% end %>

@@ -80,7 +80,10 @@ class ContextsController < ApplicationController
 
   def mark_document_read
     @context.mark_step!(:document_opened)
-    render json: { ok: true }
+    respond_to do |format|
+      format.turbo_stream
+      format.json { render json: { ok: true } }
+    end
   end
 
   def lecture_summary
@@ -94,7 +97,10 @@ class ContextsController < ApplicationController
 
   def mark_summary_read
     @context.mark_step!(:summary_opened)
-    render json: { ok: true }
+    respond_to do |format|
+      format.turbo_stream
+      format.json { render json: { ok: true } }
+    end
   end
 
   def complete_revision

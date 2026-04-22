@@ -51,7 +51,10 @@ class PodcastScriptsController < ApplicationController
   # PATCH /contexts/:context_id/podcast_script/mark_played
   def mark_played
     @context.mark_step!(:podcast_opened) unless @context.podcast_opened?
-    head :ok
+    respond_to do |format|
+      format.turbo_stream
+      format.any { head :ok }
+    end
   end
 
   private

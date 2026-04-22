@@ -36,3 +36,9 @@ application.register("pdf-reader", PdfReaderController)
 
 import PodcastPlayerController from "controllers/podcast_player_controller"
 application.register("podcast-player", PodcastPlayerController)
+
+import PodcastDownloadController from "controllers/podcast_download_controller"
+application.register("podcast-download", PodcastDownloadController)
+
+import ProgressUpdateController from "controllers/progress_update_controller"
+application.register("progress-update", ProgressUpdateController)
